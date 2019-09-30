@@ -39,7 +39,15 @@ namespace delimiterMMTD
                              "a", "b", "c", "d", "e", "f",
                              "g", "h", "i", "j", "k", "l",
                              "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l"};
+                             "g", "h", "i", "j", "k", "l",
+                             "a", "b", "c", "d", "e", "f",
+                             "g", "h", "i", "j", "k", "l",
+                             "a", "b", "c", "d", "e", "f",
+                             "g", "h", "i", "j", "k", "l",
+                             "a", "b", "c", "d", "e", "f",
+                             "g", "h", "i", "j", "k", "l",
+                             "a", "b", "c", "d", "e", "f",
+                             "g", "h", "i", "j", "k", "l",};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
 
@@ -199,11 +207,9 @@ namespace delimiterMMTD
 
                 answer1.Content = "";
                 playedLetters = "";
-                Random rnd = new Random();
-                playSet = playSet.OrderBy(x => rnd.Next()).ToArray();
 
-                playedLetters = playedLetters + playSet[0];
-                answer1.Content = playSet[0];
+                playedLetters = playedLetters + playSet[trial-1];
+                answer1.Content = playSet[trial-1];
                 Thread.Sleep(400);
                 workBackground(playedLetters);
 
