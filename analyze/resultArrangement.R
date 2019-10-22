@@ -2,11 +2,12 @@ library(dplyr)
 
 
 # Names
-names = c("dh", "sb", "yb")
+names = c("p1","p2","p3","p4",
+          "p5","p6","p7","p8")
 
 # 1. 1 Letter Accuracy [%]  
 base_df = data.frame()
-for (i in 1:3){
+for (i in 1:8){
   file_name = paste("data/",names[i],"_exp.csv",sep="")
   file_data = read.csv(file_name, header=T, stringsAsFactors = F)
   file_data$name = names[i]
