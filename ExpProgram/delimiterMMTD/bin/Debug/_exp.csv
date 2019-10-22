@@ -14,3 +14,10 @@ trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,ent
 8,i(1),1,1,0.375,ERM 1,25840,26842,27434
 9,i(1),4,0,0.333333333333333,ERM 1,28226,29229,29613
 10,h(0),7,0,0.3,ERM 1,30454,31456,31885
+trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,enterstamp
+trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,enterstamp
+trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,enterstamp
+1,b(4),5,0,0,ERM 1,1789,0,1790
+2,j(1),5,0,0,ERM 1,4501,2793,4501
+3,e(6),5,0,0,ERM 1,6529,5503,6529
+4,l(3),5,0,0,ERM 1,8315,7531,8315

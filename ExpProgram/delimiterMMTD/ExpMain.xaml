@@ -26,7 +26,7 @@
         <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="64" Width="1866" FontSize="16" Margin="10,814,0,0" />
 
 
-        <Button Name="Button1" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="764,344,1032,612" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button1_Click">
+        <Button Name="Button1" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="764,344,1032,612" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button1_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -51,7 +51,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button2" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="898,344,898,612" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button2_Click">
+        <Button Name="Button2" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="898,344,898,612" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button2_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -76,7 +76,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button3" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="1032,344,764,612" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button3_Click">
+        <Button Name="Button3" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="1032,344,764,612" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button3_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -101,7 +101,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button4" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="1032,478,764,478" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button4_Click">
+        <Button Name="Button4" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="1032,478,764,478" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button4_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -126,7 +126,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button5" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="1032,612,764,344" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button5_Click">
+        <Button Name="Button5" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="1032,612,764,344" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button5_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -151,7 +151,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button6" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="898,612,898,344" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button6_Click">
+        <Button Name="Button6" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="898,612,898,344" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button6_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -176,7 +176,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button7" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="764,612,1032,344" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button7_Click">
+        <Button Name="Button7" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="764,612,1032,344" Foreground="Black" FontSize="90" FontFamily="Arial" RenderTransformOrigin="0.5,0.5" Click="Button7_Click">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -201,7 +201,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Name="Button8" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="764,478,1032,478" Foreground="Black" FontSize="90" FontFamily="Arial" Click="Button8_Click">
+        <Button Name="Button8" Visibility="Hidden" Content="&#x1F828;" HorizontalAlignment="Center" VerticalAlignment="Center" Width="124" Height="124" Margin="764,478,1032,478" Foreground="Black" FontSize="90" FontFamily="Arial" Click="Button8_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="bdr_main" Margin="7" Background="White">

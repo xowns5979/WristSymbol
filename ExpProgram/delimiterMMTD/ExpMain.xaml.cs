@@ -216,6 +216,7 @@ namespace delimiterMMTD
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
                 patternAnswering = true;
 
+                clickAnswer(5);
                 //debugLabel1.Content = "answer1.Content : " +answer1.Content.ToString() ;
             }
         }
