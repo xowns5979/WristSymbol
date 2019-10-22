@@ -122,7 +122,7 @@ namespace delimiterMMTD
             string str = "";
 
             if (baseModality == 0)
-                str = "av";
+                str = "ev";
             else if (baseModality == 1)
                 str = "bv";
 

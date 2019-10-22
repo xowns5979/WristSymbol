@@ -137,16 +137,23 @@ void turnOffAll()
 
 void ermOnOff()
 {
-  digitalWrite(erm1, LOW);
-  digitalWrite(erm2, LOW);
-  digitalWrite(erm3, LOW);
-  digitalWrite(erm4, LOW);
   if(ermOn[0])
     digitalWrite(erm1, HIGH);
+  else
+    digitalWrite(erm1, LOW);
+
   if(ermOn[1])
     digitalWrite(erm2, HIGH);
+  else
+    digitalWrite(erm2, LOW);
+    
   if(ermOn[2])
     digitalWrite(erm3, HIGH); 
+  else
+    digitalWrite(erm3, LOW);
+    
   if(ermOn[3])
     digitalWrite(erm4, HIGH);
+  else
+    digitalWrite(erm4, LOW);
 }
