@@ -64,6 +64,8 @@ namespace delimiterMMTD
         long playendstamp;
         long enterstamp;
 
+        bool keyboardEvent = true;
+
         /*
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
@@ -378,6 +380,42 @@ namespace delimiterMMTD
         {
             clickAnswer((int)pattern.left);
         }
+
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (keyboardEvent)
+            {
+                debugLabel1.Content = "e.Key.ToString() : " + e.Key.ToString();
+                if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad9)
+                {
+                    if (e.Key != Key.NumPad5)
+                    {
+                        if (e.Key == Key.NumPad1)
+                            clickAnswer((int)pattern.bottom_left);
+                        else if(e.Key == Key.NumPad2)
+                            clickAnswer((int)pattern.bottom);
+                        else if (e.Key == Key.NumPad3)
+                            clickAnswer((int)pattern.bottom_right);
+                        else if (e.Key == Key.NumPad4)
+                            clickAnswer((int)pattern.left);
+                        else if (e.Key == Key.NumPad6)
+                            clickAnswer((int)pattern.right);
+                        else if (e.Key == Key.NumPad7)
+                            clickAnswer((int)pattern.top_left);
+                        else if (e.Key == Key.NumPad8)
+                            clickAnswer((int)pattern.top);
+                        else if (e.Key == Key.NumPad9)
+                            clickAnswer((int)pattern.top_right);
+                    }
+                }
+                else if (e.Key == Key.Space)
+                {
+                    ButtonPlay_Click(sender, e);
+                }
+            }
+        }
+
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
