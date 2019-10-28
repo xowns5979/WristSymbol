@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +35,13 @@ public class MainActivity extends AppCompatActivity{
 
     ImageView chosenImageView;
     Button choosePicture;
-    Button erase;
+    Button next;
     Button save;
+    Button nameEnter;
     TextView tv1;
+    TextView tv2;
+    int trialNum = 1;
+
     Canvas canvas;
     Paint paint;
     float downx = 0;
@@ -47,6 +52,9 @@ public class MainActivity extends AppCompatActivity{
     Bitmap copyImage;
     Bitmap copyImage2;
     Bitmap copyImage3;
+
+    EditText name;
+    String filePath;
 
     CSVWriter writer;
     @Override
@@ -60,29 +68,46 @@ public class MainActivity extends AppCompatActivity{
         paint.setColor(Color.rgb(237,0,38));
         paint.setStrokeWidth(5);
         tv1 = (TextView)findViewById(R.id.tv1);
+        tv2 = (TextView)findViewById(R.id.tv2);
 
+        name = (EditText)findViewById(R.id.nameText);
 
         //csv 데이터
         ArrayList<String[]> csv = new ArrayList<String[]>();
         //csv 헤더 선언
-        csv.add(new String[] {"x", "y", "action", "timestamp"});
+        csv.add(new String[] {"trial","x", "y", "action", "timestamp"});
 
-        String filePath = this.getExternalFilesDir(null).toString() + File.separator + "touchdata.csv";
 
-        FileWriter mFileWriter = null;
-        try {
-            mFileWriter = new FileWriter(filePath);
-            Log.d("HIHI", "FileWriter Creating succeed");
-            Log.d("HIHI", "FilePath: " + filePath);
-            writer = new CSVWriter(mFileWriter);
-        } catch (IOException e) {
-            Log.d("HIHI", "FileWriter Creating failed");
-        }
 
 
         Long tsLong;
         String ts;
 
+        filePath = this.getExternalFilesDir(null).toString();
+
+
+        nameEnter = (Button) this.findViewById(R.id.nameEnterButton);
+        nameEnter.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Log.d("HIHI","nameEnter Clicked!");
+
+                name.setCursorVisible(false);
+
+
+                filePath = filePath +  File.separator + name.getText().toString() + "_touchdata.csv";
+
+                FileWriter mFileWriter = null;
+                try {
+                    mFileWriter = new FileWriter(filePath);
+                    Log.d("HIHI", "FileWriter Creating succeed");
+                    Log.d("HIHI", "FilePath: " + filePath);
+                    writer = new CSVWriter(mFileWriter);
+                } catch (IOException e) {
+                    Log.d("HIHI", "FileWriter Creating failed");
+                }
+            }
+        });
 
 
         chosenImageView = (ImageView) this.findViewById(R.id.ChosenImageView);
@@ -97,7 +122,7 @@ public class MainActivity extends AppCompatActivity{
 
                         Long tsLong = System.currentTimeMillis()/1000;
                         String ts = tsLong.toString();
-                        csv.add(new String[] {Float.toString(downx), Float.toString(downy), "down", ts});
+                        csv.add(new String[] {String.valueOf(trialNum),Float.toString(downx), Float.toString(downy), "down", ts});
 
 
                         break;
@@ -107,7 +132,7 @@ public class MainActivity extends AppCompatActivity{
 
                         tsLong = System.currentTimeMillis()/1000;
                         ts = tsLong.toString();
-                        csv.add(new String[] {Float.toString(upx), Float.toString(upy), "move", ts});
+                        csv.add(new String[] {String.valueOf(trialNum),Float.toString(upx), Float.toString(upy), "move", ts});
 
 
                         canvas.drawLine(downx, downy, upx, upy, paint);
@@ -121,7 +146,7 @@ public class MainActivity extends AppCompatActivity{
 
                         tsLong = System.currentTimeMillis()/1000;
                         ts = tsLong.toString();
-                        csv.add(new String[] {Float.toString(upx), Float.toString(upy), "up", ts});
+                        csv.add(new String[] {String.valueOf(trialNum),Float.toString(upx), Float.toString(upy), "up", ts});
 
 
                         canvas.drawLine(downx, downy, upx, upy, paint);
@@ -151,11 +176,11 @@ public class MainActivity extends AppCompatActivity{
         });
 
 
-        erase = (Button) this.findViewById(R.id.eraseButton);
-        erase.setOnClickListener(new Button.OnClickListener(){
+        next = (Button) this.findViewById(R.id.nextButton);
+        next.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
-                Log.d("HIHI","Erase Clicked!");
+                Log.d("HIHI","Next Clicked!");
                 Bitmap copyImage3 = copyImage2.copy(Bitmap.Config.ARGB_8888,true);
                 canvas = new Canvas(copyImage3);
                 int width = 2560;
@@ -165,6 +190,9 @@ public class MainActivity extends AppCompatActivity{
                 chosenImageView.setMaxWidth(width);
                 chosenImageView.setMaxHeight(height);
                 chosenImageView.setImageDrawable(new BitmapDrawable(getResources(), copyImage3));
+
+                trialNum++;
+                tv2.setText(String.valueOf(trialNum)+" / 96");
             }
         });
 

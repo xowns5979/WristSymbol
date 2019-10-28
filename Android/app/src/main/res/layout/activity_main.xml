@@ -4,27 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <Button
         android:id="@+id/ChoosePictureButton"
         android:layout_width="134dp"
         android:layout_height="58dp"
-        android:layout_marginStart="408dp"
-        android:layout_marginLeft="408dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginBottom="4dp"
         android:text="Select"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/eraseButton"
+        android:id="@+id/nameEnterButton"
         android:layout_width="134dp"
         android:layout_height="58dp"
-        android:layout_marginStart="552dp"
-        android:layout_marginLeft="552dp"
+        android:layout_marginStart="328dp"
+        android:layout_marginLeft="328dp"
         android:layout_marginBottom="4dp"
-        android:text="erase"
+        android:text="Enter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="134dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="604dp"
+        android:layout_marginLeft="604dp"
+        android:layout_marginBottom="4dp"
+        android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -32,8 +45,8 @@
         android:id="@+id/saveButton"
         android:layout_width="134dp"
         android:layout_height="58dp"
-        android:layout_marginStart="696dp"
-        android:layout_marginLeft="696dp"
+        android:layout_marginStart="880dp"
+        android:layout_marginLeft="880dp"
         android:layout_marginBottom="4dp"
         android:text="save"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,11 +54,11 @@
 
     <TextView
         android:id="@+id/tv1"
-        android:layout_width="360dp"
+        android:layout_width="264dp"
         android:layout_height="28dp"
-        android:layout_marginStart="852dp"
-        android:layout_marginLeft="852dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="1020dp"
+        android:layout_marginLeft="1020dp"
+        android:layout_marginBottom="20dp"
         android:text="Click save button before exiting"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,5 +70,43 @@
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_launcher_background" />
+
+    <EditText
+        android:id="@+id/nameText"
+        android:layout_width="113dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginLeft="212dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="27dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginLeft="168dp"
+        android:layout_marginBottom="16dp"
+        android:text="ID"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="71dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="776dp"
+        android:layout_marginLeft="776dp"
+        android:layout_marginBottom="20dp"
+        android:text="1 / 96"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
