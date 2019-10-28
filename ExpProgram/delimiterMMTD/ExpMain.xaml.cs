@@ -386,7 +386,6 @@ namespace delimiterMMTD
         {
             if (keyboardEvent)
             {
-                debugLabel1.Content = "e.Key.ToString() : " + e.Key.ToString();
                 if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad9)
                 {
                     if (e.Key != Key.NumPad5)
