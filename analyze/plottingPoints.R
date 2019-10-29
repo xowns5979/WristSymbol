@@ -1,8 +1,6 @@
 # 1. data frame making
-library(dplyr)
-
-exp_data = read.csv("data/sm/sm_exp.csv")
-x = read.csv("data/sm/sm_touchdata.csv")
+exp_data = read.csv("data/yb/yb_exp.csv")
+x = read.csv("data/yb/yb_touchdata.csv")
 x$pattern = ""
 x$startpoint = 0
 x$endpoint = 0
@@ -76,7 +74,7 @@ for (i in 1:nrow(x)){
 
 #2. plot (only) hand image
 library(imager)
-image <- load.image("data/sm/sm_aligned.png")
+image <- load.image("data/yb/yb_aligned.png")
 plot(image, axes=0)
 
 color_set = c("#E23838","#F78200","#973999","#5EBD3E")
@@ -170,24 +168,30 @@ for (target_actuator in 1:4){
 }
 
 #3-3. plot points for each case, also see the starting / end point by distinguished color?(or arrow?)
-for (i in 1:nrow(x)){
-  if(x[i,]$action=="down")
+
+target_case = "l(3)"
+x2 = x[x$pattern==target_case,]
+start_x = -1
+start_y = -1
+end_x = -1
+end_y = -1
+
+plot(image, axes=0)
+for (i in 1:nrow(x2)){
+  if(x2[i,]$action=="down")
   {
-    color = color_set[x[i,]$startpoint]
-    points(x[i,]$x, x[i,]$y, col=color, cex=0.6, pch=16)
+    color = color_set[1]
+    start_x = x2[i,]$x
+    start_y = x2[i,]$y
+    points(x2[i,]$x, x2[i,]$y, col=color, cex=1.3, pch=16)
   }
-  else if (x[i,]$action=="up")
+  else if (x2[i,]$action=="up")
   {
-    if(x[i,]$endpoint == 1)
-      color = "#E23838"
-    else if(x[i,]$endpoint == 2)
-      color = "#F78200"
-    else if(x[i,]$endpoint == 3)
-      color = "#973999"
-    else if(x[i,]$endpoint == 4)
-      color = "#5EBD3E"
-    
-    points(x[i,]$x, x[i,]$y, col=color, cex=0.6, pch=16)
+    color = color_set[2]
+    end_x = x2[i,]$x
+    end_y = x2[i,]$y
+    points(x2[i,]$x, x2[i,]$y, col=color, cex=1.3, pch=16)
+    arrows(start_x, start_y, end_x, end_y, length=0.15, angle=30, lty=1, lwd=2, col="green")
   }
 }
 

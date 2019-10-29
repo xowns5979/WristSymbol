@@ -21,3 +21,7 @@ trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,ent
 2,j(1),5,0,0,ERM 1,4501,2793,4501
 3,e(6),5,0,0,ERM 1,6529,5503,6529
 4,l(3),5,0,0,ERM 1,8315,7531,8315
+trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,enterstamp
+1,l(3),6,0,0,ERM 1,2039,0,2446
+2,k(2),0,0,0,ERM 1,3349,3047,3461
+3,b(4),3,0,0,ERM 1,4510,4352,4684

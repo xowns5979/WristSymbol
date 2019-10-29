@@ -56,13 +56,15 @@ namespace delimiterMMTD
 
         int baseModality;   // 0 : LRA, 1 : ERM
         int duration;   // ms
-        
+
         FixedSizedQueueInt recentResults = new FixedSizedQueueInt(24);
         double recentAccuracy = 0;
         long startTimestamp;
         long playstamp;
         long playendstamp;
         long enterstamp;
+
+        bool keyboardEvent = true;
 
         /*
         System.Timers.Timer timer;
@@ -76,7 +78,7 @@ namespace delimiterMMTD
             logID = s1;
             baseModality = 0;
             duration = 500;
-            
+
             tw = new StreamWriter(logID + "_exp" + ".csv", true);
             tw.WriteLine("trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,enterstamp");
         }
@@ -98,14 +100,14 @@ namespace delimiterMMTD
         public ExpMain()
         {
             InitializeComponent();
-           
+
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
             trialEnd = 96;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
-            
+
             Random rnd = new Random();
             playSet = playSet.OrderBy(x => rnd.Next()).ToArray();
 
@@ -130,7 +132,7 @@ namespace delimiterMMTD
             Thread.Sleep(duration);
             serialPort1.WriteLine(str.Remove(str.Length - 1) + "s" + tactorNum.ToString());
         }
-        
+
         public void patternGenerate(String text)
         {
             // Amplitude, Frequency setting
@@ -140,7 +142,7 @@ namespace delimiterMMTD
             }
             return;
         }
-        
+
         public void edgeVibStimulation(int[] tactorNums)
         {
             int n = tactorNums.Length;
@@ -197,9 +199,9 @@ namespace delimiterMMTD
                     arr = new int[] { 3, 4 };
                     break;
             }
-                edgeVibStimulation(arr);
+            edgeVibStimulation(arr);
         }
-        
+
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
             if (patternAnswering == false)
@@ -208,15 +210,14 @@ namespace delimiterMMTD
                 answer1.Content = "";
                 playedLetters = "";
 
-                playedLetters = playedLetters + playSet[trial-1];
-                answer1.Content = playSet[trial-1];
+                playedLetters = playedLetters + playSet[trial - 1];
+                answer1.Content = playSet[trial - 1];
                 Thread.Sleep(400);
                 workBackground(playedLetters);
 
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
                 patternAnswering = true;
 
-                clickAnswer(5);
                 //debugLabel1.Content = "answer1.Content : " +answer1.Content.ToString() ;
             }
         }
@@ -253,7 +254,7 @@ namespace delimiterMMTD
                     a_int = 3;
 
                 string a_int_str = "(" + a_int.ToString() + ")";
-                
+
                 String modalityStr = "";
                 String correctStr = "";
 
@@ -308,7 +309,7 @@ namespace delimiterMMTD
             }
         }
 
-        
+
         /*
         public void breaktime()
         {
@@ -338,7 +339,7 @@ namespace delimiterMMTD
             }
         }
         */
-        
+
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
@@ -379,6 +380,41 @@ namespace delimiterMMTD
         {
             clickAnswer((int)pattern.left);
         }
+
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (keyboardEvent)
+            {
+                if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad9)
+                {
+                    if (e.Key != Key.NumPad5)
+                    {
+                        if (e.Key == Key.NumPad1)
+                            clickAnswer((int)pattern.bottom_left);
+                        else if (e.Key == Key.NumPad2)
+                            clickAnswer((int)pattern.bottom);
+                        else if (e.Key == Key.NumPad3)
+                            clickAnswer((int)pattern.bottom_right);
+                        else if (e.Key == Key.NumPad4)
+                            clickAnswer((int)pattern.left);
+                        else if (e.Key == Key.NumPad6)
+                            clickAnswer((int)pattern.right);
+                        else if (e.Key == Key.NumPad7)
+                            clickAnswer((int)pattern.top_left);
+                        else if (e.Key == Key.NumPad8)
+                            clickAnswer((int)pattern.top);
+                        else if (e.Key == Key.NumPad9)
+                            clickAnswer((int)pattern.top_right);
+                    }
+                }
+                else if (e.Key == Key.Space)
+                {
+                    ButtonPlay_Click(sender, e);
+                }
+            }
+        }
+
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
