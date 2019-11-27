@@ -30,26 +30,19 @@ namespace delimiterMMTD
         int trial;
         int trialEnd;
         String playedLetters;
+        int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
+
         String[] letterSet = { "a", "b", "c", "d", "e", "f",
                                 "g", "h", "i", "j", "k", "l"};
-        String[] playSet = { "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",
-                             "a", "b", "c", "d", "e", "f",
-                             "g", "h", "i", "j", "k", "l",};
+        String[] playSet = { "a0","a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","a15","a16","a17",
+                             "b0","b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11","b12","b13","b14","b15","b16","b17",
+                             "a0","a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","a15","a16","a17",
+                             "b0","b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11","b12","b13","b14","b15","b16","b17",
+                             "a0","a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","a15","a16","a17",
+                             "b0","b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11","b12","b13","b14","b15","b16","b17",};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
+        bool confAnswered;
 
         System.IO.Ports.SerialPort serialPort1 = new SerialPort();
         String logID;
@@ -63,6 +56,9 @@ namespace delimiterMMTD
         long playstamp;
         long playendstamp;
         long enterstamp;
+
+        String height_up_str = "100";
+        String height_down_str = "121";
 
         bool keyboardEvent = true;
 
@@ -80,7 +76,7 @@ namespace delimiterMMTD
             duration = 500;
             
             tw = new StreamWriter(logID + "_exp" + ".csv", true);
-            tw.WriteLine("trial#,pattern,answer,correct,recentAccuracy,modality,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("trial#,pattern,answer,confidence,playstamp,playendstamp,enterstamp");
         }
 
         public void workBackground(String text)
@@ -95,6 +91,7 @@ namespace delimiterMMTD
             String text = (String)e.Argument;
             patternGenerate(text);
             playendstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
+
         }
 
         public ExpMain()
@@ -104,7 +101,7 @@ namespace delimiterMMTD
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
-            trialEnd = 96;
+            trialEnd = 108;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
@@ -125,8 +122,6 @@ namespace delimiterMMTD
 
             if (baseModality == 0)
                 str = "ev";
-            else if (baseModality == 1)
-                str = "bv";
 
             serialPort1.WriteLine(str + tactorNum.ToString());
             Thread.Sleep(duration);
@@ -135,11 +130,62 @@ namespace delimiterMMTD
         
         public void patternGenerate(String text)
         {
+            int firstTactor = -1;
+            int secondTactor = -1;
+            int rotateAngle_calibrated = -1;
             // Amplitude, Frequency setting
-            for (int i = 0; i < text.Length; i++)
+            if (text[0].ToString() == "a")
             {
-                edgeVibPattern(text[i].ToString());
+                firstTactor = 1;
+                secondTactor = 2;
             }
+            else if (text[0].ToString() == "b")
+            {
+                firstTactor = 2;
+                secondTactor = 1;
+            }
+
+            int rotateAngle = -1;
+            if (text.Length == 2)
+            {
+                rotateAngle = (int)Char.GetNumericValue(text[1]) * 10;
+            }
+            else if (text.Length == 3)
+            {
+                rotateAngle = (int)Char.GetNumericValue(text[1]) * 100 + (int)Char.GetNumericValue(text[2]) * 10;
+            }
+
+            if (rotateAngle == 0)
+                rotateAngle_calibrated = 5;
+            else if (rotateAngle >= 10 && rotateAngle <= 90)
+                rotateAngle_calibrated = 5 + ((85 - 5) * rotateAngle) / 90;
+            else if (rotateAngle >= 100)
+                rotateAngle_calibrated = 85 + ((170 - 85) * (rotateAngle - 90)) / 90;
+            
+            String rotateAngle_str = "";
+            if (rotateAngle_calibrated.ToString().Length == 1)
+                rotateAngle_str = rotateAngle_str + "00" + rotateAngle_calibrated.ToString();
+            else if (rotateAngle_calibrated.ToString().Length == 2)
+                rotateAngle_str = rotateAngle_str + "0" + rotateAngle_calibrated.ToString();
+            else if (rotateAngle_calibrated.ToString().Length == 3)
+                rotateAngle_str = rotateAngle_str + rotateAngle_calibrated.ToString();
+
+            
+            /*
+            Dispatcher.Invoke((Action)delegate () {
+                debugLabel1.Content = debugLabel1.Content + ", rotation: " + rotateAngle_str;
+            });
+            */
+
+            serialPort1.WriteLine("s" + height_up_str);
+            serialPort1.WriteLine("m" + rotateAngle_str);
+            Thread.Sleep(500);
+            serialPort1.WriteLine("s" + height_down_str);
+            Thread.Sleep(1000);
+
+            stimulation(firstTactor);
+            stimulation(secondTactor);
+
             return;
         }
         
@@ -154,6 +200,7 @@ namespace delimiterMMTD
                 if (i < n - 1)
                     Thread.Sleep(inLetterGap);
                  */
+
             }
         }
 
@@ -215,6 +262,8 @@ namespace delimiterMMTD
                 Thread.Sleep(400);
                 workBackground(playedLetters);
 
+                //debugLabel1.Content = "playedLetters: " + playedLetters;
+
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
                 patternAnswering = true;
 
@@ -224,56 +273,13 @@ namespace delimiterMMTD
 
         public void clickAnswer(int answer)
         {
-            if (patternAnswering == true)
+            if (patternAnswering == true && confAnswered == true)
             {
                 String a = answer1.Content.ToString();
-                int a_int = 0;
-                if (a == "a")
-                    a_int = 3;
-                else if (a == "b")
-                    a_int = 4;
-                else if (a == "c")
-                    a_int = 5;
-                else if (a == "d")
-                    a_int = 5;
-                else if (a == "e")
-                    a_int = 6;
-                else if (a == "f")
-                    a_int = 7;
-                else if (a == "g")
-                    a_int = 7;
-                else if (a == "h")
-                    a_int = 0;
-                else if (a == "i")
-                    a_int = 1;
-                else if (a == "j")
-                    a_int = 1;
-                else if (a == "k")
-                    a_int = 2;
-                else if (a == "l")
-                    a_int = 3;
-
-                string a_int_str = "(" + a_int.ToString() + ")";
-                
-                String modalityStr = "";
                 String correctStr = "";
+                
 
-                if (answer == a_int)
-                {
-                    correctStr = "1";
-                    recentResults.Enqueue(1);
-                }
-                else
-                {
-                    correctStr = "0";
-                    recentResults.Enqueue(0);
-                }
-
-                if (baseModality == 0)
-                    modalityStr = "ERM 1";
-                else if (baseModality == 1)
-                    modalityStr = "ERM 2";
-
+                
                 /*
                 if (l == a)
                 {
@@ -291,6 +297,7 @@ namespace delimiterMMTD
                 }
                 */
                 patternAnswering = false;
+                confAnswered = false;
 
                 int sum = 0;
                 int i;
@@ -299,8 +306,18 @@ namespace delimiterMMTD
                     sum = sum + recentResults.Get(i);
                 }
                 recentAccuracy = (double)sum / recentResults.Size();
+
+                String confStr = "";
+                if (confidenceLevel == 1)
+                    confStr = "1";
+                else if (confidenceLevel == 2)
+                    confStr = "2";
+                else if (confidenceLevel == 3)
+                    confStr = "3";
+
+
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                tw.WriteLine(trial.ToString() + "," + a + a_int_str + "," + answer.ToString() + "," + correctStr + "," + recentAccuracy + "," + modalityStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                tw.WriteLine(trial.ToString() + "," + a + "," + answer.ToString() + "," + confStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 if (trial == trialEnd)
                     this.Close();
 
@@ -421,5 +438,22 @@ namespace delimiterMMTD
             tw.Close();
         }
 
+        private void Button_high_click(object sender, RoutedEventArgs e)
+        {
+            confidenceLevel = 3;
+            confAnswered = true;
+        }
+
+        private void Button_middle_click(object sender, RoutedEventArgs e)
+        {
+            confidenceLevel = 2;
+            confAnswered = true;
+        }
+
+        private void Button_low_click(object sender, RoutedEventArgs e)
+        {
+            confidenceLevel = 1;
+            confAnswered = true;
+        }
     }
 }

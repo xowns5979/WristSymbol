@@ -1,16 +1,23 @@
 /* Firmware of delimiter-MMTD project 
  * First updated : 19.7.2 
  */
+#include <Servo.h>
+Servo servo1; // height control
+Servo servo2; // ERM motor rotating control
 
 // LRA motor driver pin assignment
 const int erm1 = 3;
 const int erm2 = 5;
 const int erm3 = 6;
 const int erm4 = 9;
+const int servo1Pin = 10;
+const int servo2Pin = 11;
 
 bool stringComplete = false;
 char inData[200];
 int dataIdx = 0;
+int servo1Angle = 0;
+int servo2Angle = 0;
 
 bool ermOn[4] = {false, false, false, false};
 bool ermburst = false;
@@ -31,14 +38,20 @@ void setup() {
   digitalWrite(erm2, LOW);
   digitalWrite(erm3, LOW);
   digitalWrite(erm4, LOW);
-  
+
+  servo1.write(85);
+  servo2.write(5);
+
+
+  // put your setup code here, to run once:
+  servo1.attach(servo1Pin);
+  servo2.attach(servo2Pin);
   Serial.begin(115200);
   while (! Serial);
   
   Serial.println("delimiter-MMTD project");
-
 }
-
+    
 void loop() {
   loopSerial();
   loopMotorOnOff();
@@ -81,12 +94,14 @@ void loopSerial()
       inData[lineIdx] = NULL;
       lineIdx++;
     }
-    char c1 = line[0], c2 = line[1], c3 = line[2], c4 = line[3];
+
+    
+    char c1 = line[0], c2 = line[1], c3 = line[2], c4 = line[3], c5 = line[4];
     int motorNum = 0;
     
     switch(c1)
     {
-      case 'e': // ERM "A"
+      case 'e': // ERM motor
         if(c2 == 'v')  // ERM motor vibrating
         {
           motorNum = (int)c3 - 49;
@@ -111,13 +126,37 @@ void loopSerial()
           }
         }
         break;
+      case 's': // height control motor
+        servo1Angle = ((int)c2 - 48)*100 + ((int)c3 - 48)*10 + (int)c4 - 48;
+        Serial.print("servo1Angle: ");
+        Serial.println(servo1Angle);
+        servoSlowMove(servo1,servo1Angle);
+        break;
+      case 'm': // motor rotating servo
+        servo2Angle = ((int)c2 - 48)*100 + ((int)c3 - 48)*10 + (int)c4 - 48;
+        Serial.print("servo2Angle: ");
+        Serial.println(servo2Angle);
+        servo2.write(servo2Angle);
+        
+        break;
       case 'z':
         turnOffAll();
         break;
       default:
         break;
+      
     }
     stringComplete = false;
+  }
+}
+
+void servoSlowMove (Servo servo, int servoAngle)
+{
+  int i;
+  for(i=99;i<servoAngle;i++)
+  {
+    servo.write(i);
+    delay(20);
   }
 }
 
