@@ -22,6 +22,20 @@ nrow(base_df_high)
 nrow(base_df_middle)
 nrow(base_df_low)
 
+nrow(base_df)
+base_df[1,]$pattern == "b2"
+
+base_df
+
+
+for (i in 1:324){
+  if(base_df[i]$pattern == "a0")
+  {
+    base_df[i]$pattern = "0"
+  }
+}
+base_df
+
 a0 = base_df_high[base_df_high$pattern=="a0",]
 a1 = base_df_high[base_df_high$pattern=="a1",]
 a2 = base_df_high[base_df_high$pattern=="a2",]
@@ -59,6 +73,9 @@ b15 = base_df_high[base_df_high$pattern=="b15",]
 b16 = base_df_high[base_df_high$pattern=="b16",]
 b17 = base_df_high[base_df_high$pattern=="b17",]
 
+base_df
+
+b17
 a0
 a1
 a2
@@ -120,10 +137,9 @@ nrow(base_df)
 mean(base_df$correct)
 
 
-out = group_by(base_df, name) %>%
+out = group_by(base_df, pattern) %>%
   summarise(
     count = n(),
-    mean = mean(correct, na.rm = TRUE)*100,
     #sd = sd(correct, na.rm = TRUE)*100
   )
 out

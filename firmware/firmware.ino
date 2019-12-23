@@ -149,7 +149,7 @@ void loopSerial()
     stringComplete = false;
   }
 }
-
+s
 void servoSlowMove (Servo servo, int servoAngle)
 {
   int i;
