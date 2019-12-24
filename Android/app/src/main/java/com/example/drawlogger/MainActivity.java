@@ -10,8 +10,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,7 @@ import com.opencsv.CSVWriter;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity{
 
     EditText name;
     String filePath;
+    String globalFilePath;
 
     int confLevel = -1;
 
@@ -139,6 +143,7 @@ public class MainActivity extends AppCompatActivity{
         Long tsLong;
         String ts;
 
+        globalFilePath =  this.getExternalFilesDir(null).toString();
         filePath = this.getExternalFilesDir(null).toString();
 
         nameEnterButton = (Button) this.findViewById(R.id.nameEnterButton);
@@ -226,14 +231,103 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+
+
         enterButton = (Button) this.findViewById(R.id.enterButton);
         enterButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
                 Log.d("HIHI","Enter Button Clicked!");
+
+
+
+
+
+                File folder = new File(globalFilePath);
+                boolean success = false;
+                if (!folder.exists())
+                {
+                    success = folder.mkdirs();
+                }
+
+                Log.d("HIHI", globalFilePath);
+                File file = new File(globalFilePath + "/sample_"+trialNum+".png");
+                if ( !file.exists() )
+                {
+                    try {
+                        success = file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.d("HIHI",success+"folder");
+                FileOutputStream ostream = null;
+                try
+                {
+                    ostream = new FileOutputStream(file);
+
+                    System.out.println(ostream);
+                    View targetView = dv;
+
+                    // myDrawView.setDrawingCacheEnabled(true);
+                    //   Bitmap save = Bitmap.createBitmap(myDrawView.getDrawingCache());
+                    //   myDrawView.setDrawingCacheEnabled(false);
+                    // copy this bitmap otherwise distroying the cache will destroy
+                    // the bitmap for the referencing drawable and you'll not
+                    // get the captured view
+                    //   Bitmap save = b1.copy(Bitmap.Config.ARGB_8888, false);
+                    //BitmapDrawable d = new BitmapDrawable(b);
+                    //canvasView.setBackgroundDrawable(d);
+                    //   myDrawView.destroyDrawingCache();
+                    // Bitmap save = myDrawView.getBitmapFromMemCache("0");
+                    // myDrawView.setDrawingCacheEnabled(true);
+                    //Bitmap save = myDrawView.getDrawingCache(false);
+                    Bitmap well = dv.getBitmap();
+                    Bitmap save = Bitmap.createBitmap(600, 600, Bitmap.Config.ARGB_8888);
+                    Paint paint = new Paint();
+                    paint.setColor(Color.WHITE);
+                    Paint stroke = new Paint();
+                    stroke.setStyle(Paint.Style.STROKE);
+                    stroke.setColor(Color.BLACK);
+                    stroke.setStrokeWidth(15);
+                    Canvas now = new Canvas(save);
+                    now.drawRect(new Rect(0,0,600,600), paint);
+                    now.drawBitmap(well, new Rect(0,0,well.getWidth(),well.getHeight()), new Rect(0,0,600,600), null);
+                    now.drawRect(new Rect(0,0,600,600), stroke);
+
+                    // Canvas now = new Canvas(save);
+                    //myDrawView.layout(0, 0, 100, 100);
+                    //myDrawView.draw(now);
+                    if(save == null) {
+                        Log.d("HIHI","NULL bitmap save");
+
+                        System.out.println("NULL bitmap save\n");
+                    }
+                    save.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+                    //bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+                    //ostream.flush();
+                    //ostream.close();
+                }catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Null error", Toast.LENGTH_SHORT).show();
+                }
+
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "File error", Toast.LENGTH_SHORT).show();
+                }
+
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "IO error", Toast.LENGTH_SHORT).show();
+                }
+
+                dv.clearCanvas();
                 trialNum++;
                 tv2.setText(String.valueOf(trialNum)+" / 96");
-                dv.clearCanvas();
             }
         });
 
@@ -365,6 +459,21 @@ public class MainActivity extends AppCompatActivity{
             }
             return true;
         }
+
+        public Bitmap getBitmap()
+        {
+            //this.measure(100, 100);
+            //this.layout(0, 0, 100, 100);
+            this.setDrawingCacheEnabled(true);
+            this.buildDrawingCache();
+            Bitmap bmp = Bitmap.createBitmap(this.getDrawingCache());
+            this.setDrawingCacheEnabled(false);
+
+
+            return bmp;
+        }
+
+
     }
 
     public static final byte[] FourIntToByteArray(int m1, int m2, int m3, int mode) {

@@ -121,9 +121,10 @@ namespace WristSymbol
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
+            
             Random rnd = new Random();
-            playSet = playSet.OrderBy(x => rnd.Next()).ToArray();
-
+            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
             //TcpData tcp = new TcpData(this);
             //Thread t1 = new Thread(new ThreadStart(tcp.connect));
 
@@ -212,16 +213,14 @@ namespace WristSymbol
                 answer1.Content = "";
                 
 
-                Random rnd = new Random();
-                letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+                
 
                 answer1.Content = letterSet[trial - 1];
                 Thread.Sleep(400);
-                workBackground("v");
+                workBackground(letterSet[trial-1]);
 
-                //  "a", "c", "f", "j", "l", "r", "t", "v",
                 //debugLabel1.Content = "playedLetters: " + playedLetters;
-
+                
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
                 patternAnswering = true;
                 

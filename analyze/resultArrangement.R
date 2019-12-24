@@ -1,11 +1,11 @@
 library(dplyr)
 # Names
-names = c("jg","yb","tj")
-p_levels = c("0","10","20","30","40","50","60","70","80","90","100","110","120","130","140","150","160","170",
-             "180","190","200","210","220","230","240","250","260","270","280","290","300","310","320","330","340","350")
-# 1. 1 Letter Accuracy [%]  
+names = c("yb","tj")
+p_levels = c("a", "c", "f", "j", "l", "r", "t", "v")
+
+# 1. read
 base_df = data.frame()
-for (i in 1:3){
+for (i in 1:2){
   file_name = paste("data/",names[i],"_exp.csv",sep="")
   file_data = read.csv(file_name, header=T, stringsAsFactors = F)
   file_data$name = names[i]
@@ -14,18 +14,28 @@ for (i in 1:3){
 base_df$name = factor(base_df$name, levels=names)
 base_df$pattern = factor(base_df$pattern, levels=p_levels)
 
-base_df_high = base_df[base_df$confidence==3,]
-base_df_middle = base_df[base_df$confidence==2,]
-base_df_low = base_df[base_df$confidence==1,]
-
-nrow(base_df_high)
-nrow(base_df_middle)
-nrow(base_df_low)
-
 nrow(base_df)
-base_df[1,]$pattern == "b2"
-
 base_df
+
+base_df$name
+
+base_df_p1 = base_df[base_df$name == "tj",]
+base_df_p2 = base_df[base_df$name == "yb",]
+
+
+target = base_df_p1[base_df_p1$trial==1,]
+target
+pattern_x = target$x
+pattern_y = target$y
+plot.new();
+plot.window(xlim=c(-100,600),ylim=c(-100,600) )
+
+points(pattern_x, pattern_y,cex=1.5,pch=16)
+
+
+
+
+
 
 
 for (i in 1:324){
