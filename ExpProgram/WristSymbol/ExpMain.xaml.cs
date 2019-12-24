@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.ComponentModel;
 using System.Timers;
@@ -32,8 +34,11 @@ namespace WristSymbol
         String playedLetters;
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
-        String[] letterSet = { "a", "b", "c", "d", "e", "f",
-                                "g", "h", "i", "j", "k", "l"};
+        String[] letterSet = { "a", "c", "f", "j", "l", "r", "t", "v",
+                               "a", "c", "f", "j", "l", "r", "t", "v",
+                               "a", "c", "f", "j", "l", "r", "t", "v",
+                               "a", "c", "f", "j", "l", "r", "t", "v",
+                               "a", "c", "f", "j", "l", "r", "t", "v"};
         String[] playSet = { "a0","a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","a15","a16","a17",
                              "b0","b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11","b12","b13","b14","b15","b16","b17",
                              "a0","a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","a15","a16","a17",
@@ -76,7 +81,18 @@ namespace WristSymbol
             duration = 500;
             
             tw = new StreamWriter(logID + "_exp" + ".csv", true);
-            tw.WriteLine("trial#,pattern,answer,confidence,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("trial#,pattern,playstamp,playendstamp");
+        }
+
+        internal string invokeLabel2
+        {
+            get { return debugLabel2.Content.ToString(); }
+            set { Dispatcher.Invoke(new Action(() => { debugLabel2.Content = value; })); }
+        }
+        internal string invokeLabel3
+        {
+            get { return debugLabel3.Content.ToString(); }
+            set { Dispatcher.Invoke(new Action(() => { debugLabel3.Content = value; })); }
         }
 
         public void workBackground(String text)
@@ -101,13 +117,17 @@ namespace WristSymbol
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
-            trialEnd = 108;
+            trialEnd = 40;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
             Random rnd = new Random();
             playSet = playSet.OrderBy(x => rnd.Next()).ToArray();
 
+            //TcpData tcp = new TcpData(this);
+            //Thread t1 = new Thread(new ThreadStart(tcp.connect));
+
+            //t1.Start();
             /*
             timer = new System.Timers.Timer();
             timer.Interval = 100;
@@ -130,62 +150,8 @@ namespace WristSymbol
         
         public void patternGenerate(String text)
         {
-            int firstTactor = -1;
-            int secondTactor = -1;
-            int rotateAngle_calibrated = -1;
-            // Amplitude, Frequency setting
-            if (text[0].ToString() == "a")
-            {
-                firstTactor = 1;
-                secondTactor = 2;
-            }
-            else if (text[0].ToString() == "b")
-            {
-                firstTactor = 2;
-                secondTactor = 1;
-            }
-
-            int rotateAngle = -1;
-            if (text.Length == 2)
-            {
-                rotateAngle = (int)Char.GetNumericValue(text[1]) * 10;
-            }
-            else if (text.Length == 3)
-            {
-                rotateAngle = (int)Char.GetNumericValue(text[1]) * 100 + (int)Char.GetNumericValue(text[2]) * 10;
-            }
-
-            if (rotateAngle == 0)
-                rotateAngle_calibrated = 5;
-            else if (rotateAngle >= 10 && rotateAngle <= 90)
-                rotateAngle_calibrated = 5 + ((85 - 5) * rotateAngle) / 90;
-            else if (rotateAngle >= 100)
-                rotateAngle_calibrated = 85 + ((170 - 85) * (rotateAngle - 90)) / 90;
+            edgeWritePattern(text);
             
-            String rotateAngle_str = "";
-            if (rotateAngle_calibrated.ToString().Length == 1)
-                rotateAngle_str = rotateAngle_str + "00" + rotateAngle_calibrated.ToString();
-            else if (rotateAngle_calibrated.ToString().Length == 2)
-                rotateAngle_str = rotateAngle_str + "0" + rotateAngle_calibrated.ToString();
-            else if (rotateAngle_calibrated.ToString().Length == 3)
-                rotateAngle_str = rotateAngle_str + rotateAngle_calibrated.ToString();
-
-            
-            /*
-            Dispatcher.Invoke((Action)delegate () {
-                debugLabel1.Content = debugLabel1.Content + ", rotation: " + rotateAngle_str;
-            });
-            */
-
-            serialPort1.WriteLine("s" + height_up_str);
-            serialPort1.WriteLine("m" + rotateAngle_str);
-            Thread.Sleep(500);
-            serialPort1.WriteLine("s" + height_down_str);
-            Thread.Sleep(1000);
-
-            stimulation(firstTactor);
-            stimulation(secondTactor);
-
             return;
         }
         
@@ -204,99 +170,74 @@ namespace WristSymbol
             }
         }
 
-        public void edgeVibPattern(string character)
+        public void edgeWritePattern(String character)
         {
             int[] arr = null;
             switch (character.ToUpper())
             {
                 case "A":
-                    arr = new int[] { 1, 2 };
-                    break;
-                case "B":
-                    arr = new int[] { 1, 4 };
+                    arr = new int[] { 3, 2, 4 };
                     break;
                 case "C":
-                    arr = new int[] { 1, 3 };
-                    break;
-                case "D":
-                    arr = new int[] { 2, 4 };
-                    break;
-                case "E":
-                    arr = new int[] { 2, 3 };
+                    arr = new int[] { 2, 3, 4 };
                     break;
                 case "F":
-                    arr = new int[] { 2, 1 };
-                    break;
-                case "G":
-                    arr = new int[] { 4, 3 };
-                    break;
-                case "H":
-                    arr = new int[] { 4, 1 };
-                    break;
-                case "I":
-                    arr = new int[] { 4, 2 };
-                    break;
-                case "J":
-                    arr = new int[] { 3, 1 };
-                    break;
-                case "K":
-                    arr = new int[] { 3, 2 };
+                    arr = new int[] { 2, 1, 3 };
                     break;
                 case "L":
-                    arr = new int[] { 3, 4 };
+                    arr = new int[] { 1, 3, 4 };
+                    break;
+                case "J":
+                    arr = new int[] { 2, 4, 3 };
+                    break;
+                case "R":
+                    arr = new int[] { 3, 1, 2 };
+                    break;
+                case "T":
+                    arr = new int[] { 1, 2, 4 };
+                    break;
+                case "V":
+                    arr = new int[] { 1, 3, 2 };
                     break;
             }
-                edgeVibStimulation(arr);
+
+            edgeVibStimulation(arr);
         }
-        
+
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
             if (patternAnswering == false)
             {
-
+                
                 answer1.Content = "";
-                playedLetters = "";
+                
 
-                playedLetters = playedLetters + playSet[trial-1];
-                answer1.Content = playSet[trial-1];
+                Random rnd = new Random();
+                letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+
+                answer1.Content = letterSet[trial - 1];
                 Thread.Sleep(400);
-                workBackground(playedLetters);
+                workBackground("v");
 
+                //  "a", "c", "f", "j", "l", "r", "t", "v",
                 //debugLabel1.Content = "playedLetters: " + playedLetters;
 
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
                 patternAnswering = true;
-
+                
                 //debugLabel1.Content = "answer1.Content : " +answer1.Content.ToString() ;
             }
         }
 
-        public void clickAnswer(int answer)
+        private void ButtonAnwer_Click(object sender, RoutedEventArgs e)
         {
-            if (patternAnswering == true && confAnswered == true)
+            if (patternAnswering == true)
             {
-                String a = answer1.Content.ToString();
-                String correctStr = "";
-                
-
-                
-                /*
-                if (l == a)
-                {
-                    answer1.Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
-                    answer1.Visibility = Visibility.Visible;
-                    correctStr = "1";
-                    recentResults.Enqueue(1);
-                }
-                else
-                {
-                    answer1.Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
-                    answer1.Visibility = Visibility.Visible;
-                    correctStr = "0";
-                    recentResults.Enqueue(0);
-                }
-                */
                 patternAnswering = false;
+                
+                
+                String a = answer1.Content.ToString();
+                
                 confAnswered = false;
 
                 int sum = 0;
@@ -307,17 +248,10 @@ namespace WristSymbol
                 }
                 recentAccuracy = (double)sum / recentResults.Size();
 
-                String confStr = "";
-                if (confidenceLevel == 1)
-                    confStr = "1";
-                else if (confidenceLevel == 2)
-                    confStr = "2";
-                else if (confidenceLevel == 3)
-                    confStr = "3";
-
+                
 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                tw.WriteLine(trial.ToString() + "," + a + "," + answer.ToString() + "," + confStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                tw.WriteLine(trial.ToString() + "," + a + "," + playstamp.ToString() + "," + playendstamp.ToString());
                 if (trial == trialEnd)
                     this.Close();
 
@@ -326,7 +260,6 @@ namespace WristSymbol
             }
         }
 
-        
         /*
         public void breaktime()
         {
@@ -356,80 +289,10 @@ namespace WristSymbol
             }
         }
         */
-        
-
-        private void Button1_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.top_left);
-        }
-
-        private void Button2_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.top);
-        }
-
-        private void Button3_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.top_right);
-        }
-
-        private void Button4_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.right);
-        }
-
-        private void Button5_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.bottom_right);
-        }
-
-        private void Button6_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.bottom);
-        }
-
-        private void Button7_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.bottom_left);
-        }
-
-        private void Button8_Click(object sender, RoutedEventArgs e)
-        {
-            clickAnswer((int)pattern.left);
-        }
-
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
-            if (keyboardEvent)
-            {
-                if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad9)
-                {
-                    if (e.Key != Key.NumPad5)
-                    {
-                        if (e.Key == Key.NumPad1)
-                            clickAnswer((int)pattern.bottom_left);
-                        else if(e.Key == Key.NumPad2)
-                            clickAnswer((int)pattern.bottom);
-                        else if (e.Key == Key.NumPad3)
-                            clickAnswer((int)pattern.bottom_right);
-                        else if (e.Key == Key.NumPad4)
-                            clickAnswer((int)pattern.left);
-                        else if (e.Key == Key.NumPad6)
-                            clickAnswer((int)pattern.right);
-                        else if (e.Key == Key.NumPad7)
-                            clickAnswer((int)pattern.top_left);
-                        else if (e.Key == Key.NumPad8)
-                            clickAnswer((int)pattern.top);
-                        else if (e.Key == Key.NumPad9)
-                            clickAnswer((int)pattern.top_right);
-                    }
-                }
-                else if (e.Key == Key.Space)
-                {
-                    ButtonPlay_Click(sender, e);
-                }
-            }
+
         }
 
 
@@ -437,23 +300,73 @@ namespace WristSymbol
         {
             tw.Close();
         }
+        
+    }
 
-        private void Button_high_click(object sender, RoutedEventArgs e)
+    class TcpData
+    {
+        ExpMain target;
+        StylusPointCollection pts = new StylusPointCollection();
+
+        public TcpData(ExpMain window)
         {
-            confidenceLevel = 3;
-            confAnswered = true;
+            target = window;
         }
 
-        private void Button_middle_click(object sender, RoutedEventArgs e)
+        public void connect()
         {
-            confidenceLevel = 2;
-            confAnswered = true;
-        }
+            byte[] buff = new byte[20];
 
-        private void Button_low_click(object sender, RoutedEventArgs e)
-        {
-            confidenceLevel = 1;
-            confAnswered = true;
+            TcpListener listener = new TcpListener(IPAddress.Any, 5000); 
+            listener.Start();
+            TcpClient tc = listener.AcceptTcpClient();  //accept client request for connection and assign TcpClient object
+            NetworkStream stream = tc.GetStream();  //Get networkstream from TcpClient object
+            target.invokeLabel2 = String.Format("TCP Connection Succeed!");
+
+            int m1 = 0;
+            int m2 = 0;
+            int m3 = 0;
+            int mode = 0;
+
+            Boolean doubleTapped = false;
+
+            //Repeatedly read TCP data with stream.Read();
+            int nbytes = 0;
+            while (true)
+            {
+                if ((nbytes = stream.Read(buff, 0, buff.Length)) != 0)
+                {
+                    byte[] m1_bytes = { buff[0], buff[1], buff[2], buff[3] };
+                    byte[] m2_bytes = { buff[4], buff[5], buff[6], buff[7] };
+                    byte[] m3_bytes = { buff[8], buff[9], buff[10], buff[11] };
+                    byte[] mode_bytes = { buff[12], buff[13], buff[14], buff[15] };
+                    if (BitConverter.IsLittleEndian)
+                    {
+                        Array.Reverse(m1_bytes);
+                        Array.Reverse(m2_bytes);
+                        Array.Reverse(m3_bytes);
+                        Array.Reverse(mode_bytes);
+                    }
+                    m1 = BitConverter.ToInt32(m1_bytes, 0);
+                    m2 = BitConverter.ToInt32(m2_bytes, 0);
+                    m3 = BitConverter.ToInt32(m3_bytes, 0);
+                    mode = BitConverter.ToInt32(mode_bytes, 0);
+
+                    target.invokeLabel3 = String.Format("m1 : {0}, m2 : {1}, m3: {2}, mode: {3}", m1, m2, m3, mode);
+
+                    //target.invokeLabel7 = "timestamp : " + timestamp;
+                    if (mode == 1)
+                    {
+                        Thread.Sleep(400);
+                        int[] arr = new int[] { m1, m2, m3 };
+
+                        target.edgeVibStimulation(arr);
+                    }
+                }
+            }
+            //stream.Close();
+            //tc.Close();
         }
+        
     }
 }
