@@ -144,11 +144,28 @@ namespace WristSymbol
             if (baseModality == 0)
                 str = "ev";
 
+            serialPort1.WriteLine("i255");
             serialPort1.WriteLine(str + tactorNum.ToString());
             Thread.Sleep(duration);
             serialPort1.WriteLine(str.Remove(str.Length - 1) + "s" + tactorNum.ToString());
         }
-        
+
+        public void stimulation2(int tactorNum1, int tactorNum2)
+        {
+
+            string str = "";
+
+            if (baseModality == 0)
+                str = "ev";
+
+            serialPort1.WriteLine("i200");
+            serialPort1.WriteLine("ev" + tactorNum1.ToString());
+            serialPort1.WriteLine("ev" + tactorNum2.ToString());
+            Thread.Sleep(duration);
+            serialPort1.WriteLine("es" + tactorNum1.ToString());
+            serialPort1.WriteLine("es" + tactorNum2.ToString());
+        }
+
         public void patternGenerate(String text)
         {
             edgeWritePattern(text);
@@ -216,8 +233,18 @@ namespace WristSymbol
                 
 
                 answer1.Content = letterSet[trial - 1];
+
+                /*
                 Thread.Sleep(400);
                 workBackground(letterSet[trial-1]);
+                */
+                stimulation(1);
+
+                Thread.Sleep(100);
+                stimulation2(1, 3);
+                Thread.Sleep(100);
+                stimulation(3);
+
 
                 //debugLabel1.Content = "playedLetters: " + playedLetters;
                 
