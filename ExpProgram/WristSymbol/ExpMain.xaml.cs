@@ -158,7 +158,7 @@ namespace WristSymbol
             if (baseModality == 0)
                 str = "ev";
 
-            serialPort1.WriteLine("i200");
+            serialPort1.WriteLine("i100");
             serialPort1.WriteLine("ev" + tactorNum1.ToString());
             serialPort1.WriteLine("ev" + tactorNum2.ToString());
             Thread.Sleep(duration);

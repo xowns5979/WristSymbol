@@ -21,6 +21,7 @@ int servo2Angle = 0;
 
 bool ermOn[4] = {false, false, false, false};
 bool ermburst = false;
+int intensity = 255;
 
 //for motor test
 int millistowait;
@@ -34,18 +35,19 @@ void setup() {
   pinMode (erm3, OUTPUT);
   pinMode (erm4, OUTPUT);
 
-  digitalWrite(erm1, LOW);
-  digitalWrite(erm2, LOW);
-  digitalWrite(erm3, LOW);
-  digitalWrite(erm4, LOW);
+  
+  analogWrite(erm1, 0);
+  analogWrite(erm2, 0);
+  analogWrite(erm3, 0);
+  analogWrite(erm4, 0);
 
-  servo1.write(85);
-  servo2.write(5);
+  //servo1.write(85);
+  //servo2.write(5);
 
 
   // put your setup code here, to run once:
-  servo1.attach(servo1Pin);
-  servo2.attach(servo2Pin);
+  //servo1.attach(servo1Pin);
+  //servo2.attach(servo2Pin);
   Serial.begin(115200);
   while (! Serial);
   
@@ -101,6 +103,9 @@ void loopSerial()
     
     switch(c1)
     {
+      case 'i':
+        intensity = ((int)c2 - 48)*100 + ((int)c3 - 48)*10 + (int)c4 - 48;
+        break;
       case 'e': // ERM motor
         if(c2 == 'v')  // ERM motor vibrating
         {
@@ -177,22 +182,22 @@ void turnOffAll()
 void ermOnOff()
 {
   if(ermOn[0])
-    digitalWrite(erm1, HIGH);
+    analogWrite(erm1, intensity);
   else
-    digitalWrite(erm1, LOW);
+    analogWrite(erm1, 0);
 
   if(ermOn[1])
-    digitalWrite(erm2, HIGH);
+    analogWrite(erm2, intensity);
   else
-    digitalWrite(erm2, LOW);
+    analogWrite(erm2, 0);
     
   if(ermOn[2])
-    digitalWrite(erm3, HIGH); 
+    analogWrite(erm3, intensity); 
   else
-    digitalWrite(erm3, LOW);
+    analogWrite(erm3, 0);
     
   if(ermOn[3])
-    digitalWrite(erm4, HIGH);
+    analogWrite(erm4, intensity);
   else
-    digitalWrite(erm4, LOW);
+    analogWrite(erm4, 0);
 }
