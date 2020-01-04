@@ -1,31 +1,24 @@
 /* Firmware of delimiter-MMTD project 
  * First updated : 19.7.2 
  */
-#include <Servo.h>
-Servo servo1; // height control
-Servo servo2; // ERM motor rotating control
 
 // LRA motor driver pin assignment
 const int erm1 = 3;
 const int erm2 = 5;
 const int erm3 = 6;
 const int erm4 = 9;
-const int servo1Pin = 10;
-const int servo2Pin = 11;
 
 bool stringComplete = false;
 char inData[200];
 int dataIdx = 0;
-int servo1Angle = 0;
-int servo2Angle = 0;
 
 bool ermOn[4] = {false, false, false, false};
+int intensity[4] = {255, 255, 255, 255};
 bool ermburst = false;
-int intensity = 255;
 
 //for motor test
 int millistowait;
-unsigned long recordedtime=99999999999999999999999999999;
+unsigned long recordedtime=99999999999999;
 unsigned long currenttime=0;
 int currentMotorNum;
 
@@ -43,7 +36,6 @@ void setup() {
 
   //servo1.write(85);
   //servo2.write(5);
-
 
   // put your setup code here, to run once:
   //servo1.attach(servo1Pin);
@@ -68,44 +60,21 @@ void loop() {
   }
 }
 
-void serialEvent()
-{
-  while(Serial.available() && stringComplete == false)
-  {
-    char inChar = Serial.read();
-    inData[dataIdx++] = inChar;
-
-    if(inChar == '\n')
-    {
-      dataIdx = 0;
-      stringComplete = true;
-    }
-  }
-}
-
 void loopSerial()
 {
-  if(stringComplete)
-  {
-    char line[1000];
-    int lineIdx = 0;
-    // Count command chars & init inData (error prone)
-    while(inData[lineIdx] != '\n' && lineIdx < 100)
-    {
-      line[lineIdx] = inData[lineIdx];
-      inData[lineIdx] = NULL;
-      lineIdx++;
-    }
 
-    
-    char c1 = line[0], c2 = line[1], c3 = line[2], c4 = line[3], c5 = line[4];
+  if(Serial.available()>0)
+  {
+    String inString = Serial.readStringUntil('\n');
+    char c1 = inString.charAt(0);
+    char c2 = inString.charAt(1);
+    char c3 = inString.charAt(2);
+    char c4 = inString.charAt(3);
+    char c5 = inString.charAt(4);
+
     int motorNum = 0;
-    
     switch(c1)
     {
-      case 'i':
-        intensity = ((int)c2 - 48)*100 + ((int)c3 - 48)*10 + (int)c4 - 48;
-        break;
       case 'e': // ERM motor
         if(c2 == 'v')  // ERM motor vibrating
         {
@@ -116,6 +85,7 @@ void loopSerial()
         else if(c2 == 's')  // ERM motor stop
         {
           motorNum = (int)c3 - 49;
+          
           if(0 <= motorNum && motorNum < 4)
             ermOn[motorNum] = false;
         }
@@ -131,18 +101,9 @@ void loopSerial()
           }
         }
         break;
-      case 's': // height control motor
-        servo1Angle = ((int)c2 - 48)*100 + ((int)c3 - 48)*10 + (int)c4 - 48;
-        Serial.print("servo1Angle: ");
-        Serial.println(servo1Angle);
-        servoSlowMove(servo1,servo1Angle);
-        break;
-      case 'm': // motor rotating servo
-        servo2Angle = ((int)c2 - 48)*100 + ((int)c3 - 48)*10 + (int)c4 - 48;
-        Serial.print("servo2Angle: ");
-        Serial.println(servo2Angle);
-        servo2.write(servo2Angle);
-        
+      case 'i':
+        int tactor = (int)c2-49;
+        intensity[tactor] = ((int)c3 - 48)*100 + ((int)c4 - 48)*10 + (int)c5 - 48;
         break;
       case 'z':
         turnOffAll();
@@ -151,19 +112,9 @@ void loopSerial()
         break;
       
     }
-    stringComplete = false;
   }
 }
 
-void servoSlowMove (Servo servo, int servoAngle)
-{
-  int i;
-  for(i=99;i<servoAngle;i++)
-  {
-    servo.write(i);
-    delay(20);
-  }
-}
 
 // Function: loopMotorOnOff
 // Turn on LRA if true (166Hz full-powered)
@@ -182,22 +133,22 @@ void turnOffAll()
 void ermOnOff()
 {
   if(ermOn[0])
-    analogWrite(erm1, intensity);
+    analogWrite(erm1, intensity[0]);
   else
     analogWrite(erm1, 0);
 
   if(ermOn[1])
-    analogWrite(erm2, intensity);
+    analogWrite(erm2, intensity[1]);
   else
     analogWrite(erm2, 0);
     
   if(ermOn[2])
-    analogWrite(erm3, intensity); 
+    analogWrite(erm3, intensity[2]); 
   else
     analogWrite(erm3, 0);
     
   if(ermOn[3])
-    analogWrite(erm4, intensity);
+    analogWrite(erm4, intensity[3]);
   else
     analogWrite(erm4, 0);
 }
