@@ -31,7 +31,7 @@ namespace WristSymbol
     /// <summary>
     /// ExpTraining.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ExpMain : Window
+    public partial class ExpTraining : Window
     {
         private BackgroundWorker worker;
         TextWriter tw;
@@ -40,19 +40,7 @@ namespace WristSymbol
         String playedLetters;
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
-
-       
-
-
         String[] letterSet = { "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424",
-                               "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424",
-                               "124","123","121","142","143","141","134","132","131",
                                "243","241","242","234","231","232","214","213","212",
                                "312","314","313","324","321","323","342","341","343",
                                "431","432","434","413","412","414","421","423","424"};
@@ -81,7 +69,7 @@ namespace WristSymbol
         private DateTime startTime;
         String condStr = "";
 
-        public void setExpMain(SerialPort port, String s1, int cond)
+        public void setExpTraining(SerialPort port, String s1, int cond)
         {
             serialPort1 = port;
             logID = s1;
@@ -105,7 +93,7 @@ namespace WristSymbol
 
             }
 
-            tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
+            tw = new StreamWriter(logID + "_" + condStr + "_training"+ ".csv", true);
             tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
         }
 
@@ -192,14 +180,14 @@ namespace WristSymbol
            
         }
 
-        public ExpMain()
+        public ExpTraining()
         {
             InitializeComponent();
            
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
-            trialEnd = 108;
+            trialEnd = 6;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
@@ -397,9 +385,9 @@ namespace WristSymbol
 
                 if (trial == trialEnd)
                     this.Close();
-                else if (trial % 20 == 0)
+                else if (trial % 24 == 0)
                 {
-                    secondsToWait = 30 * 1000;
+                    secondsToWait = 20000;
                     breaktime();
                 }
                 
@@ -453,7 +441,7 @@ namespace WristSymbol
             double remainingSeconds = secondsToWait - elapsedSeconds;
 
 
-            if (secondsToWait == 30 * 1000)
+            if (secondsToWait == 1000 * 20)
             {
                 TimeSpan t1 = TimeSpan.FromMilliseconds(remainingSeconds);
                 string str = t1.ToString(@"mm\:ss");
@@ -511,7 +499,7 @@ namespace WristSymbol
                 x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                 clickedPoint++;
             }
-        
+
         }
 
         // 손이 앞으로 향할 때 : 2번 버튼

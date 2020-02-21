@@ -28,8 +28,15 @@ namespace WristSymbol
         {
             InitializeComponent();
 
-            ComboboxM.Items.Add("ERM 1");
-            ComboboxM.Items.Add("ERM2");
+            ComboboxCond.Items.Add("A");
+            ComboboxCond.Items.Add("B");
+            ComboboxCond.Items.Add("C");
+            ComboboxCond.SelectedIndex = 0;
+
+            ComboboxMode.Items.Add("연습");
+            ComboboxMode.Items.Add("본 실험");
+            ComboboxMode.SelectedIndex = 0;
+
         }
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
@@ -67,9 +74,21 @@ namespace WristSymbol
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-                ExpMain program = new ExpMain();
-                program.setExpMain(serialPort1, logID.Text);
+            int cond = ComboboxCond.SelectedIndex;
+            int mode = ComboboxMode.SelectedIndex;
+
+            if (mode == 0)
+            {
+                ExpTraining program = new ExpTraining();
+                program.setExpTraining(serialPort1, logID.Text, cond);
                 program.Show();
+            }
+            else if (mode == 1)
+            {
+                ExpMain program = new ExpMain();
+                program.setExpMain(serialPort1, logID.Text, cond);
+                program.Show();
+            }
         }
     }
 }
