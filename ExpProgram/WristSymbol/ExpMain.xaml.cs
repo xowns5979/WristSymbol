@@ -482,29 +482,24 @@ namespace WristSymbol
         {
             tw.Close();
         }
-
-        // 손이 앞으로 향할 때 : 1번 버튼
-        // 손이 몸으로 향할 때 : 3번 버튼
+        
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
-                    //firstPoint = 1;
-                    firstPoint = 3;
+                    firstPoint = 1;
                     button1.Content = "1";
                 }
                 else if (clickedPoint == 1)
                 {
-                    //secondPoint = 1;
-                    secondPoint = 3;
+                    secondPoint = 1;
                     button1.Content = "2";
                 }
                 else if (clickedPoint == 2)
                 {
-                    //thirdPoint = 1;
-                    thirdPoint = 3;
+                    thirdPoint = 1;
                     button1.Content = "3";
                 }
                 Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
@@ -513,29 +508,24 @@ namespace WristSymbol
             }
         
         }
-
-        // 손이 앞으로 향할 때 : 2번 버튼
-        // 손이 몸으로 향할 때 : 1번 버튼
+        
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
-                    //firstPoint = 2;
-                    firstPoint = 1;
+                    firstPoint = 2;
                     button2.Content = "1";
                 }
                 else if (clickedPoint == 1)
                 {
-                    //secondPoint = 2;
-                    secondPoint = 1;
+                    secondPoint = 2;
                     button2.Content = "2";
                 }
                 else if (clickedPoint == 2)
                 {
-                    //thirdPoint = 2;
-                    thirdPoint = 1;
+                    thirdPoint = 2;
                     button2.Content = "3";
                 }
                 Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
@@ -543,29 +533,24 @@ namespace WristSymbol
                 clickedPoint++;
             }
         }
-
-        // 손이 앞으로 향할 때 : 3번 버튼
-        // 손이 몸으로 향할 때 : 4번 버튼
+        
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
-                    //firstPoint = 3;
-                    firstPoint = 4;
+                    firstPoint = 3;
                     button3.Content = "1";
                 }
                 else if (clickedPoint == 1)
                 {
-                    //secondPoint = 3;
-                    secondPoint = 4;
+                    secondPoint = 3;
                     button3.Content = "2";
                 }
                 else if (clickedPoint == 2)
                 {
-                    //thirdPoint = 3;
-                    thirdPoint = 4;
+                    thirdPoint = 3;
                     button3.Content = "3";
                 }
                 Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
@@ -573,29 +558,24 @@ namespace WristSymbol
                 clickedPoint++;
             }
         }
-
-        // 손이 앞으로 향할 때 : 4번 버튼
-        // 손이 몸으로 향할 때 : 2번 버튼
+       
         private void Button4_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
-                    //firstPoint = 4;
-                    firstPoint = 2;
+                    firstPoint = 4;
                     button4.Content = "1";
                 }
                 else if (clickedPoint == 1)
                 {
-                    //secondPoint = 4;
-                    secondPoint = 2;
+                    secondPoint = 4;
                     button4.Content = "2";
                 }
                 else if (clickedPoint == 2)
                 {
-                    //thirdPoint = 4;
-                    thirdPoint = 2;
+                    thirdPoint = 4;
                     button4.Content = "3";
                 }
                 Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
@@ -620,5 +600,4 @@ namespace WristSymbol
             clickedPoint = 0;
         }
     }
-    
 }

@@ -3,11 +3,20 @@
  */
 
 // LRA motor driver pin assignment
-const int erm1 = 3;
-const int erm2 = 5;
-const int erm3 = 6;
-const int erm4 = 9;
 
+// 팔을 앞쪽으로
+const int erm1 = 3; // 1
+const int erm2 = 5; // 2
+const int erm3 = 6; // 3
+const int erm4 = 9; // 4
+
+/*
+// 팔을 몸쪽으로
+const int erm2 = 3; // 1
+const int erm4 = 5; // 2
+const int erm1 = 6; // 3
+const int erm3 = 9; // 4
+*/
 bool stringComplete = false;
 char inData[200];
 int dataIdx = 0;
@@ -15,6 +24,7 @@ int dataIdx = 0;
 bool ermOn[4] = {false, false, false, false};
 int intensity[4] = {255, 255, 255, 255};
 bool ermburst = false;
+
 
 //for motor test
 int millistowait;
