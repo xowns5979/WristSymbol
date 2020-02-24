@@ -5,18 +5,21 @@
 // LRA motor driver pin assignment
 
 // 팔을 앞쪽으로
+/*
 const int erm1 = 3; // 1
 const int erm2 = 5; // 2
 const int erm3 = 6; // 3
 const int erm4 = 9; // 4
+*/
 
-/*
 // 팔을 몸쪽으로
+
 const int erm2 = 3; // 1
 const int erm4 = 5; // 2
 const int erm1 = 6; // 3
 const int erm3 = 9; // 4
-*/
+
+
 bool stringComplete = false;
 char inData[200];
 int dataIdx = 0;

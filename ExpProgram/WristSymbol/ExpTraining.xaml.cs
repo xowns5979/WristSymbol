@@ -40,10 +40,7 @@ namespace WristSymbol
         String playedLetters;
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
-        String[] letterSet = { "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424"};
+        String[] letterSet = { "12","14","13","24","23","21","31","32","34","43","41","42"};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
 
@@ -94,7 +91,7 @@ namespace WristSymbol
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_training"+ ".csv", true);
-            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp");
         }
 
         internal string invokeLabel2
@@ -264,7 +261,8 @@ namespace WristSymbol
 
         public void patternGenerate(String text)
         {
-            int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]), (int)Char.GetNumericValue(text[2]) };
+            //int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]), (int)Char.GetNumericValue(text[2]) };
+            int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1])};
             edgeVibStimulation(arr);
             //edgeWritePattern(text);
             
@@ -355,7 +353,7 @@ namespace WristSymbol
 
         private void ButtonAnwer_Click(object sender, RoutedEventArgs e)
         {
-            if (patternAnswering == true && clickedPoint == 3)
+            if (patternAnswering == true && clickedPoint == 2)
             {
                 
                 patternAnswering = false;
@@ -368,13 +366,29 @@ namespace WristSymbol
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
-                String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
+                //String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
+                String userAnswer = firstPoint.ToString() + secondPoint.ToString();
                 if (a == userAnswer)
                     correctStr = "1";
                 else
                     correctStr = "0";
 
-                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+
+                string c1Str = "";
+                string c2Str = "";
+
+                if (a[0] == userAnswer[0])
+                    c1Str = "1";
+                else
+                    c1Str = "0";
+
+                if (a[1] == userAnswer[1])
+                    c2Str = "1";
+                else
+                    c2Str = "0";
+
+
+                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 
                 
 

@@ -41,21 +41,14 @@ namespace WristSymbol
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
 
-       
 
 
-        String[] letterSet = { "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424",
-                               "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424",
-                               "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424"};
+
+        String[] letterSet = { "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42"};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
 
@@ -74,7 +67,7 @@ namespace WristSymbol
         int clickedPoint = 0;
         int firstPoint = -1;
         int secondPoint = -1;
-        int thirdPoint = -1;
+        //int thirdPoint = -1;
         
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
@@ -106,7 +99,7 @@ namespace WristSymbol
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
-            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp");
         }
 
         internal string invokeLabel2
@@ -199,7 +192,7 @@ namespace WristSymbol
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
-            trialEnd = 108;
+            trialEnd = 60;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
@@ -276,7 +269,8 @@ namespace WristSymbol
 
         public void patternGenerate(String text)
         {
-            int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]), (int)Char.GetNumericValue(text[2]) };
+            //int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]), (int)Char.GetNumericValue(text[2]) };
+            int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]) };
             edgeVibStimulation(arr);
             //edgeWritePattern(text);
             
@@ -367,7 +361,7 @@ namespace WristSymbol
 
         private void ButtonAnwer_Click(object sender, RoutedEventArgs e)
         {
-            if (patternAnswering == true && clickedPoint == 3)
+            if (patternAnswering == true && clickedPoint == 2)
             {
                 
                 patternAnswering = false;
@@ -380,16 +374,29 @@ namespace WristSymbol
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
-                String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
+                //String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
+                String userAnswer = firstPoint.ToString() + secondPoint.ToString();
                 if (a == userAnswer)
                     correctStr = "1";
                 else
                     correctStr = "0";
 
-                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
-                
-                
+                string c1Str = "";
+                string c2Str = "";
 
+                if (a[0] == userAnswer[0])
+                    c1Str = "1";
+                else
+                    c1Str = "0";
+
+                if (a[1] == userAnswer[1])
+                    c2Str = "1";
+                else
+                    c2Str = "0";
+
+
+                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                
                 //String filename = logID + "_" + trial + ".png";
                 //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
 
@@ -485,7 +492,7 @@ namespace WristSymbol
         
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -497,11 +504,13 @@ namespace WristSymbol
                     secondPoint = 1;
                     button1.Content = "2";
                 }
+                /*
                 else if (clickedPoint == 2)
                 {
                     thirdPoint = 1;
                     button1.Content = "3";
                 }
+                */
                 Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
                 x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                 clickedPoint++;
@@ -511,7 +520,7 @@ namespace WristSymbol
         
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -523,11 +532,13 @@ namespace WristSymbol
                     secondPoint = 2;
                     button2.Content = "2";
                 }
+                /*
                 else if (clickedPoint == 2)
                 {
                     thirdPoint = 2;
                     button2.Content = "3";
                 }
+                */
                 Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
                 x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                 clickedPoint++;
@@ -536,7 +547,7 @@ namespace WristSymbol
         
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -548,11 +559,13 @@ namespace WristSymbol
                     secondPoint = 3;
                     button3.Content = "2";
                 }
+                /*
                 else if (clickedPoint == 2)
                 {
                     thirdPoint = 3;
                     button3.Content = "3";
                 }
+                */
                 Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
                 x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                 clickedPoint++;
@@ -561,7 +574,7 @@ namespace WristSymbol
        
         private void Button4_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -573,11 +586,13 @@ namespace WristSymbol
                     secondPoint = 4;
                     button4.Content = "2";
                 }
+                /*
                 else if (clickedPoint == 2)
                 {
                     thirdPoint = 4;
                     button4.Content = "3";
                 }
+                */
                 Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
                 x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                 clickedPoint++;

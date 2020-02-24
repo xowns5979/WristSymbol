@@ -18,7 +18,7 @@ name_real = "p12_Approach_main.csv"
 
 base_df = data.frame()
 for (i in 1:1){
-  file_name = paste("modify_data/",name_real,sep="")
+  file_name = "YB_B_main.csv"
   file_data = read.csv(file_name, header=T, stringsAsFactors = F)
   base_df = rbind(base_df,file_data)
 }
@@ -27,7 +27,6 @@ base_df
 
 x1 = ""
 x2 = ""
-x3 = ""
 
 for(i in 1:length(base_df$realPattern)){
   if(substr(toString(base_df$realPattern[i]), 1,1) == "1"){
@@ -56,74 +55,41 @@ for(i in 1:length(base_df$realPattern)){
     x2 = "3"
   }
   
-  if(substr(toString(base_df$realPattern[i]), 3,3) == "1"){
-    x3 = "2"
-  }
-  else if (substr(toString(base_df$realPattern[i]), 3,3) == "2"){
-    x3 = "4"
-  }
-  else if (substr(toString(base_df$realPattern[i]), 3,3) == "3"){
-    x3 = "1"
-  }
-  else if (substr(toString(base_df$realPattern[i]), 3,3) == "4"){
-    x3 = "3"
-  }
-  modified = strtoi(paste(x1,x2,x3,sep=""))
+  modified = strtoi(paste(x1,x2,sep=""))
   base_df$realPattern[i] = modified
 }
 
 base_df
 
-x1 = ""
-x2 = ""
-x3 = ""
+for (j in 1:length(base_df$userAnswer)){
+  if(base_df$realPattern[j]==base_df$userAnswer[j]){
+    base_df$correct[j] = "1"
+  }
+  else{
+    base_df$correct[j] = "0"
+    
+  }
+  
+  if( substr( toString(base_df$realPattern[j]), 1, 1 ) == substr( toString(base_df$userAnswer[j]),1,1) ){
+    base_df$c1[j] = "1"
+  }
+  else{
+    base_df$c1[j] = "0"
+  }
+  
+  if( substr( toString(base_df$realPattern[j]), 2, 2 ) == substr( toString(base_df$userAnswer[j]),2,2) ){
+    base_df$c2[j] = "1"
+  }
+  else{
+    base_df$c2[j] = "0"
+  }
 
-for(i in 1:length(base_df$userAnswer)){
-  if(substr(toString(base_df$userAnswer[i]), 1,1) == "1"){
-    x1 = "2"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 1,1) == "2"){
-    x1 = "4"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 1,1) == "3"){
-    x1 = "1"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 1,1) == "4"){
-    x1 = "3"
-  }
-  
-  if(substr(toString(base_df$userAnswer[i]), 2,2) == "1"){
-    x2 = "2"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 2,2) == "2"){
-    x2 = "4"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 2,2) == "3"){
-    x2 = "1"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 2,2) == "4"){
-    x2 = "3"
-  }
-  
-  if(substr(toString(base_df$userAnswer[i]), 3,3) == "1"){
-    x3 = "2"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 3,3) == "2"){
-    x3 = "4"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 3,3) == "3"){
-    x3 = "1"
-  }
-  else if (substr(toString(base_df$userAnswer[i]), 3,3) == "4"){
-    x3 = "3"
-  }
-  modified = strtoi(paste(x1,x2,x3,sep=""))
-  base_df$userAnswer[i] = modified
 }
+
 
 base_df
 
-write.csv(base_df,paste("numbering_modified_data/",name_real,sep=""),row.names=FALSE)
+write.csv(base_df,"YB_B_main_modified.csv",row.names=FALSE)
 
 
 
