@@ -14,7 +14,7 @@ mode = c("main")
 
 # 1. 1 Letter Accuracy [%]  
 
-name_real = "p12_Approach_main.csv"
+name_real = "GH_Baseline1_main.csv"
 
 base_df = data.frame()
 for (i in 1:1){

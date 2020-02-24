@@ -487,7 +487,7 @@ namespace WristSymbol
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -513,7 +513,7 @@ namespace WristSymbol
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -538,7 +538,7 @@ namespace WristSymbol
 
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
@@ -563,7 +563,7 @@ namespace WristSymbol
 
         private void Button4_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 3)
+            if (clickedPoint < 2)
             {
                 if (clickedPoint == 0)
                 {
