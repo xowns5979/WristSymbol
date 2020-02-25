@@ -40,10 +40,6 @@ namespace WristSymbol
         String playedLetters;
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
-
-
-
-
         String[] letterSet = { "12","14","13","24","23","21","31","32","34","43","41","42",
                                "12","14","13","24","23","21","31","32","34","43","41","42",
                                "12","14","13","24","23","21","31","32","34","43","41","42",
@@ -72,6 +68,7 @@ namespace WristSymbol
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
         private DateTime startTime;
+        int expCond = -1;
         String condStr = "";
 
         public void setExpMain(SerialPort port, String s1, int cond)
@@ -79,23 +76,17 @@ namespace WristSymbol
             serialPort1 = port;
             logID = s1;
             duration = 500;
+            expCond = cond;
 
             if (cond == 0)
-            {
-                condStr = "Baseline1";
-                title.Content = title.Content + ": A";
+            { 
+                condStr = "Distal";
+                title.Content = title.Content + ": 팔 앞쪽";
             }
             else if (cond == 1)
             {
-                condStr = "Approach";
-                title.Content = title.Content + ": B";
-
-            }
-            else if (cond == 2)
-            {
-                condStr = "Baseline2";
-                title.Content = title.Content + ": C";
-
+                condStr = "Body";
+                title.Content = title.Content + ": 팔 몸쪽";
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
@@ -366,11 +357,33 @@ namespace WristSymbol
                 
                 patternAnswering = false;
                 
-                
                 String a = answer1.Content.ToString();
-                
-                
+                if (expCond == 1)
+                {
+                    String modified_a1 = "";
+                    String modified_a2 = "";
+                    if (a[0] == '1')
+                        modified_a1 = "2";
+                    else if (a[0] == '2')
+                        modified_a1 = "4";
+                    else if (a[0] == '3')
+                        modified_a1 = "1";
+                    else if (a[0] == '4')
+                        modified_a1 = "3";
 
+                    if (a[1] == '1')
+                        modified_a2 = "2";
+                    else if (a[1] == '2')
+                        modified_a2 = "4";
+                    else if (a[1] == '3')
+                        modified_a2 = "1";
+                    else if (a[1] == '4')
+                        modified_a2 = "3";
+
+                    Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = "a: " + a + ", modified_a : " + (modified_a1 + modified_a2); });
+                    a = modified_a1 + modified_a2;
+                }
+                
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
@@ -393,7 +406,6 @@ namespace WristSymbol
                     c2Str = "1";
                 else
                     c2Str = "0";
-
 
                 tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 

@@ -64,6 +64,8 @@ namespace WristSymbol
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
         private DateTime startTime;
+
+        int expCond = -1;
         String condStr = "";
 
         public void setExpTraining(SerialPort port, String s1, int cond)
@@ -71,22 +73,17 @@ namespace WristSymbol
             serialPort1 = port;
             logID = s1;
             duration = 500;
+            expCond = cond;
 
             if (cond == 0)
             {
-                condStr = "Baseline1";
-                title.Content = title.Content + ": A";
+                condStr = "Distal";
+                title.Content = title.Content + ": 팔 앞쪽";
             }
             else if (cond == 1)
             {
-                condStr = "Approach";
-                title.Content = title.Content + ": B";
-
-            }
-            else if (cond == 2)
-            {
-                condStr = "Baseline2";
-                title.Content = title.Content + ": C";
+                condStr = "Body";
+                title.Content = title.Content + ": 팔 몸쪽";
 
             }
 
@@ -360,8 +357,30 @@ namespace WristSymbol
                 
                 
                 String a = answer1.Content.ToString();
-                
-                
+                if (expCond == 1)
+                {
+                    String modified_a1 = "";
+                    String modified_a2 = "";
+                    if (a[0] == '1')
+                        modified_a1 = "2";
+                    else if (a[0] == '2')
+                        modified_a1 = "4";
+                    else if (a[0] == '3')
+                        modified_a1 = "1";
+                    else if (a[0] == '4')
+                        modified_a1 = "3";
+
+                    if (a[1] == '1')
+                        modified_a2 = "2";
+                    else if (a[1] == '2')
+                        modified_a2 = "4";
+                    else if (a[1] == '3')
+                        modified_a2 = "1";
+                    else if (a[1] == '4')
+                        modified_a2 = "3";
+
+                    a = modified_a1 + modified_a2;
+                }
 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
