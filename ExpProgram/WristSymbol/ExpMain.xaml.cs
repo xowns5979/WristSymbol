@@ -380,7 +380,6 @@ namespace WristSymbol
                     else if (a[1] == '4')
                         modified_a2 = "3";
 
-                    Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = "a: " + a + ", modified_a : " + (modified_a1 + modified_a2); });
                     a = modified_a1 + modified_a2;
                 }
                 
