@@ -1,8 +1,5 @@
-ExpProgram/WristSymbol/bin/debug/
-analyze/Exp6_data/
-analyze/Exp6-(2)_data/
-analyze/modify_data/
-analyze/Exp6-(2)_data_diffCount_final/
-analyze/Exp6-(2)_data_modified/
-analyze/Exp6_data_diffCount_final/
-analyze/data/
+
+ExpProgram/WristSymbol/bin/
+ExpProgram/WristSymbol/obj/
+
+analyze/data

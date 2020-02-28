@@ -500,7 +500,7 @@ namespace WristSymbol
         {
             tw.Close();
         }
-        
+
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 2)
@@ -509,26 +509,26 @@ namespace WristSymbol
                 {
                     firstPoint = 1;
                     button1.Content = "1";
+                    Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint++;
                 }
                 else if (clickedPoint == 1)
                 {
-                    secondPoint = 1;
-                    button1.Content = "2";
+                    if (firstPoint != 1)
+                    {
+                        secondPoint = 1;
+                        button1.Content = "2";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
                 }
-                /*
-                else if (clickedPoint == 2)
-                {
-                    thirdPoint = 1;
-                    button1.Content = "3";
-                }
-                */
-                Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                clickedPoint++;
+
             }
-        
+
         }
-        
+
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 2)
@@ -537,25 +537,24 @@ namespace WristSymbol
                 {
                     firstPoint = 2;
                     button2.Content = "1";
+                    Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint++;
                 }
                 else if (clickedPoint == 1)
                 {
-                    secondPoint = 2;
-                    button2.Content = "2";
+                    if (firstPoint != 2)
+                    {
+                        secondPoint = 2;
+                        button2.Content = "2";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
                 }
-                /*
-                else if (clickedPoint == 2)
-                {
-                    thirdPoint = 2;
-                    button2.Content = "3";
-                }
-                */
-                Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                clickedPoint++;
             }
         }
-        
+
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 2)
@@ -564,25 +563,24 @@ namespace WristSymbol
                 {
                     firstPoint = 3;
                     button3.Content = "1";
+                    Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint++;
                 }
                 else if (clickedPoint == 1)
                 {
-                    secondPoint = 3;
-                    button3.Content = "2";
+                    if (firstPoint != 3)
+                    {
+                        secondPoint = 3;
+                        button3.Content = "2";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
                 }
-                /*
-                else if (clickedPoint == 2)
-                {
-                    thirdPoint = 3;
-                    button3.Content = "3";
-                }
-                */
-                Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                clickedPoint++;
             }
         }
-       
+
         private void Button4_Click(object sender, RoutedEventArgs e)
         {
             if (clickedPoint < 2)
@@ -591,24 +589,24 @@ namespace WristSymbol
                 {
                     firstPoint = 4;
                     button4.Content = "1";
+                    Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint++;
                 }
                 else if (clickedPoint == 1)
                 {
-                    secondPoint = 4;
-                    button4.Content = "2";
+                    if (firstPoint != 4)
+                    {
+                        secondPoint = 4;
+                        button4.Content = "2";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
                 }
-                /*
-                else if (clickedPoint == 2)
-                {
-                    thirdPoint = 4;
-                    button4.Content = "3";
-                }
-                */
-                Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                clickedPoint++;
             }
         }
+
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             clearPoints();
