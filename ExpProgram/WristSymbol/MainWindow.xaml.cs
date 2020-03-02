@@ -28,8 +28,9 @@ namespace WristSymbol
         {
             InitializeComponent();
 
-            ComboboxCond.Items.Add("팔 앞쪽으로");
-            ComboboxCond.Items.Add("팔 몸쪽으로");
+            ComboboxCond.Items.Add("A");
+            ComboboxCond.Items.Add("B");
+            ComboboxCond.Items.Add("C");
             ComboboxCond.SelectedIndex = 0;
 
             ComboboxMode.Items.Add("연습");

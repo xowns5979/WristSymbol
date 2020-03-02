@@ -76,14 +76,18 @@ namespace WristSymbol
 
             if (cond == 0)
             {
-                condStr = "Distal";
-                title.Content = title.Content + ": 팔 앞쪽";
+                condStr = "A(Baseline1)";
+                title.Content = title.Content + ": A";
             }
             else if (cond == 1)
             {
-                condStr = "Body";
-                title.Content = title.Content + ": 팔 몸쪽";
-
+                condStr = "B(Approach)";
+                title.Content = title.Content + ": B";
+            }
+            else if (cond == 2)
+            {
+                condStr = "C(Baseline2)";
+                title.Content = title.Content + ": C";
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_training"+ ".csv", true);
@@ -356,31 +360,7 @@ namespace WristSymbol
                 
                 
                 String a = answer1.Content.ToString();
-                if (expCond == 1)
-                {
-                    String modified_a1 = "";
-                    String modified_a2 = "";
-                    if (a[0] == '1')
-                        modified_a1 = "2";
-                    else if (a[0] == '2')
-                        modified_a1 = "4";
-                    else if (a[0] == '3')
-                        modified_a1 = "1";
-                    else if (a[0] == '4')
-                        modified_a1 = "3";
-
-                    if (a[1] == '1')
-                        modified_a2 = "2";
-                    else if (a[1] == '2')
-                        modified_a2 = "4";
-                    else if (a[1] == '3')
-                        modified_a2 = "1";
-                    else if (a[1] == '4')
-                        modified_a2 = "3";
-
-                    a = modified_a1 + modified_a2;
-                }
-
+                
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
