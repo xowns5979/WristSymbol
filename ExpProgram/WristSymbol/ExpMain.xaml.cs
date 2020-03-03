@@ -96,7 +96,7 @@ namespace WristSymbol
 
 
             tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
-            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp,reactionTime");
         }
 
         internal string invokeLabel2
@@ -388,7 +388,9 @@ namespace WristSymbol
                 else
                     c2Str = "0";
 
-                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                long rt = enterstamp - playendstamp;
+
+                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString()+","+rt.ToString());
                 
                 //String filename = logID + "_" + trial + ".png";
                 //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
