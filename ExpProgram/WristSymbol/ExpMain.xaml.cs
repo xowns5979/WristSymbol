@@ -364,7 +364,29 @@ namespace WristSymbol
                 patternAnswering = false;
                 
                 String a = answer1.Content.ToString();
-               
+
+                String modified_a1 = "";
+                String modified_a2 = "";
+                if (a[0] == '1')
+                    modified_a1 = "2";
+                else if (a[0] == '2')
+                    modified_a1 = "4";
+                else if (a[0] == '3')
+                    modified_a1 = "1";
+                else if (a[0] == '4')
+                    modified_a1 = "3";
+
+                if (a[1] == '1')
+                    modified_a2 = "2";
+                else if (a[1] == '2')
+                    modified_a2 = "4";
+                else if (a[1] == '3')
+                    modified_a2 = "1";
+                else if (a[1] == '4')
+                    modified_a2 = "3";
+
+                a = modified_a1 + modified_a2;
+
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
