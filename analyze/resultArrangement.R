@@ -9,7 +9,7 @@ mode = c("training","main")
 
 base_df = data.frame()
 for (i in 1:12){
-  file_name = paste("data/",names[i] ,"_",cond[1],"_",mode[2],".csv",sep="")
+  file_name = paste("data/",names[i] ,"_",cond[3],"_",mode[2],".csv",sep="")
   file_data = read.csv(file_name, header=T, stringsAsFactors = F)
   base_df = rbind(base_df,file_data)
 }
