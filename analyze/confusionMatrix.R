@@ -8,18 +8,16 @@ library(dplyr)
 
 # Names
 names = c("p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11","p12")
-cond = c("Baseline1","Approach","Baseline2")
+cond = c("A(Baseline1)","B(Approach)","C(Baseline2)")
+#cond = c("Distal","Body")
 mode = c("training","main")
-# 1. 1 Letter Accuracy [%]  
+# 1. 1 Letter Accuracy [%]
 base_df = data.frame()
-for (i in 1:12){
-  file_name = paste("Exp6_data/",names[i],"_",cond[2],"_",mode[2],".csv",sep="")
+for (i in 1:1){
+  file_name = paste("data/",names[i],"_",cond[1],"_",mode[2],".csv",sep="")
   file_data = read.csv(file_name, header=T, stringsAsFactors = F)
   base_df = rbind(base_df,file_data)
 }
-
-base_df = base_df[-357,]
-
 
 # Confusion matrix
 actual_first <- as.factor(base_df$realPattern)
@@ -27,11 +25,10 @@ predicted_first <- as.factor(base_df$userAnswer)
 
 str(actual_first)
 str(predicted_first)
+
+actual_first
 predicted_first
 
-
-length(actual_first)
-length(predicted_first)
 
 
 cm_first <- confusionMatrix(predicted_first, actual_first)
@@ -48,4 +45,71 @@ ggplot(cm_df) +
   scale_y_discrete(limits = rev(levels(cm_df$Reference))) +
   scale_fill_gradient(low="white", high="slategrey") +
   theme_bw()
+
+# °¡Àå ConfusionÀÌ ¸¹ÀÌ ÀÏ¾î³­ ÆÐÅÏ Ã£±â
+all = sum(cm_df$Freq)
+correct = sum(cm_df[which(cm_df$Prediction==cm_df$Reference),]$Freq)
+wrong = all -correct
+
+# ÆÈ ¾ÕÂÊ
+conf1 = cm_df[which(cm_df$Prediction == 14 & cm_df$Reference==12),]$Freq
+conf2 = cm_df[which(cm_df$Prediction == 41 & cm_df$Reference==21),]$Freq
+conf3 = cm_df[which(cm_df$Prediction == 21 & cm_df$Reference==23),]$Freq
+conf4 = cm_df[which(cm_df$Prediction == 43 & cm_df$Reference==23),]$Freq
+conf5 = cm_df[which(cm_df$Prediction == 12 & cm_df$Reference==32),]$Freq
+conf6 = cm_df[which(cm_df$Prediction == 34 & cm_df$Reference==32),]$Freq
+conf7 = cm_df[which(cm_df$Prediction == 14 & cm_df$Reference==34),]$Freq
+conf8 = cm_df[which(cm_df$Prediction == 41 & cm_df$Reference==43),]$Freq
+
+# ÆÈ ¾ÕÂÊ (¹Ý´ë)
+# conf1 = cm_df[which(cm_df$Prediction == 32 & cm_df$Reference==12),]$Freq
+# conf2 = cm_df[which(cm_df$Prediction == 34 & cm_df$Reference==14),]$Freq
+# conf3 = cm_df[which(cm_df$Prediction == 12 & cm_df$Reference==14),]$Freq
+# conf4 = cm_df[which(cm_df$Prediction == 23 & cm_df$Reference==21),]$Freq
+# conf5 = cm_df[which(cm_df$Prediction == 32 & cm_df$Reference==34),]$Freq
+# conf6 = cm_df[which(cm_df$Prediction == 43 & cm_df$Reference==41),]$Freq
+# conf7 = cm_df[which(cm_df$Prediction == 21 & cm_df$Reference==41),]$Freq
+# conf8 = cm_df[which(cm_df$Prediction == 23 & cm_df$Reference==43),]$Freq
+
+# ÆÈ ¸öÂÊ
+#conf1 = cm_df[which(cm_df$Prediction == 14 & cm_df$Reference==13),]$Freq
+#conf2 = cm_df[which(cm_df$Prediction == 13 & cm_df$Reference==23),]$Freq
+#conf3 = cm_df[which(cm_df$Prediction == 24 & cm_df$Reference==23),]$Freq
+#conf4 = cm_df[which(cm_df$Prediction == 14 & cm_df$Reference==24),]$Freq
+#conf5 = cm_df[which(cm_df$Prediction == 41 & cm_df$Reference==31),]$Freq
+#conf6 = cm_df[which(cm_df$Prediction == 31 & cm_df$Reference==32),]$Freq
+#conf7 = cm_df[which(cm_df$Prediction == 42 & cm_df$Reference==32),]$Freq
+#conf8 = cm_df[which(cm_df$Prediction == 41 & cm_df$Reference==42),]$Freq
+
+# ÆÈ ¸öÂÊ (¹Ý´ë)
+# conf1 = cm_df[which(cm_df$Prediction == 23 & cm_df$Reference==13),]$Freq
+# conf2 = cm_df[which(cm_df$Prediction == 24 & cm_df$Reference==14),]$Freq
+# conf3 = cm_df[which(cm_df$Prediction == 13 & cm_df$Reference==14),]$Freq
+# conf4 = cm_df[which(cm_df$Prediction == 23 & cm_df$Reference==24),]$Freq
+# conf5 = cm_df[which(cm_df$Prediction == 32 & cm_df$Reference==31),]$Freq
+# conf6 = cm_df[which(cm_df$Prediction == 42 & cm_df$Reference==41),]$Freq
+# conf7 = cm_df[which(cm_df$Prediction == 31 & cm_df$Reference==41),]$Freq
+# conf8 = cm_df[which(cm_df$Prediction == 32 & cm_df$Reference==42),]$Freq
+
+expected_wrong = conf1+conf2+conf3+conf4+conf5+conf6+conf7+conf8
+
+all
+correct
+wrong
+expected_wrong
+
+16 / 182
+
+11 / 394
+
+high_confusion_pattern = c()
+nrow(cm_df)
+for(i in 1:nrow(cm_df)){
+  if(cm_df$Prediction[i] != cm_df$Reference[i])
+  {
+    high_confusion_pattern = append(high_confusion_pattern, i)
+  }
+  
+}
+high_confusion_pattern
 

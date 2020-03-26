@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
+p1,Body,1,12,12,1,1,1,3151,4153,5942
+p1,Body,2,41,41,1,1,1,6838,7843,9158
+p1,Body,3,34,34,1,1,1,9943,10945,13333
+p1,Body,4,14,14,1,1,1,14246,15247,17870
+p1,Body,5,43,43,1,1,1,19310,20312,23046
+p1,Body,6,31,41,0,0,1,30799,31804,33670

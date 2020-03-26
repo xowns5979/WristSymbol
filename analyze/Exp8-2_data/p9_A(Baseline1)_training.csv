@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp,reactionTime
+p9,A(Baseline1),1,23,13,0,0,1,198020,199031,201489,2458
+p9,A(Baseline1),2,13,14,0,1,0,202393,203394,205327,1933
+p9,A(Baseline1),3,32,32,1,1,1,206104,207105,210574,3469
+p9,A(Baseline1),4,34,42,0,0,0,211612,212616,214381,1765
+p9,A(Baseline1),5,31,41,0,0,1,215160,216162,218418,2256
+p9,A(Baseline1),6,12,24,0,0,0,219173,220175,225577,5402

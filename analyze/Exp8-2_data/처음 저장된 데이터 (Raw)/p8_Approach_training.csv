@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp
+p8,Approach,1,132,134,0,130469,131985,135132
+p8,Approach,2,234,234,1,137557,139061,143260
+p8,Approach,3,313,123,0,174372,175885,179828
+p8,Approach,4,314,124,0,181796,183299,187476
+p8,Approach,5,241,241,1,189428,190932,194779
+p8,Approach,6,431,431,1,196548,198052,206971

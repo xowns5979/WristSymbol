@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp
+p2,Baseline1,1,214,141,0,9727,11236,13565
+p2,Baseline1,2,323,121,0,14341,15845,17829
+p2,Baseline1,3,143,143,1,18686,20192,22575
+p2,Baseline1,4,431,432,0,23406,24910,28661
+p2,Baseline1,5,432,414,0,29478,30982,33253
+p2,Baseline1,6,123,143,0,34053,35557,37605

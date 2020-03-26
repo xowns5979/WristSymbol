@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp,reactionTime
+p12,B(Approach),1,31,31,1,1,1,640085,641098,651494,10396
+p12,B(Approach),2,21,23,0,1,0,654763,655768,657970,2202
+p12,B(Approach),3,41,41,1,1,1,659205,660212,662250,2038
+p12,B(Approach),4,13,24,0,0,0,663482,664484,666678,2194
+p12,B(Approach),5,32,42,0,0,1,667819,668821,670500,1679
+p12,B(Approach),6,14,14,1,1,1,671886,672888,674540,1652
