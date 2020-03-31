@@ -15,7 +15,7 @@
         Closing="Window_Closing"
         Background="White">
     <Grid>
-        <Label Name="title" Content="Training" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,954" Height="98" Width="352" FontSize="40"/>
+        <Label Name="title" Content="Training" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,954" Height="98" Width="1152" FontSize="40"/>
 
         <Label Name="answer1" Content="a" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="1380,0,0,540" Height="100" Width="100" Visibility="Hidden" FontSize="78" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
@@ -30,7 +30,7 @@
         <Label Name="debugLabel3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="70" Width="435" FontSize="40" Margin="738,953,0,0" />
 
         <Label Name="confLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial" Height="64" Width="326" FontSize="24" Margin="790,183,0,0" RenderTransformOrigin="0.331,0.516" />
-        <Button x:Name="ButtonAnswer" Content="Answer Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="90" Margin="782,591,832,399" FontSize="22" FontFamily="Arial" Click="ButtonAnwer_Click" Focusable="False"/>
+        <Button x:Name="ButtonAnswer" Content="Answer Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="90" Margin="782,591,832,399" FontSize="22" FontFamily="Arial" Click="ButtonAnswer_Click" Focusable="False"/>
         <Button Name="button1" Width="40" Height="40" Content="" FontSize="18" Margin="1273,486,607,554" Click="Button1_Click" RenderTransformOrigin="-0.125,0.288">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">

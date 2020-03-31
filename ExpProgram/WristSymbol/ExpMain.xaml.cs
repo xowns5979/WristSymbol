@@ -79,14 +79,24 @@ namespace WristSymbol
             expCond = cond;
 
             if (cond == 0)
-            { 
-                condStr = "Distal";
-                title.Content = title.Content + ": 팔 앞쪽";
+            {
+                condStr = "Distal(withTip)";
+                title.Content = title.Content + ": 팔 앞쪽(팁 있음)";
             }
             else if (cond == 1)
             {
-                condStr = "Body";
-                title.Content = title.Content + ": 팔 몸쪽";
+                condStr = "Distal(withoutTip)";
+                title.Content = title.Content + ": 팔 앞쪽(팁 없음)";
+            }
+            else if (cond == 2)
+            {
+                condStr = "Body(withTip)";
+                title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
+            }
+            else if (cond == 3)
+            {
+                condStr = "Body(withoutTip)";
+                title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
@@ -350,7 +360,7 @@ namespace WristSymbol
             }
         }
 
-        private void ButtonAnwer_Click(object sender, RoutedEventArgs e)
+        private void ButtonAnswer_Click(object sender, RoutedEventArgs e)
         {
             if (patternAnswering == true && clickedPoint == 2)
             {
@@ -358,7 +368,7 @@ namespace WristSymbol
                 patternAnswering = false;
                 
                 String a = answer1.Content.ToString();
-                if (expCond == 1)
+                if (expCond == 3 || expCond == 4)
                 {
                     String modified_a1 = "";
                     String modified_a2 = "";

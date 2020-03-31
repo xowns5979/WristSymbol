@@ -76,14 +76,23 @@ namespace WristSymbol
 
             if (cond == 0)
             {
-                condStr = "Distal";
-                title.Content = title.Content + ": 팔 앞쪽";
+                condStr = "Distal(withTip)";
+                title.Content = title.Content + ": 팔 앞쪽(팁 있음)";
             }
             else if (cond == 1)
             {
-                condStr = "Body";
-                title.Content = title.Content + ": 팔 몸쪽";
-
+                condStr = "Distal(withoutTip)";
+                title.Content = title.Content + ": 팔 앞쪽(팁 없음)";
+            }
+            else if (cond == 2)
+            {
+                condStr = "Body(withTip)";
+                title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
+            }
+            else if (cond == 3)
+            {
+                condStr = "Body(withoutTip)";
+                title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_training"+ ".csv", true);
@@ -347,16 +356,15 @@ namespace WristSymbol
             }
         }
 
-        private void ButtonAnwer_Click(object sender, RoutedEventArgs e)
+        private void ButtonAnswer_Click(object sender, RoutedEventArgs e)
         {
             if (patternAnswering == true && clickedPoint == 2)
             {
                 
                 patternAnswering = false;
                 
-                
                 String a = answer1.Content.ToString();
-                if (expCond == 1)
+                if (expCond == 3 || expCond == 4)
                 {
                     String modified_a1 = "";
                     String modified_a2 = "";
@@ -391,7 +399,6 @@ namespace WristSymbol
                 else
                     correctStr = "0";
 
-
                 string c1Str = "";
                 string c2Str = "";
 
@@ -405,16 +412,12 @@ namespace WristSymbol
                 else
                     c2Str = "0";
 
-
                 tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 
-                
-
                 //String filename = logID + "_" + trial + ".png";
                 //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
 
                 clearPoints();
-
                 if (trial == trialEnd)
                     this.Close();
                 else if (trial % 24 == 0)

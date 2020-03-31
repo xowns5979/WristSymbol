@@ -1,10 +1,6 @@
-# User-specific files
-*.suo
-*.user
-*.sln.docstates
-
-ExpProgram/WristSymbol/bin/
-ExpProgram/WristSymbol/obj/
-ExpProgram/.vs/
-
-analyze/data
+analyze/Exp6_data/
+analyze/Exp6-(2)_data/
+analyze/modify_data/
+analyze/Exp6-(2)_data_diffCount_final/
+analyze/Exp6-(2)_data_modified/
+analyze/Exp6_data_diffCount_final/
