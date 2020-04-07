@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
+YB,Distal(withTip),1,14,14,1,1,1,1686,2693,4297
+YB,Distal(withTip),2,24,24,1,1,1,5152,6155,8089
+YB,Distal(withTip),3,31,31,1,1,1,8899,9902,11207
+YB,Distal(withTip),4,41,41,1,1,1,11989,12991,14607
+YB,Distal(withTip),5,42,42,1,1,1,15423,16425,17796
+YB,Distal(withTip),6,21,21,1,1,1,18682,19684,21068

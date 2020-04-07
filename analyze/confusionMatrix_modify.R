@@ -14,11 +14,9 @@ mode = c("main")
 
 # 1. 1 Letter Accuracy [%]  
 
-name_real = "GH_Baseline1_main.csv"
-
 base_df = data.frame()
 for (i in 1:1){
-  file_name = "YB_B_main.csv"
+  file_name = "Exp10_data/TJ_Body(withTip)_main.csv"
   file_data = read.csv(file_name, header=T, stringsAsFactors = F)
   base_df = rbind(base_df,file_data)
 }
@@ -89,7 +87,7 @@ for (j in 1:length(base_df$userAnswer)){
 
 base_df
 
-write.csv(base_df,"YB_B_main_modified.csv",row.names=FALSE)
+write.csv(base_df,"Exp10_data/TJ_Body(withTip)_training.csv",row.names=FALSE)
 
 
 

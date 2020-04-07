@@ -15,11 +15,14 @@
         Closing="Window_Closing"
         Background="White">
     <Grid>
+        <Image x:Name="armFrontImg" Source="./img/armFront.png" Margin="731,30,701,216"  Visibility="Hidden"></Image>
+        <Image x:Name="armBodyImg" Source="./img/armBody.png" Margin="643,440,261,153"  Visibility="Hidden" ></Image>
+
         <Label Name="title" Content="Training" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,954" Height="98" Width="1152" FontSize="40"/>
 
         <Label Name="answer1" Content="a" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="1380,0,0,540" Height="100" Width="100" Visibility="Hidden" FontSize="78" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-        <Button Name="ButtonPlay" Content="Play" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="91" Margin="782,472,832,517" FontSize="22" FontFamily="Arial" Click="ButtonPlay_Click" Focusable="False"/>
+        <Button Name="ButtonPlay" Content="Play" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="91" Margin="425,580,1189,409" FontSize="22" FontFamily="Arial" Click="ButtonPlay_Click" Focusable="False"/>
 
         <Label Name="trialLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="67" Width="561" FontSize="36" Margin="21,290,0,0" RenderTransformOrigin="0,0.463" />
         <Label Name="clearLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="67" Width="406" FontSize="36" Margin="21,380,0,0" />
@@ -30,8 +33,8 @@
         <Label Name="debugLabel3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="70" Width="435" FontSize="40" Margin="738,953,0,0" />
 
         <Label Name="confLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial" Height="64" Width="326" FontSize="24" Margin="790,183,0,0" RenderTransformOrigin="0.331,0.516" />
-        <Button x:Name="ButtonAnswer" Content="Answer Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="90" Margin="782,591,832,399" FontSize="22" FontFamily="Arial" Click="ButtonAnswer_Click" Focusable="False"/>
-        <Button Name="button1" Width="40" Height="40" Content="" FontSize="18" Margin="1273,486,607,554" Click="Button1_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="ButtonAnswer" Content="Answer Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="90" Margin="425,699,1189,291" FontSize="22" FontFamily="Arial" Click="ButtonAnswer_Click" Focusable="False"/>
+        <Button Name="button1" Width="40" Height="40" Content="" FontSize="18" Margin="879,581,1001,459" Click="Button1_Click" RenderTransformOrigin="-0.125,0.288">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -50,8 +53,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="41" Margin="1310,696,520,343" FontSize="22" FontFamily="Arial" Click="ButtonClear_Click" Focusable="False"/>
-        <Button x:Name="button2" Width="40" Height="40" Content="" FontSize="18" Margin="1400,486,480,554" Click="Button2_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="41" Margin="916,791,914,248" FontSize="22" FontFamily="Arial" Click="ButtonClear_Click" Focusable="False"/>
+        <Button x:Name="button2" Width="40" Height="40" Content="" FontSize="18" Margin="1006,581,874,459" Click="Button2_Click" RenderTransformOrigin="-0.125,0.288">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -70,7 +73,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="button3" Width="40" Height="40" Content="" FontSize="18" Margin="1273,604,607,436" Click="Button3_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="button3" Width="40" Height="40" Content="" FontSize="18" Margin="879,699,1001,341" Click="Button3_Click" RenderTransformOrigin="-0.125,0.288">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -89,7 +92,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="button4" Width="40" Height="40" Content="" FontSize="18" Margin="1400,604,480,436" Click="Button4_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="button4" Width="40" Height="40" Content="" FontSize="18" Margin="1006,699,874,341" Click="Button4_Click" RenderTransformOrigin="-0.125,0.288">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -108,5 +111,9 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Ellipse Name="button1Circle" Width="40" Height="40" Margin="1565,814,315,226" Visibility="Visible"></Ellipse>
+        <Ellipse x:Name="button2Circle" Width="40" Height="40" Margin="1400,486,480,554" Visibility="Hidden"/>
+        <Ellipse x:Name="button3Circle" Width="40" Height="40" Margin="1273,604,607,436" Visibility="Hidden"/>
+        <Ellipse x:Name="button4Circle" Width="40" Height="40" Margin="1400,604,480,436" Visibility="Hidden"/>
     </Grid>
 </Window>

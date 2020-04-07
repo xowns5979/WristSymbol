@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
+TJ,Distal(withTip),1,43,21,0,0,0,880,1888,3204
+TJ,Distal(withTip),2,23,21,0,1,0,5056,6058,8016
+TJ,Distal(withTip),3,21,21,1,1,1,8959,9962,11013
+TJ,Distal(withTip),4,24,24,1,1,1,11693,12696,13692
+TJ,Distal(withTip),5,42,42,1,1,1,14370,15372,16255
+TJ,Distal(withTip),6,34,12,0,0,0,17013,18015,19435

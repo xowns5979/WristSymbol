@@ -82,21 +82,25 @@ namespace WristSymbol
             {
                 condStr = "Distal(withTip)";
                 title.Content = title.Content + ": 팔 앞쪽(팁 있음)";
+                armFrontImg.Visibility = Visibility.Visible;
             }
             else if (cond == 1)
             {
                 condStr = "Distal(withoutTip)";
                 title.Content = title.Content + ": 팔 앞쪽(팁 없음)";
+                armFrontImg.Visibility = Visibility.Visible;
             }
             else if (cond == 2)
             {
                 condStr = "Body(withTip)";
-                title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
+                title.Content = title.Content + ": 팔 몸쪽(팁 있음)";
+                armBodyImg.Visibility = Visibility.Visible;
             }
             else if (cond == 3)
             {
                 condStr = "Body(withoutTip)";
                 title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
+                armBodyImg.Visibility = Visibility.Visible;
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
@@ -331,10 +335,10 @@ namespace WristSymbol
         {
             if (patternAnswering == false)
             {
-                
-                answer1.Content = "";
-                
+                // 정답 피드백 주기
+                clearPoints();
 
+                answer1.Content = "";
                 
 
                 answer1.Content = letterSet[trial - 1];
@@ -364,11 +368,10 @@ namespace WristSymbol
         {
             if (patternAnswering == true && clickedPoint == 2)
             {
-                
                 patternAnswering = false;
                 
                 String a = answer1.Content.ToString();
-                if (expCond == 3 || expCond == 4)
+                if (expCond == 2 || expCond == 3)
                 {
                     String modified_a1 = "";
                     String modified_a2 = "";
@@ -417,11 +420,129 @@ namespace WristSymbol
                     c2Str = "0";
 
                 tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
-                
+
                 //String filename = logID + "_" + trial + ".png";
                 //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
 
+
+                //button1Circle.
+                //button1Circle.Visibility = Visibility.Visible;
+                //button1Circle.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+
+                //button1.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+
+                //Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                //x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+
                 clearPoints();
+
+                // 정답 피드백 주기
+                if (a == userAnswer)
+                {
+                    if (a[0] == '1')
+                    {
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button1.Content = "1";
+                    }
+                    else if (a[0] == '2')
+                    {
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button2.Content = "1";
+                    }
+                    else if (a[0] == '3')
+                    {
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button3.Content = "1";
+                    }
+                    else if (a[0] == '4')
+                    {
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button4.Content = "1";
+                    }
+
+                    if (a[1] == '1')
+                    {
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button1.Content = "2";
+                    }
+                    else if (a[1] == '2')
+                    {
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button2.Content = "2";
+                    }
+                    else if (a[1] == '3')
+                    {
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button3.Content = "2";
+                    }
+                    else if (a[1] == '4')
+                    {
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                        button4.Content = "2";
+                    }
+                }
+                else
+                {
+                    if (a[0] == '1')
+                    {
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button1.Content = "1";
+                    }
+                    else if (a[0] == '2')
+                    {
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button2.Content = "1";
+                    }
+                    else if (a[0] == '3')
+                    {
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button3.Content = "1";
+                    }
+                    else if (a[0] == '4')
+                    {
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button4.Content = "1";
+                    }
+
+                    if (a[1] == '1')
+                    {
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button1.Content = "2";
+                    }
+                    else if (a[1] == '2')
+                    {
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button2.Content = "2";
+                    }
+                    else if (a[1] == '3')
+                    {
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button3.Content = "2";
+                    }
+                    else if (a[1] == '4')
+                    {
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
+                        button4.Content = "2";
+                    }
+                }
+                
+
 
                 if (trial == trialEnd)
                     this.Close();

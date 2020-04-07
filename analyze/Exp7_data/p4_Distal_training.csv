@@ -1,0 +1,7 @@
+id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
+p4,Distal,1,32,14,0,0,0,161904,162917,169358
+p4,Distal,2,13,13,1,1,1,170743,171745,173902
+p4,Distal,3,24,24,1,1,1,174854,175858,177487
+p4,Distal,4,12,12,1,1,1,178511,179513,181095
+p4,Distal,5,14,14,1,1,1,182135,183137,185118
+p4,Distal,6,31,31,1,1,1,186319,187321,189198
