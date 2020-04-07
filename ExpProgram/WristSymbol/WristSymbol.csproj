@@ -117,5 +117,31 @@
     <Resource Include="img\armBody.png" />
     <Resource Include="img\armFront.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\arm45d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pattern1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pattern11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pattern12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\pattern1.PNG" />
+    <Resource Include="img\pattern10.PNG" />
+    <Resource Include="img\pattern11.PNG" />
+    <Resource Include="img\pattern12.PNG" />
+    <Resource Include="img\pattern2.PNG" />
+    <Resource Include="img\pattern3.PNG" />
+    <Resource Include="img\pattern4.PNG" />
+    <Resource Include="img\pattern5.PNG" />
+    <Resource Include="img\pattern6.PNG" />
+    <Resource Include="img\pattern7.PNG" />
+    <Resource Include="img\pattern8.PNG" />
+    <Resource Include="img\pattern9.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

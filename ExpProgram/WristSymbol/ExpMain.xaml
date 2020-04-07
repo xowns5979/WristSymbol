@@ -17,6 +17,7 @@
     <Grid>
         <Image x:Name="armFrontImg" Source="./img/armFront.png" Margin="731,30,701,216"  Visibility="Hidden"></Image>
         <Image x:Name="armBodyImg" Source="./img/armBody.png" Margin="643,440,261,153"  Visibility="Hidden" ></Image>
+        <Image x:Name="arm45DImg" Source="./img/arm45d.png" Margin="634,30,204,133" Visibility="Hidden"></Image>
 
         <Label Name="title" Content="Main" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,954" Height="98" Width="1292" FontSize="40"/>
 

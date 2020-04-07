@@ -40,7 +40,11 @@ namespace WristSymbol
         String playedLetters;
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
-        String[] letterSet = { "12","14","13","24","23","21","31","32","34","43","41","42"};
+        String[] letterSet = { "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42",
+                               "12","14","13","24","23","21","31","32","34","43","41","42"};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
 
@@ -76,26 +80,47 @@ namespace WristSymbol
 
             if (cond == 0)
             {
-                condStr = "Distal(withTip)";
-                title.Content = title.Content + ": 팔 앞쪽(팁 있음)";
+                condStr = "armFront";
+                title.Content = title.Content + ": 팔 앞쪽";
                 armFrontImg.Visibility = Visibility.Visible;
             }
             else if (cond == 1)
             {
-                condStr = "Distal(withoutTip)";
-                title.Content = title.Content + ": 팔 앞쪽(팁 없음)";
-                armFrontImg.Visibility = Visibility.Visible;
+                condStr = "arm45d";
+                title.Content = title.Content + ": 팔 45도";
+                arm45DImg.Visibility = Visibility.Visible;
+
+                TranslateTransform button1Translate = new TranslateTransform();
+                TranslateTransform button2Translate = new TranslateTransform();
+                TranslateTransform button3Translate = new TranslateTransform();
+                TranslateTransform button4Translate = new TranslateTransform();
+                button1Translate.X = 55;
+                button1Translate.Y = -22.7;
+                button2Translate.X = 22.7;
+                button2Translate.Y = 55;
+                button3Translate.X = -22.7;
+                button3Translate.Y = -55;
+                button4Translate.X = -55;
+                button4Translate.Y = 22.7;
+                TransformGroup button1TransformGroup = new TransformGroup();
+                TransformGroup button2TransformGroup = new TransformGroup();
+                TransformGroup button3TransformGroup = new TransformGroup();
+                TransformGroup button4TransformGroup = new TransformGroup();
+                button1TransformGroup.Children.Add(button1Translate);
+                button2TransformGroup.Children.Add(button2Translate);
+                button3TransformGroup.Children.Add(button3Translate);
+                button4TransformGroup.Children.Add(button4Translate);
+
+                // Associate the transforms to the button.
+                button1.RenderTransform = button1TransformGroup;
+                button2.RenderTransform = button2TransformGroup;
+                button3.RenderTransform = button3TransformGroup;
+                button4.RenderTransform = button4TransformGroup;
             }
             else if (cond == 2)
             {
-                condStr = "Body(withTip)";
-                title.Content = title.Content + ": 팔 몸쪽(팁 있음)";
-                armBodyImg.Visibility = Visibility.Visible;
-            }
-            else if (cond == 3)
-            {
-                condStr = "Body(withoutTip)";
-                title.Content = title.Content + ": 팔 몸쪽(팁 없음)";
+                condStr = "armBody";
+                title.Content = title.Content + ": 팔 몸쪽";
                 armBodyImg.Visibility = Visibility.Visible;
             }
 
@@ -192,8 +217,9 @@ namespace WristSymbol
            
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
+
             trial = 1;
-            trialEnd = 6;
+            trialEnd = 60;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
@@ -371,7 +397,8 @@ namespace WristSymbol
                 patternAnswering = false;
                 
                 String a = answer1.Content.ToString();
-                if (expCond == 2 || expCond == 3)
+                
+                if (expCond == 2)
                 {
                     String modified_a1 = "";
                     String modified_a2 = "";
@@ -395,32 +422,16 @@ namespace WristSymbol
 
                     a = modified_a1 + modified_a2;
                 }
+                
 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
                 //String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
                 String userAnswer = firstPoint.ToString() + secondPoint.ToString();
-                if (a == userAnswer)
-                    correctStr = "1";
-                else
-                    correctStr = "0";
-
-                string c1Str = "";
-                string c2Str = "";
-
-                if (a[0] == userAnswer[0])
-                    c1Str = "1";
-                else
-                    c1Str = "0";
-
-                if (a[1] == userAnswer[1])
-                    c2Str = "1";
-                else
-                    c2Str = "0";
-
-                tw.WriteLine(logID+","+ condStr + "," + trial.ToString() + "," + a + ","+userAnswer+"," + correctStr +","+ c1Str+","+c2Str+","+ playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 
+                
+              
                 //String filename = logID + "_" + trial + ".png";
                 //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
 
@@ -532,6 +543,72 @@ namespace WristSymbol
                     }
                 }
 
+                if (expCond == 2)
+                {
+                    String modified_answer1 = "";
+                    String modified_answer2 = "";
+                    if (userAnswer[0] == '1')
+                        modified_answer1 = "3";
+                    else if (userAnswer[0] == '2')
+                        modified_answer1 = "1";
+                    else if (userAnswer[0] == '3')
+                        modified_answer1 = "4";
+                    else if (userAnswer[0] == '4')
+                        modified_answer1 = "2";
+                    if (userAnswer[1] == '1')
+                        modified_answer2 = "3";
+                    else if (userAnswer[1] == '2')
+                        modified_answer2 = "1";
+                    else if (userAnswer[1] == '3')
+                        modified_answer2 = "4";
+                    else if (userAnswer[1] == '4')
+                        modified_answer2 = "2";
+
+                    String modified_a1 = "";
+                    String modified_a2 = "";
+                    if (a[0] == '1')
+                        modified_a1 = "3";
+                    else if (a[0] == '2')
+                        modified_a1 = "1";
+                    else if (a[0] == '3')
+                        modified_a1 = "4";
+                    else if (a[0] == '4')
+                        modified_a1 = "2";
+                    if (a[1] == '1')
+                        modified_a2 = "3";
+                    else if (a[1] == '2')
+                        modified_a2 = "1";
+                    else if (a[1] == '3')
+                        modified_a2 = "4";
+                    else if (a[1] == '4')
+                        modified_a2 = "2";
+
+                    userAnswer = modified_answer1 + modified_answer2;
+                    a = modified_a1 + modified_a2;
+                }
+
+
+
+                if (a == userAnswer)
+                    correctStr = "1";
+                else
+                    correctStr = "0";
+
+                string c1Str = "";
+                string c2Str = "";
+
+                if (a[0] == userAnswer[0])
+                    c1Str = "1";
+                else
+                    c1Str = "0";
+
+                if (a[1] == userAnswer[1])
+                    c2Str = "1";
+                else
+                    c2Str = "0";
+
+                tw.WriteLine(logID + "," + condStr + "," + trial.ToString() + "," + a + "," + userAnswer + "," + correctStr + "," + c1Str + "," + c2Str + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+
 
                 if (trial == trialEnd)
                     this.Close();
@@ -541,7 +618,6 @@ namespace WristSymbol
                     breaktime();
                 }
                 
-
                 trial++;
                 trialLabel.Content = trial + " / " + trialEnd;
             }
@@ -742,6 +818,78 @@ namespace WristSymbol
                 buttons[i].Content = "";
             }
             clickedPoint = 0;
+        }
+
+        private void Pattern1_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("12");
+        }
+
+        private void Pattern2_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("14");
+        }
+
+        private void Pattern3_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("13");
+        }
+
+        private void Pattern4_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("24");
+        }
+
+        private void Pattern5_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("23");
+        }
+
+        private void Pattern6_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("21");
+        }
+
+        private void Pattern7_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("31");
+        }
+
+        private void Pattern8_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("32");
+        }
+
+        private void Pattern9_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("34");
+        }
+
+        private void Pattern10_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("43");
+        }
+
+        private void Pattern11_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("41");
+        }
+
+        private void Pattern12_Click(object sender, RoutedEventArgs e)
+        {
+            //Thread.Sleep(400);
+            workBackground("42");
         }
     }
     

@@ -15,8 +15,9 @@
         Closing="Window_Closing"
         Background="White">
     <Grid>
-        <Image x:Name="armFrontImg" Source="./img/armFront.png" Margin="731,30,701,216"  Visibility="Hidden"></Image>
-        <Image x:Name="armBodyImg" Source="./img/armBody.png" Margin="643,440,261,153"  Visibility="Hidden" ></Image>
+        <Image x:Name="armFrontImg" Source="./img/armFront.png" Margin="731,30,701,216" Visibility="Hidden"></Image>
+        <Image x:Name="armBodyImg" Source="./img/armBody.png" Margin="649,418,222,147" Visibility="Hidden"></Image>
+        <Image x:Name="arm45DImg" Source="./img/arm45d.png" Margin="624,100,301,149" Visibility="Hidden"></Image>
 
         <Label Name="title" Content="Training" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,954" Height="98" Width="1152" FontSize="40"/>
 
@@ -28,13 +29,14 @@
         <Label Name="clearLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="67" Width="406" FontSize="36" Margin="21,380,0,0" />
         <Label Name="clockLabel" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" FontFamily="Arial" Margin="802,0,0,928" Height="68" Width="286" FontSize="36" />
 
-        <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="64" Width="909" FontSize="40" Margin="544,814,0,0" />
+        <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="64" Width="218" FontSize="40" Margin="544,814,0,0" />
         <Label Name="debugLabel2" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="70" Width="967" FontSize="40" Margin="513,878,0,0" />
         <Label Name="debugLabel3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="70" Width="435" FontSize="40" Margin="738,953,0,0" />
 
         <Label Name="confLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial" Height="64" Width="326" FontSize="24" Margin="790,183,0,0" RenderTransformOrigin="0.331,0.516" />
         <Button x:Name="ButtonAnswer" Content="Answer Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="90" Margin="425,699,1189,291" FontSize="22" FontFamily="Arial" Click="ButtonAnswer_Click" Focusable="False"/>
-        <Button Name="button1" Width="40" Height="40" Content="" FontSize="18" Margin="879,581,1001,459" Click="Button1_Click" RenderTransformOrigin="-0.125,0.288">
+
+        <Button Name="button1" Width="40" Height="40" Content="" FontSize="18" Margin="880,580,1000,460" Click="Button1_Click" RenderTransformOrigin="1,1">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -53,8 +55,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="41" Margin="916,791,914,248" FontSize="22" FontFamily="Arial" Click="ButtonClear_Click" Focusable="False"/>
-        <Button x:Name="button2" Width="40" Height="40" Content="" FontSize="18" Margin="1006,581,874,459" Click="Button2_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="41" Margin="917,837,913,202" FontSize="22" FontFamily="Arial" Click="ButtonClear_Click" Focusable="False"/>
+        <Button x:Name="button2" Width="40" Height="40" Content="" FontSize="18" Margin="990,580,890,460" Click="Button2_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -73,7 +75,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="button3" Width="40" Height="40" Content="" FontSize="18" Margin="879,699,1001,341" Click="Button3_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="button3" Width="40" Height="40" Content="" FontSize="18" Margin="880,690,1000,350" Click="Button3_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -92,7 +94,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="button4" Width="40" Height="40" Content="" FontSize="18" Margin="1006,699,874,341" Click="Button4_Click" RenderTransformOrigin="-0.125,0.288">
+        <Button x:Name="button4" Width="40" Height="40" Content="" FontSize="18" Margin="990,690,890,350" Click="Button4_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -111,9 +113,66 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Ellipse Name="button1Circle" Width="40" Height="40" Margin="1565,814,315,226" Visibility="Visible"></Ellipse>
-        <Ellipse x:Name="button2Circle" Width="40" Height="40" Margin="1400,486,480,554" Visibility="Hidden"/>
-        <Ellipse x:Name="button3Circle" Width="40" Height="40" Margin="1273,604,607,436" Visibility="Hidden"/>
-        <Ellipse x:Name="button4Circle" Width="40" Height="40" Margin="1400,604,480,436" Visibility="Hidden"/>
+
+        <Button Name="pattern1" Width="150" Height="150" Margin="1408,44,362,886" Click="Pattern1_Click">
+            <StackPanel>
+                <Image Source="img/pattern1.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern2" Width="150" Height="150" Margin="1563,44,207,886" Click="Pattern2_Click">
+            <StackPanel>
+                <Image Source="img/pattern2.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern3" Width="150" Height="150" Margin="1718,44,52,886" Click="Pattern3_Click">
+            <StackPanel>
+                <Image Source="img/pattern3.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern4" Width="150" Height="150" Margin="1408,199,362,731" Click="Pattern4_Click">
+            <StackPanel>
+                <Image Source="img/pattern4.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern5" Width="150" Height="150" Margin="1563,199,207,731" Click="Pattern5_Click">
+            <StackPanel>
+                <Image Source="img/pattern5.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern6" Width="150" Height="150" Margin="1718,199,52,731" Click="Pattern6_Click">
+            <StackPanel>
+                <Image Source="img/pattern6.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern7" Width="150" Height="150" Margin="1408,354,362,576" Click="Pattern7_Click">
+            <StackPanel>
+                <Image Source="img/pattern7.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern8" Width="150" Height="150" Margin="1563,354,207,576" Click="Pattern8_Click">
+            <StackPanel>
+                <Image Source="img/pattern8.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern9" Width="150" Height="150" Margin="1718,354,52,576" Click="Pattern9_Click">
+            <StackPanel>
+                <Image Source="img/pattern9.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern10" Width="150" Height="150" Margin="1408,509,362,421" Click="Pattern10_Click">
+            <StackPanel>
+                <Image Source="img/pattern10.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern11" Width="150" Height="150" Margin="1563,509,207,421" Click="Pattern11_Click">
+            <StackPanel>
+                <Image Source="img/pattern11.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern12" Width="150" Height="150" Margin="1718,509,52,421" Click="Pattern12_Click">
+            <StackPanel>
+                <Image Source="img/pattern12.png"  Width="140" Height="140" />
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>
