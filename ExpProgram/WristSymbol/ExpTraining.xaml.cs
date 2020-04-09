@@ -116,12 +116,61 @@ namespace WristSymbol
                 button2.RenderTransform = button2TransformGroup;
                 button3.RenderTransform = button3TransformGroup;
                 button4.RenderTransform = button4TransformGroup;
+
+
+
+
+
+
+
+                RotateTransform rotate = new RotateTransform();
+                rotate.Angle = 45;
+
+                TransformGroup buttonTransformGroup = new TransformGroup();
+                buttonTransformGroup.Children.Add(rotate);
+
+                pattern1.RenderTransform = buttonTransformGroup;
+                pattern2.RenderTransform = buttonTransformGroup;
+                pattern3.RenderTransform = buttonTransformGroup;
+                pattern4.RenderTransform = buttonTransformGroup;
+                pattern5.RenderTransform = buttonTransformGroup;
+                pattern6.RenderTransform = buttonTransformGroup;
+                pattern7.RenderTransform = buttonTransformGroup;
+                pattern8.RenderTransform = buttonTransformGroup;
+                pattern9.RenderTransform = buttonTransformGroup;
+                pattern10.RenderTransform = buttonTransformGroup;
+                pattern11.RenderTransform = buttonTransformGroup;
+                pattern12.RenderTransform = buttonTransformGroup;
+
+
+
+
             }
             else if (cond == 2)
             {
                 condStr = "armBody";
                 title.Content = title.Content + ": 팔 몸쪽";
                 armBodyImg.Visibility = Visibility.Visible;
+
+
+                RotateTransform rotate = new RotateTransform();
+                rotate.Angle = 90;
+
+                TransformGroup buttonTransformGroup = new TransformGroup();
+                buttonTransformGroup.Children.Add(rotate);
+
+                pattern1.RenderTransform = buttonTransformGroup;
+                pattern2.RenderTransform = buttonTransformGroup;
+                pattern3.RenderTransform = buttonTransformGroup;
+                pattern4.RenderTransform = buttonTransformGroup;
+                pattern5.RenderTransform = buttonTransformGroup;
+                pattern6.RenderTransform = buttonTransformGroup;
+                pattern7.RenderTransform = buttonTransformGroup;
+                pattern8.RenderTransform = buttonTransformGroup;
+                pattern9.RenderTransform = buttonTransformGroup;
+                pattern10.RenderTransform = buttonTransformGroup;
+                pattern11.RenderTransform = buttonTransformGroup;
+                pattern12.RenderTransform = buttonTransformGroup;
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_training"+ ".csv", true);
@@ -612,12 +661,12 @@ namespace WristSymbol
 
                 if (trial == trialEnd)
                     this.Close();
-                else if (trial % 24 == 0)
+                else if (trial % 20 == 0)
                 {
-                    secondsToWait = 20000;
+                    secondsToWait = 30 * 1000;
                     breaktime();
                 }
-                
+
                 trial++;
                 trialLabel.Content = trial + " / " + trialEnd;
             }
@@ -822,8 +871,18 @@ namespace WristSymbol
 
         private void Pattern1_Click(object sender, RoutedEventArgs e)
         {
+
             //Thread.Sleep(400);
-            workBackground("12");
+            if (expCond == 0)
+            {
+                workBackground("12");
+            }
+            else if (expCond == 1)
+            {
+                
+                workBackground("12");
+            }
+            
         }
 
         private void Pattern2_Click(object sender, RoutedEventArgs e)
