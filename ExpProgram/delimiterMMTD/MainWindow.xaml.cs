@@ -28,20 +28,20 @@ namespace delimiterMMTD
         {
             InitializeComponent();
 
-            ComboboxMode.Items.Add("A, 1 Letter 리마인드");
-            ComboboxMode.Items.Add("A, 2 Letter 연습");
-            ComboboxMode.Items.Add("A, 2 Letter 간격 Long");
-            ComboboxMode.Items.Add("A, 2 Letter 간격 Middle");
-            ComboboxMode.Items.Add("A, 2 Letter 간격 Short");
+            ComboboxOrientation.Items.Add("문자 학습");
+            ComboboxOrientation.Items.Add("방위 기준 1");
+            ComboboxOrientation.Items.Add("방위 기준 2");
 
-            ComboboxMode.Items.Add("B, 1 Letter 리마인드");
-            ComboboxMode.Items.Add("B, 2 Letter 연습");
-            ComboboxMode.Items.Add("B, 2 Letter 간격 Long");
-            ComboboxMode.Items.Add("B, 2 Letter 간격 Middle");
-            ComboboxMode.Items.Add("B, 2 Letter 간격 Short");
-           
+            ComboboxArmPose.Items.Add("팔 앞");
+            ComboboxArmPose.Items.Add("팔 몸");
+            ComboboxArmPose.Items.Add("팔 아래");
+
+            ComboboxMode.Items.Add("연습");
+            ComboboxMode.Items.Add("본 실험");
+
+            ComboboxOrientation.SelectedIndex = 0;
+            ComboboxArmPose.SelectedIndex = 0;
             ComboboxMode.SelectedIndex = 0;
-            
         }
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
@@ -78,28 +78,32 @@ namespace delimiterMMTD
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            int expMode = ComboboxMode.SelectedIndex;
-            if (expMode == 0 || expMode == 5)
+            int orientation = ComboboxOrientation.SelectedIndex;
+            int armpose = ComboboxArmPose.SelectedIndex;
+            int mode = ComboboxMode.SelectedIndex;
+
+            if (orientation == 0)   // 문자 학습 모드
             {
-                OneLetterRemind program = new OneLetterRemind();
-                program.setOneLetterRemind(serialPort1, logID.Text, 
-                                        ComboboxMode.SelectedIndex);
+                LetterLearning program = new LetterLearning();
+                program.setLetterLearning(logID.Text);
                 program.Show();
             }
-            else if (expMode == 1 || expMode == 6)   // Training
+            else
             {
-                ExpTraining program = new ExpTraining();
-                program.setExpTraining(serialPort1, logID.Text,
-                                        ComboboxMode.SelectedIndex);
-                program.Show();
+                if (mode == 0)  // 연습 모드
+                {
+                    ExpTraining program = new ExpTraining();
+                    program.setExpTraining(serialPort1, logID.Text, orientation, armpose);
+                    program.Show();
+                }
+                else if (mode == 1)  // 본 실험 모드
+                {
+                    ExpMain program = new ExpMain();
+                    program.setExpMain(serialPort1, logID.Text, orientation, armpose);
+                    program.Show();
+                }
             }
-            else if (expMode == 2 || expMode == 3 || expMode == 4 || expMode == 7 || expMode == 8 || expMode == 9)      // Main
-            {
-                ExpMain program = new ExpMain();
-                program.setExpMain(serialPort1, logID.Text,
-                                        ComboboxMode.SelectedIndex);
-                program.Show();
-            }
+            
         }
         
 

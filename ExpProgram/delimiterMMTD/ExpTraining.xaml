@@ -14,7 +14,7 @@
         KeyDown="OnKeyDownHandler"
         Closing="Window_Closing">
     <Grid>
-        <Label Name="title"  Content="2 Letter 연습" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,977" Height="64" Width="747" FontSize="36" />
+        <Label Name="title"  Content="연습" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,977" Height="64" Width="747" FontSize="36" />
 
         <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="64" Width="256" FontSize="36" Margin="10,241,0,0" />
         <Line Name="l1" X1="0" Y1="540" X2="0" Y2="540" Stroke="Black" StrokeThickness="3" Visibility="Hidden"/>
@@ -35,7 +35,7 @@
         <Button x:Name ="ButtonEnter" Content="Enter" HorizontalAlignment="Left" Width="100" Height="100" Click="ButtonEnter_Click" VerticalAlignment="Top" Margin="1230,440,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Hidden"/>
         <Button x:Name ="ButtonFinish" Content="Finish" HorizontalAlignment="Left" Width="220" Height="100" Click="ButtonFinish_Click" VerticalAlignment="Top" Margin="848,838,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Hidden"/>
 
-        <Label Name="trialLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="68" Width="484" FontSize="36" Margin="40,295,0,0" RenderTransformOrigin="0,0.463" />
+        <Label Name="trialLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="68" Width="484" FontSize="36" Margin="21,278,0,0" RenderTransformOrigin="0,0.463" />
         <Label Name="clockLabel" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" FontFamily="Arial" Margin="802,0,0,838" Height="68" Width="286" FontSize="36" />
         <Label Name="scoreLabel" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" FontFamily="Arial" Margin="848,0,0,838" Height="68" Width="211" FontSize="36" />
 

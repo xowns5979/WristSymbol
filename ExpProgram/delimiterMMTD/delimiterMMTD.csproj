@@ -82,14 +82,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="OneLetterRemind.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="LetterLearning.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OneLetterRemind.xaml.cs">
-      <DependentUpon>OneLetterRemind.xaml</DependentUpon>
+    <Compile Include="LetterLearning.xaml.cs">
+      <DependentUpon>LetterLearning.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -116,9 +116,38 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="img\r.PNG" />
+    <Resource Include="img\s.PNG" />
+    <Resource Include="img\t.PNG" />
+    <Resource Include="img\u.PNG" />
+    <Resource Include="img\v.PNG" />
+    <Resource Include="img\x.PNG" />
+    <Resource Include="img\z.PNG" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="img\pic.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\2.PNG" />
+    <Resource Include="img\3.PNG" />
+    <Resource Include="img\6.PNG" />
+    <Resource Include="img\7.PNG" />
+    <Resource Include="img\9.PNG" />
+    <Resource Include="img\a.PNG" />
+    <Resource Include="img\c.PNG" />
+    <Resource Include="img\e.PNG" />
+    <Resource Include="img\f.PNG" />
+    <Resource Include="img\h.PNG" />
+    <Resource Include="img\j.PNG" />
+    <Resource Include="img\l.PNG" />
+    <Resource Include="img\n.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\b.PNG" />
+    <Resource Include="img\d.PNG" />
+    <Resource Include="img\p.PNG" />
+    <Resource Include="img\y.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

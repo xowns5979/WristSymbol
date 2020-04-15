@@ -32,31 +32,32 @@ namespace delimiterMMTD
         int trialEnd;
         int typingCount;
         String playedLetters;
-        String[] letter1Set = { "l", "a", "c", "f", "j", "l", "r", "t", "v",
-                                "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                "g", "k", "m", "o", "w", "q"};
-        String[] letter2Set = { "l", "a", "c", "f", "j", "l", "r", "t", "v",
-                                "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                "g", "k", "m", "o", "w", "q"};
+        /*
+        String[] letterSet = { "a", "c", "f", "j", "l", "r", "t", "v", "7",
+                               "a", "c", "f", "j", "l", "r", "t", "v", "7"};
+        */
+        String[] letterSet = { "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z"};
         bool patternAnswering;
         int letterNum;
-
 
         System.IO.Ports.SerialPort serialPort1 = new SerialPort();
         String logID;
         
         int duration;   // ms
-        int oneLetterTime;
+        //int oneLetterTime;
 
         long startTimestamp;
         long playstamp;
         long playendstamp;
         long enterstamp;
 
-        int mode;
-        String condStr = "";    // A B
-        String modeStr = "";    // 1 2 3 4 5
-        int interletterinterval;
+        int orientation;
+        int armpose;
+        String orientationStr = "";    // 1(handNorth) 2(watchNorth)
+        String armposeStr = "";    // 1(armFront) 2(armBody) 3(armDown)
+        //int interletterinterval;
 
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
@@ -64,51 +65,48 @@ namespace delimiterMMTD
 
         bool keyboardEvent = true;
         bool enterButtonEnabled = false;
-        bool fixedLength = false;
+        //bool fixedLength = false;
         
-        public void setExpTraining(SerialPort port, String s1, 
-                                    int b1)
+        public void setExpTraining(SerialPort port, String s1, int orientation_, int armpose_)
         {
             serialPort1 = port;
             logID = s1;
-            mode = b1;
-
-            oneLetterTime = 2000;
-            duration = 500;
-            interletterinterval = 2000;
+            orientation = orientation_;
+            armpose = armpose_;
             
-            if (mode == 1)
+            //oneLetterTime = 2000;
+            duration = 500;
+            //interletterinterval = 2000;
+
+            if (orientation == 1)
             {
-                title.Content = title.Content.ToString() + ": A, " + interletterinterval / 1000 + "초";
-                fixedLength = false;
-                condStr = "A";
-                modeStr = "2";
+                title.Content = title.Content.ToString() + ": 방위 기준 1";
+                orientationStr = "handNorth";
             }
-            else if (mode == 6)
+            else if (orientation == 2)
             {
-                title.Content = title.Content.ToString() + ": B, " + interletterinterval / 1000 + "초";
-                fixedLength = true;
-                condStr = "B";
-                modeStr = "2";
+                title.Content = title.Content.ToString() + ": 방위 기준 2";
+                orientationStr = "watchNorth";
             }
 
-            /*
-            if (mode == 0 || mode == 1 || mode == 2 || mode == 3 || mode == 4)
+            if (armpose == 0)
             {
-                title.Content = title.Content.ToString() + ": A";
-                fixedLength = false;
-                mode = "A";
+                title.Content = title.Content.ToString() + ", 팔 앞";
+                armposeStr = "armFront";
             }
-            else if (mode == 5 || mode == 6 || mode == 7 || mode == 8 || mode == 9)
+            else if (armpose == 1)
             {
-                title.Content = title.Content.ToString() + ": B";
-                fixedLength = true;
-                mode = "B";
+                title.Content = title.Content.ToString() + ", 팔 몸";
+                armposeStr = "armBody";
             }
-            */
+            else if (armpose == 2)
+            {
+                title.Content = title.Content.ToString() + ", 팔 아래";
+                armposeStr = "armDown";
+            }
 
-            tw = new StreamWriter(logID + "_" + condStr + "_" + modeStr + ".csv", true);
-            tw.WriteLine("id,cond,1~5,trial#,1G,1R,1C,2G,2R,2C,C(all),playstamp,playendstamp,enterstamp");
+            tw = new StreamWriter(logID + "_" + orientationStr + "_" + armposeStr + "_training.csv", true);
+            tw.WriteLine("id,orientation,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
         }
 
         public void workBackground(String text)
@@ -142,7 +140,7 @@ namespace delimiterMMTD
         private void lineActivate()
         {
             int i;
-            letterNum = 2;
+            letterNum = 1;
 
             Line[] lines = { l1, l2, l3, l4 };
             Label[] letters = { letter1, letter2, letter3, letter4 };
@@ -170,7 +168,7 @@ namespace delimiterMMTD
 
             correctCount = 0;
             trial = 1;
-            trialEnd = 26;
+            trialEnd = letterSet.Length;
             trialLabel.Content = trial + " / " + trialEnd;
 
             typingCount = 0;
@@ -181,19 +179,17 @@ namespace delimiterMMTD
             timer.Elapsed += new ElapsedEventHandler(timer_Tick);
 
             Random rnd = new Random();
-            letter1Set = letter1Set.OrderBy(x => rnd.Next()).ToArray();
-            letter1Set = letter1Set.OrderBy(x => rnd.Next()).ToArray();
-            letter2Set = letter2Set.OrderBy(x => rnd.Next()).ToArray();
-            letter2Set = letter2Set.OrderBy(x => rnd.Next()).ToArray();
-
+            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+            
             lineActivate();
         }
 
         public void stimulation(int tactorNum)
         {
-            serialPort1.WriteLine("lv" + tactorNum.ToString());
+            serialPort1.WriteLine("ev" + tactorNum.ToString());
             Thread.Sleep(duration);
-            serialPort1.WriteLine("ls" + tactorNum.ToString());
+            serialPort1.WriteLine("es" + tactorNum.ToString());
         }
         
         public void patternGenerate(String text)
@@ -201,19 +197,24 @@ namespace delimiterMMTD
             for (int i = 0; i < text.Length; i++)
             {
                 edgeVibPattern(text[i].ToString());
+                /*
                 if (text.Length > i + 1)
                     Thread.Sleep(interletterinterval);
+                */
             }
             return;
         }
 
         public void edgeVibStimulation(int[] tactorNums)
         {
+            
             int n = tactorNums.Length;
+            /*
             if (fixedLength)
             {
                 duration = oneLetterTime / n;
             }
+            */
             int i;
             for (i = 0; i < n; i++)
             {
@@ -330,15 +331,39 @@ namespace delimiterMMTD
                     arr = new int[] { 2, 3, 4, 3 };
                     break;
                 case "7":
-                    arr = new int[] { 1, 2, 7 };
+                    arr = new int[] { 1, 2, 3 };
                     break;
                 case "8":
-                    arr = new int[] { 2, 1, 4, 7, 2 };
+                    arr = new int[] { 2, 1, 4, 3, 2 };
                     break;
                 case "9":
                     arr = new int[] { 2, 1, 2, 4 };
                     break;
             }
+            if (orientation == 2)
+            {
+                int i;
+                for (i = 0; i < arr.Length; i++)
+                {
+                    if (arr[i] == 1)
+                    {
+                        arr[i] = 3;
+                    }
+                    else if (arr[i] == 2)
+                    {
+                        arr[i] = 1;
+                    }
+                    else if (arr[i] == 3)
+                    {
+                        arr[i] = 4;
+                    }
+                    else if (arr[i] == 4)
+                    {
+                        arr[i] = 2;
+                    }
+                }
+            }
+            
             edgeVibStimulation(arr);
         }
 
@@ -363,9 +388,8 @@ namespace delimiterMMTD
                     }
                     // Random pattern generate
                     playedLetters = "";
-                    playedLetters = playedLetters + letter1Set[trial - 1] + letter2Set[trial - 1];
-                    answers[0].Content = letter1Set[trial - 1];
-                    answers[1].Content = letter2Set[trial - 1];
+                    playedLetters = playedLetters + letterSet[trial - 1];
+                    answer1.Content = letterSet[trial - 1];
                     
                     Thread.Sleep(400);
                     workBackground(playedLetters);
@@ -377,83 +401,41 @@ namespace delimiterMMTD
 
         private void ButtonEnter_Click(object sender, RoutedEventArgs e)
         {
-            int i;
-            Label[] letters = { letter1, letter2, letter3, letter4 };
-            Label[] answers = { answer1, answer2, answer3, answer4 };
+            //Label[] letters = { letter1, letter2, letter3, letter4 };
+            //Label[] answers = { answer1, answer2, answer3, answer4 };
 
             if (patternAnswering == true)
             {
-
+                int i;
                 //+ Logging add
-                String l = letter1.Content.ToString() + letter2.Content.ToString() + letter3.Content.ToString() + letter4.Content.ToString();
-                String a = answer1.Content.ToString() + answer2.Content.ToString() + answer3.Content.ToString() + answer4.Content.ToString();
-                String cAll = "";
+                String l = letter1.Content.ToString();
+                String a = answer1.Content.ToString();
+
+                //String a = answer1.Content.ToString() + answer2.Content.ToString() + answer3.Content.ToString() + answer4.Content.ToString();
+                String correctStr = "";
                 if (l == a)
                 {
-                    cAll = "1";
+                    correctStr = "1";
                     correctCount = correctCount + 1;
-                    for (i = 0; i < letterNum; i++)
-                    {
-                        answers[i].Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
-                        answers[i].Visibility = Visibility.Visible;
-                    }
+                    answer1.Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
+                    answer1.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    cAll = "0";
-                    for (i = 0; i < letterNum; i++)
-                    {
-                        if (i + 1 > l.Length)
-                        {
-                            answers[i].Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
-                            answers[i].Visibility = Visibility.Visible;
-                        }
-                        else
-                        {
-                            if (l[i] == a[i])
-                            {
-                                answers[i].Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
-                                answers[i].Visibility = Visibility.Visible;
-                            }
-                            else
-                            {
-                                answers[i].Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
-                                answers[i].Visibility = Visibility.Visible;
-                            }
-                        }
-                    }
+                    correctStr = "0";
+                    answer1.Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
+                    answer1.Visibility = Visibility.Visible;
                 }
-
-                String g1 = a[0].ToString();
-                String r1 = l[0].ToString();
-                String c1 = "";
-                String g2 = a[1].ToString();
-                String r2 = l[1].ToString();
-                String c2 = "";
                 
-                if (a[0] == l[0])
-                    c1 = "1";
-                else
-                    c1 = "0";
-
-                if (a[1] == l[1])
-                    c2 = "1";
-                else
-                    c2 = "0";
-                if (a == l)
-                    cAll = "1";
-                else
-                    cAll = "0";
-
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                tw.WriteLine(logID + "," + condStr +"," + modeStr + "," + trial.ToString() + "," + g1 + "," + r1 + "," + c1 + "," + g2 + "," + r2 + "," + c2 + "," + cAll + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+
+                tw.WriteLine(logID + "," + orientationStr + "," + armposeStr + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 typingCount = 0;
                 letter1.Content = "";
-                letter2.Content = "";
 
                 if (trial == trialEnd)
                 {
-                    scoreLabel.Content = "점수: " + correctCount * 100 / 52 + "점";
+                    //scoreLabel.Content = "점수: " + (correctCount * 100 / letterSet.Length) + "점";
                     ButtonPlay.Visibility = Visibility.Hidden;
                     ButtonFinish.Visibility = Visibility.Visible;
                 }
@@ -509,18 +491,25 @@ namespace delimiterMMTD
             if (keyboardEvent)
             {
                 Label[] letters = { letter1, letter2, letter3, letter4 };
-                if (e.Key >= Key.A && e.Key <= Key.Z)
+                //if(e.Key == Key.A || e.Key == Key.C || e.Key == Key.F || e.Key == Key.J || e.Key == Key.L || e.Key == Key.R || e.Key == Key.T || e.Key == Key.V || e.Key == Key.D7)
+                if (e.Key == Key.B || e.Key == Key.D || e.Key == Key.E || e.Key == Key.H || e.Key == Key.N || e.Key == Key.P || e.Key == Key.S || e.Key == Key.U || e.Key == Key.X || e.Key == Key.Y || e.Key == Key.Z)
                 {
+                    String typedStr = e.Key.ToString();
+                    //if (typedStr == "D7")
+                    if (typedStr == "D2" || typedStr == "D3" || typedStr == "D6" || typedStr == "D9")
+                        typedStr = typedStr[1].ToString();
+                    else
+                        typedStr = typedStr.ToLower();
+                    
                     if (patternAnswering == false)
                     {
-                        String str = e.Key.ToString().ToLower();
-                        workBackground(str);
+                        workBackground(typedStr);
                     }
                     else
                     {
                         if (typingCount < letterNum)
                         {
-                            letters[typingCount].Content = e.Key.ToString().ToLower();
+                            letters[typingCount].Content = typedStr;
                             typingCount++;
                             if (typingCount == letterNum)
                             {
