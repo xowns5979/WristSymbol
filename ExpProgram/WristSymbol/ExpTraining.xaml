@@ -11,7 +11,6 @@
         WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="Manual" Left="0" Top="0"
         WindowState="Maximized"
-        KeyDown="OnKeyDownHandler"
         Closing="Window_Closing"
         Background="White">
     <Grid>

@@ -1,0 +1,3 @@
+id,orientation,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp
+TEST,watchNorth,armBody,1,h,h,1,4368,6373,6744
+TEST,watchNorth,armBody,2,u,p,0,8729,6373,9399

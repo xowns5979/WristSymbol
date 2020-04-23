@@ -41,21 +41,29 @@ namespace WristSymbol
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
 
-       
 
 
-        String[] letterSet = { "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424",
-                               "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424",
-                               "124","123","121","142","143","141","134","132","131",
-                               "243","241","242","234","231","232","214","213","212",
-                               "312","314","313","324","321","323","342","341","343",
-                               "431","432","434","413","412","414","421","423","424"};
+
+        String[] letterSet = { "124","123","142","143","134","132",
+                               "243","241","234","231","214","213",
+                               "312","314","324","321","342","341",
+                               "431","432","413","412","421","423",
+                               "124","123","142","143","134","132",
+                               "243","241","234","231","214","213",
+                               "312","314","324","321","342","341",
+                               "431","432","413","412","421","423",
+                               "124","123","142","143","134","132",
+                               "243","241","234","231","214","213",
+                               "312","314","324","321","342","341",
+                               "431","432","413","412","421","423",
+                               "124","123","142","143","134","132",
+                               "243","241","234","231","214","213",
+                               "312","314","324","321","342","341",
+                               "431","432","413","412","421","423",
+                               "124","123","142","143","134","132",
+                               "243","241","234","231","214","213",
+                               "312","314","324","321","342","341",
+                               "431","432","413","412","421","423"};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
 
@@ -81,26 +89,24 @@ namespace WristSymbol
         private DateTime startTime;
         String condStr = "";
 
+        int expCond = -1;
+
         public void setExpMain(SerialPort port, String s1, int cond)
         {
             serialPort1 = port;
             logID = s1;
             duration = 500;
+            expCond = cond;
 
             if (cond == 0)
             {
-                condStr = "A(Baseline1)";
-                title.Content = title.Content + ": A";
+                condStr = "armFront";
+                title.Content = title.Content + ": 팔 앞";
             }
             else if (cond == 1)
             {
-                condStr = "B(Approach)";
-                title.Content = title.Content + ": B";
-            }
-            else if (cond == 2)
-            {
-                condStr = "C(Baseline2)";
-                title.Content = title.Content + ": C";
+                condStr = "armBody";
+                title.Content = title.Content + ": 팔 몸";
             }
 
             tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
@@ -133,63 +139,7 @@ namespace WristSymbol
             playendstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
         }
-
-        public void fstimuli(int level)
-        {
-            stimulation(2);
-            Thread.Sleep(100);
-            stimulation2(1,3,level);
-            Thread.Sleep(100);
-            stimulation(3);
-        }
-
-        public void rstimuli(int level)
-        {
-            stimulation(3);
-            Thread.Sleep(100);
-            stimulation2(1, 3,level);
-            Thread.Sleep(100);
-            stimulation(2);
-        }
-
-        public void tstimuli(int level)
-        {
-            stimulation2(1, 3, level);
-            Thread.Sleep(100);
-            stimulation(2);
-            Thread.Sleep(100);
-            stimulation(4);
-        }
-
-        public void funnelingPattern(String text)
-        {
-            Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = ""; });
-            int[] arr = null;
-            switch (text)
-            {
-                case "f1":
-                    fstimuli(1);
-                    break;
-                case "f3":
-                    fstimuli(3);
-                    break;
-                case "r1":
-                    rstimuli(1);
-                    break;
-                case "r3":
-                    rstimuli(3);
-                    break;
-                case "t1":
-                    tstimuli(1);
-                    break;
-                case "t3":
-                    tstimuli(3);
-                    break;
-
-            }
-           
-        }
-
+        
         public ExpMain()
         {
             InitializeComponent();
@@ -197,22 +147,14 @@ namespace WristSymbol
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
-            trialEnd = 108;
+            trialEnd = letterSet.Length;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
             Random rnd = new Random();
             letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
             letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
-
-
-            
                 
-            //TcpData tcp = new TcpData(this);
-            //Thread t1 = new Thread(new ThreadStart(tcp.connect));
-
-            //t1.Start();
-            
             timer = new System.Timers.Timer();
             timer.Interval = 100;
             timer.Elapsed += new ElapsedEventHandler(timer_Tick);
@@ -229,55 +171,10 @@ namespace WristSymbol
             serialPort1.WriteLine("es" + tactorNum.ToString());
         }
 
-        public void stimulation2(int tactorNum1, int tactorNum2, int level)
-        {
-            String intensity1 = "";
-            String intensity2 = "";
-            if (level == 1)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "255");
-                serialPort1.WriteLine("i" + tactorNum2 + "000");
-                intensity1 = "255";
-                intensity2 = "000";
-            }
-            else if (level == 2)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "209");
-                serialPort1.WriteLine("i" + tactorNum2 + "148");
-                intensity1 = "209";
-                intensity2 = "148";
-            }
-            else if (level == 3)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "179");
-                serialPort1.WriteLine("i" + tactorNum2 + "179");
-                intensity1 = "179";
-                intensity2 = "179";
-            }
-            else if (level == 4)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "148");
-                serialPort1.WriteLine("i" + tactorNum2 + "209");
-                intensity1 = "148";
-                intensity2 = "209";
-            }
-
-            //Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = debugLabel1.Content + "(i" + tactorNum1 + intensity1+",i"+tactorNum2+intensity2+"),"; });
-
-
-            serialPort1.WriteLine("ev" + tactorNum1.ToString());
-            serialPort1.WriteLine("ev" + tactorNum2.ToString());
-            Thread.Sleep(duration);
-            serialPort1.WriteLine("es" + tactorNum1.ToString());
-            serialPort1.WriteLine("es" + tactorNum2.ToString());
-        }
-
         public void patternGenerate(String text)
         {
             int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]), (int)Char.GetNumericValue(text[2]) };
             edgeVibStimulation(arr);
-            //edgeWritePattern(text);
-            
             return;
         }
         
@@ -292,7 +189,6 @@ namespace WristSymbol
                 if (i < n - 1)
                     Thread.Sleep(inLetterGap);
                  */
-
             }
         }
 
@@ -334,31 +230,14 @@ namespace WristSymbol
         {
             if (patternAnswering == false)
             {
-                
                 answer1.Content = "";
-                
-
-                
-
                 answer1.Content = letterSet[trial - 1];
                 Thread.Sleep(400);
                 workBackground(letterSet[trial - 1]);
-                //workBackground("f2");
-
-                /*
-                stimulation(1);
-
-                Thread.Sleep(100);
-                stimulation2(1, 3);
-                Thread.Sleep(100);
-                stimulation(3);
-                */
-
                 //debugLabel1.Content = "playedLetters: " + playedLetters;
 
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
                 patternAnswering = true;
-                
                 //debugLabel1.Content = "answer1.Content : " +answer1.Content.ToString() ;
             }
         }
@@ -367,44 +246,44 @@ namespace WristSymbol
         {
             if (patternAnswering == true && clickedPoint == 3)
             {
-                
                 patternAnswering = false;
                 
-                
                 String a = answer1.Content.ToString();
-                String modified_a1 = "";
-                String modified_a2 = "";
-                String modified_a3 = "";
+                if (expCond == 1)
+                {
+                    String modified_a1 = "";
+                    String modified_a2 = "";
+                    String modified_a3 = "";
 
-                if (a[0] == '1')
-                    modified_a1 = "2";
-                else if (a[0] == '2')
-                    modified_a1 = "4";
-                else if (a[0] == '3')
-                    modified_a1 = "1";
-                else if (a[0] == '4')
-                    modified_a1 = "3";
+                    if (a[0] == '1')
+                        modified_a1 = "2";
+                    else if (a[0] == '2')
+                        modified_a1 = "4";
+                    else if (a[0] == '3')
+                        modified_a1 = "1";
+                    else if (a[0] == '4')
+                        modified_a1 = "3";
 
-                if (a[1] == '1')
-                    modified_a2 = "2";
-                else if (a[1] == '2')
-                    modified_a2 = "4";
-                else if (a[1] == '3')
-                    modified_a2 = "1";
-                else if (a[1] == '4')
-                    modified_a2 = "3";
+                    if (a[1] == '1')
+                        modified_a2 = "2";
+                    else if (a[1] == '2')
+                        modified_a2 = "4";
+                    else if (a[1] == '3')
+                        modified_a2 = "1";
+                    else if (a[1] == '4')
+                        modified_a2 = "3";
 
-                if (a[2] == '1')
-                    modified_a3 = "2";
-                else if (a[2] == '2')
-                    modified_a3 = "4";
-                else if (a[2] == '3')
-                    modified_a3 = "1";
-                else if (a[2] == '4')
-                    modified_a3 = "3";
+                    if (a[2] == '1')
+                        modified_a3 = "2";
+                    else if (a[2] == '2')
+                        modified_a3 = "4";
+                    else if (a[2] == '3')
+                        modified_a3 = "1";
+                    else if (a[2] == '4')
+                        modified_a3 = "3";
 
-                a = modified_a1 + modified_a2 + modified_a3;
-
+                    a = modified_a1 + modified_a2 + modified_a3;
+                }
 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
@@ -436,55 +315,20 @@ namespace WristSymbol
 
                 long rt = enterstamp - playendstamp;
                 tw.WriteLine(logID + "," + condStr + "," + trial.ToString() + "," + a + "," + userAnswer + "," + correctStr + "," + c1Str + "," + c2Str + "," + c3Str + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString() + "," + rt.ToString());
-
-
-                //String filename = logID + "_" + trial + ".png";
-                //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
-
+                
                 clearPoints();
-
                 if (trial == trialEnd)
                     this.Close();
                 else if (trial % 20 == 0)
                 {
-                    secondsToWait = 30 * 1000;
+                    secondsToWait = 20 * 1000;
                     breaktime();
                 }
                 
-
                 trial++;
                 trialLabel.Content = trial + " / " + trialEnd;
             }
         }
-
-        public static void SaveClipboardImageToFile(BitmapSource img, string filePath)
-        {
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                BitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(img));
-                encoder.Save(fileStream);
-            }
-        }
-
-        private static BitmapSource CopyScreen(int sourceX, int sourceY, int destinationX, int destinationY)
-        {
-            
-            using (var screenBmp = new Bitmap((int)SystemParameters.PrimaryScreenWidth-sourceX-385, (int)SystemParameters.PrimaryScreenHeight-sourceY-334, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-            //using (var screenBmp = new Bitmap(right - left, bottom - top, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-            {
-                using (var bmpGraphics = Graphics.FromImage(screenBmp))
-                {
-                    bmpGraphics.CopyFromScreen(sourceX, sourceY, destinationX, destinationY, screenBmp.Size);
-                    return Imaging.CreateBitmapSourceFromHBitmap(
-                        screenBmp.GetHbitmap(),
-                        IntPtr.Zero,
-                        Int32Rect.Empty,
-                        BitmapSizeOptions.FromEmptyOptions());
-                }
-            }
-        }
-
         
         public void breaktime()
         {
@@ -500,14 +344,12 @@ namespace WristSymbol
             double elapsedSeconds = (double)(DateTime.Now - startTime).TotalMilliseconds;
             double remainingSeconds = secondsToWait - elapsedSeconds;
 
-
-            if (secondsToWait == 30 * 1000)
+            if (secondsToWait == 20 * 1000)
             {
                 TimeSpan t1 = TimeSpan.FromMilliseconds(remainingSeconds);
                 string str = t1.ToString(@"mm\:ss");
                 Dispatcher.Invoke((Action)delegate () { clockLabel.Content = str;/* update UI */ });
             }
-
 
             if (remainingSeconds <= 0)
             {
@@ -518,13 +360,6 @@ namespace WristSymbol
                 timer.Stop();
             }
         }
-        
-
-        private void OnKeyDownHandler(object sender, KeyEventArgs e)
-        {
-
-        }
-
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -556,7 +391,7 @@ namespace WristSymbol
                 }
                 else if (clickedPoint == 2)
                 {
-                    if (secondPoint != 1)
+                    if (firstPoint != 1 && secondPoint != 1)
                     {
                         thirdPoint = 1;
                         button1.Content = "3";
@@ -593,7 +428,7 @@ namespace WristSymbol
                 }
                 else if (clickedPoint == 2)
                 {
-                    if (secondPoint != 2)
+                    if (firstPoint != 2 && secondPoint != 2)
                     {
                         thirdPoint = 2;
                         button2.Content = "3";
@@ -630,7 +465,7 @@ namespace WristSymbol
                 }
                 else if (clickedPoint == 2)
                 {
-                    if (secondPoint != 3)
+                    if (firstPoint != 3 && secondPoint != 3)
                     {
                         thirdPoint = 3;
                         button3.Content = "3";
@@ -667,7 +502,7 @@ namespace WristSymbol
                 }
                 else if (clickedPoint == 2)
                 {
-                    if (secondPoint != 4)
+                    if (firstPoint != 4 && secondPoint != 4)
                     {
                         thirdPoint = 4;
                         button4.Content = "3";
