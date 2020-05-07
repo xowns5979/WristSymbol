@@ -40,11 +40,14 @@ namespace WristSymbol
         String playedLetters;
         int confidenceLevel = -1;   // 1: Low, 2: Middle, 3: High
 
-        String[] letterSet = { "12","14","13","24","23","21","31","32","34","43","41","42",
-                               "12","14","13","24","23","21","31","32","34","43","41","42",
-                               "12","14","13","24","23","21","31","32","34","43","41","42",
-                               "12","14","13","24","23","21","31","32","34","43","41","42",
-                               "12","14","13","24","23","21","31","32","34","43","41","42"};
+        String[] letterSet = { "124","123","142","143","134","132","243","241","234","231","214","213",
+                               "312","314","324","321","342","341","431","432","413","412","421","423",
+                               "124","123","142","143","134","132","243","241","234","231","214","213",
+                               "312","314","324","321","342","341","431","432","413","412","421","423",
+                               "124","123","142","143","134","132","243","241","234","231","214","213",
+                               "312","314","324","321","342","341","431","432","413","412","421","423",
+                               "124","123","142","143","134","132","243","241","234","231","214","213",
+                               "312","314","324","321","342","341","431","432","413","412","421","423"};
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
         bool patternAnswering;
 
@@ -63,15 +66,17 @@ namespace WristSymbol
         int clickedPoint = 0;
         int firstPoint = -1;
         int secondPoint = -1;
-        //int thirdPoint = -1;
+        int thirdPoint = -1;
         
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
         private DateTime startTime;
         int expCond = -1;
         String condStr = "";
+        String vibTypeStr = "";
+        String blockNumStr = "";
 
-        public void setExpMain(SerialPort port, String s1, int cond)
+        public void setExpMain(SerialPort port, String s1, int cond, int vibtype, int blocknum)
         {
             serialPort1 = port;
             logID = s1;
@@ -80,52 +85,58 @@ namespace WristSymbol
 
             if (cond == 0)
             {
-                condStr = "armFront";
+                condStr = "armfront";
                 title.Content = title.Content + ": 팔 앞쪽";
-                armFrontImg.Visibility = Visibility.Visible;
             }
             else if (cond == 1)
             {
-                condStr = "arm45d";
-                title.Content = title.Content + ": 팔 45도";
-                arm45DImg.Visibility = Visibility.Visible;
-
-                TranslateTransform button1Translate = new TranslateTransform();
-                TranslateTransform button2Translate = new TranslateTransform();
-                TranslateTransform button3Translate = new TranslateTransform();
-                TranslateTransform button4Translate = new TranslateTransform();
-                button1Translate.X = 55;
-                button1Translate.Y = -22.7;
-                button2Translate.X = 22.7;
-                button2Translate.Y = 55;
-                button3Translate.X = -22.7;
-                button3Translate.Y = -55;
-                button4Translate.X = -55;
-                button4Translate.Y = 22.7;
-                TransformGroup button1TransformGroup = new TransformGroup();
-                TransformGroup button2TransformGroup = new TransformGroup();
-                TransformGroup button3TransformGroup = new TransformGroup();
-                TransformGroup button4TransformGroup = new TransformGroup();
-                button1TransformGroup.Children.Add(button1Translate);
-                button2TransformGroup.Children.Add(button2Translate);
-                button3TransformGroup.Children.Add(button3Translate);
-                button4TransformGroup.Children.Add(button4Translate);
-
-                // Associate the transforms to the button.
-                button1.RenderTransform = button1TransformGroup;
-                button2.RenderTransform = button2TransformGroup;
-                button3.RenderTransform = button3TransformGroup;
-                button4.RenderTransform = button4TransformGroup;
-            }
-            else if (cond == 2)
-            {
-                condStr = "armBody";
+                condStr = "armbody";
                 title.Content = title.Content + ": 팔 몸쪽";
-                armBodyImg.Visibility = Visibility.Visible;
             }
 
-            tw = new StreamWriter(logID + "_" + condStr + "_main"+ ".csv", true);
-            tw.WriteLine("id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp");
+            string powerLowStr = "a030";
+            string freqHighStr = "f300";
+            string modulateOnTimeStr = "br040";
+            string modulateOffTimeStr = "bs040";
+
+            if (vibtype == 0)   // Baseline -> 1,2,3,4번 모터 파워 감소
+            {
+                vibTypeStr = "baseline";
+                serialPort1.WriteLine("1" + powerLowStr);
+                serialPort1.WriteLine("2" + powerLowStr);
+                serialPort1.WriteLine("3" + powerLowStr);
+                serialPort1.WriteLine("4" + powerLowStr);
+            }
+            else if (vibtype == 1)  // 2 Color -> 1,2,3,4번 모터 파워 감소. 2번, 4번 모터에 모듈레이션 추가
+            {
+                vibTypeStr = "2color";
+                serialPort1.WriteLine("1" + powerLowStr);
+                serialPort1.WriteLine("2" + powerLowStr);
+                serialPort1.WriteLine("3" + powerLowStr);
+                serialPort1.WriteLine("4" + powerLowStr);
+                serialPort1.WriteLine("2" + modulateOnTimeStr);
+                serialPort1.WriteLine("2" + modulateOffTimeStr);
+                serialPort1.WriteLine("4" + modulateOnTimeStr);
+                serialPort1.WriteLine("4" + modulateOffTimeStr);
+            }
+            else if (vibtype == 2)  // 4 Color -> 1번: 고주파수, 2번: 고주파수 + 모듈레이션, 3번: 파워 감소, 4번: 모듈레이션 + 파워 감소
+            {
+                vibTypeStr = "4color";
+                serialPort1.WriteLine("1" + freqHighStr);
+                serialPort1.WriteLine("2" + freqHighStr);
+                serialPort1.WriteLine("2" + modulateOnTimeStr);
+                serialPort1.WriteLine("2" + modulateOffTimeStr);
+                serialPort1.WriteLine("3" + powerLowStr);
+                serialPort1.WriteLine("4" + powerLowStr);
+                serialPort1.WriteLine("4" + modulateOnTimeStr);
+                serialPort1.WriteLine("4" + modulateOffTimeStr);
+            }
+            blockNumStr = (blocknum + 1).ToString();
+
+            title.Content = title.Content + ", " + vibTypeStr + ", block " + blockNumStr;
+
+            tw = new StreamWriter(logID + "_" + condStr + "_" + vibTypeStr + "_main_" + blockNumStr + ".csv", true);
+            tw.WriteLine("id,cond,vibtype,blocknum,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp");
         }
 
         internal string invokeLabel2
@@ -149,157 +160,40 @@ namespace WristSymbol
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             String text = (String)e.Argument;
-            //funnelingPattern(text);
             patternGenerate(text);
             playendstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-
         }
-
-        public void fstimuli(int level)
-        {
-            stimulation(2);
-            Thread.Sleep(100);
-            stimulation2(1,3,level);
-            Thread.Sleep(100);
-            stimulation(3);
-        }
-
-        public void rstimuli(int level)
-        {
-            stimulation(3);
-            Thread.Sleep(100);
-            stimulation2(1, 3,level);
-            Thread.Sleep(100);
-            stimulation(2);
-        }
-
-        public void tstimuli(int level)
-        {
-            stimulation2(1, 3, level);
-            Thread.Sleep(100);
-            stimulation(2);
-            Thread.Sleep(100);
-            stimulation(4);
-        }
-
-        public void funnelingPattern(String text)
-        {
-            Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = ""; });
-            int[] arr = null;
-            switch (text)
-            {
-                case "f1":
-                    fstimuli(1);
-                    break;
-                case "f3":
-                    fstimuli(3);
-                    break;
-                case "r1":
-                    rstimuli(1);
-                    break;
-                case "r3":
-                    rstimuli(3);
-                    break;
-                case "t1":
-                    tstimuli(1);
-                    break;
-                case "t3":
-                    tstimuli(3);
-                    break;
-
-            }
-           
-        }
-
+        
         public ExpMain()
         {
             InitializeComponent();
-           
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             trial = 1;
-            trialEnd = 60;
+            trialEnd = letterSet.Length;
             trialLabel.Content = trial + " / " + trialEnd;
             patternAnswering = false;
             
             Random rnd = new Random();
             letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
             letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
-
-
-            
-                
-            //TcpData tcp = new TcpData(this);
-            //Thread t1 = new Thread(new ThreadStart(tcp.connect));
-
-            //t1.Start();
             
             timer = new System.Timers.Timer();
             timer.Interval = 100;
             timer.Elapsed += new ElapsedEventHandler(timer_Tick);
-            
         }
 
         public void stimulation(int tactorNum)
         {
-            serialPort1.WriteLine("i" + tactorNum + "255");
-            //Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = debugLabel1.Content + "i" + tactorNum + "255,"; });
-            
-            serialPort1.WriteLine("ev" + tactorNum.ToString());
+            serialPort1.WriteLine(tactorNum.ToString() + "v");
             Thread.Sleep(duration);
-            serialPort1.WriteLine("es" + tactorNum.ToString());
-        }
-
-        public void stimulation2(int tactorNum1, int tactorNum2, int level)
-        {
-            String intensity1 = "";
-            String intensity2 = "";
-            if (level == 1)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "255");
-                serialPort1.WriteLine("i" + tactorNum2 + "000");
-                intensity1 = "255";
-                intensity2 = "000";
-            }
-            else if (level == 2)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "209");
-                serialPort1.WriteLine("i" + tactorNum2 + "148");
-                intensity1 = "209";
-                intensity2 = "148";
-            }
-            else if (level == 3)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "179");
-                serialPort1.WriteLine("i" + tactorNum2 + "179");
-                intensity1 = "179";
-                intensity2 = "179";
-            }
-            else if (level == 4)
-            {
-                serialPort1.WriteLine("i" + tactorNum1 + "148");
-                serialPort1.WriteLine("i" + tactorNum2 + "209");
-                intensity1 = "148";
-                intensity2 = "209";
-            }
-
-            //Dispatcher.Invoke((Action)delegate () { debugLabel1.Content = debugLabel1.Content + "(i" + tactorNum1 + intensity1+",i"+tactorNum2+intensity2+"),"; });
-
-
-            serialPort1.WriteLine("ev" + tactorNum1.ToString());
-            serialPort1.WriteLine("ev" + tactorNum2.ToString());
-            Thread.Sleep(duration);
-            serialPort1.WriteLine("es" + tactorNum1.ToString());
-            serialPort1.WriteLine("es" + tactorNum2.ToString());
+            serialPort1.WriteLine(tactorNum.ToString() + "s");
         }
 
         public void patternGenerate(String text)
         {
-            //int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]), (int)Char.GetNumericValue(text[2]) };
             int[] arr = { (int)Char.GetNumericValue(text[0]), (int)Char.GetNumericValue(text[1]) };
             edgeVibStimulation(arr);
-            //edgeWritePattern(text);
-            
             return;
         }
         
@@ -318,84 +212,38 @@ namespace WristSymbol
             }
         }
 
-        public void edgeWritePattern(String character)
-        {
-            int[] arr = null;
-            switch (character.ToUpper())
-            {
-                case "A":
-                    arr = new int[] { 3, 2, 4 };
-                    break;
-                case "C":
-                    arr = new int[] { 2, 3, 4 };
-                    break;
-                case "F":
-                    arr = new int[] { 2, 1, 3 };
-                    break;
-                case "L":
-                    arr = new int[] { 1, 3, 4 };
-                    break;
-                case "J":
-                    arr = new int[] { 2, 4, 3 };
-                    break;
-                case "R":
-                    arr = new int[] { 3, 1, 2 };
-                    break;
-                case "T":
-                    arr = new int[] { 1, 2, 4 };
-                    break;
-                case "V":
-                    arr = new int[] { 1, 3, 2 };
-                    break;
-            }
-
-            edgeVibStimulation(arr);
-        }
-
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
             if (patternAnswering == false)
             {
                 // 정답 피드백 주기
-                clearPoints();
+                //clearPoints();
 
                 answer1.Content = "";
-                
-
                 answer1.Content = letterSet[trial - 1];
                 Thread.Sleep(400);
-                workBackground(letterSet[trial - 1]);
-                //workBackground("f2");
-
-                /*
-                stimulation(1);
-
-                Thread.Sleep(100);
-                stimulation2(1, 3);
-                Thread.Sleep(100);
-                stimulation(3);
-                */
-
-                //debugLabel1.Content = "playedLetters: " + playedLetters;
 
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                patternAnswering = true;
+                workBackground(letterSet[trial - 1]);
                 
-                //debugLabel1.Content = "answer1.Content : " +answer1.Content.ToString() ;
+                patternAnswering = true;
             }
         }
 
         private void ButtonAnswer_Click(object sender, RoutedEventArgs e)
         {
-            if (patternAnswering == true && clickedPoint == 2)
+            if (patternAnswering == true && clickedPoint == 3)
             {
+                enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
+
                 patternAnswering = false;
-                
                 String a = answer1.Content.ToString();
                 if (expCond == 2)
                 {
                     String modified_a1 = "";
                     String modified_a2 = "";
+                    String modified_a3 = "";
+
                     if (a[0] == '1')
                         modified_a1 = "2";
                     else if (a[0] == '2')
@@ -414,139 +262,25 @@ namespace WristSymbol
                     else if (a[1] == '4')
                         modified_a2 = "3";
 
-                    a = modified_a1 + modified_a2;
+                    if (a[2] == '1')
+                        modified_a3 = "2";
+                    else if (a[2] == '2')
+                        modified_a3 = "4";
+                    else if (a[2] == '3')
+                        modified_a3 = "1";
+                    else if (a[2] == '4')
+                        modified_a3 = "3";
+                    a = modified_a1 + modified_a2 + modified_a3;
                 }
 
-                enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 String correctStr = "";
-                //String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
-                String userAnswer = firstPoint.ToString() + secondPoint.ToString();
-                
-                //String filename = logID + "_" + trial + ".png";
-                //SaveClipboardImageToFile(CopyScreen(1255,465,0,0), filename);
-
-
-                //button1Circle.
-                //button1Circle.Visibility = Visibility.Visible;
-                //button1Circle.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-
-                //button1.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-
-                //Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                //x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
+                String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
 
                 clearPoints();
-
-                // 정답 피드백 주기
+               
                 /*
-                if (a == userAnswer)
-                {
-                    if (a[0] == '1')
-                    {
-                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button1.Content = "1";
-                    }
-                    else if (a[0] == '2')
-                    {
-                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button2.Content = "1";
-                    }
-                    else if (a[0] == '3')
-                    {
-                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button3.Content = "1";
-                    }
-                    else if (a[0] == '4')
-                    {
-                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button4.Content = "1";
-                    }
-
-                    if (a[1] == '1')
-                    {
-                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button1.Content = "2";
-                    }
-                    else if (a[1] == '2')
-                    {
-                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button2.Content = "2";
-                    }
-                    else if (a[1] == '3')
-                    {
-                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button3.Content = "2";
-                    }
-                    else if (a[1] == '4')
-                    {
-                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x66, 0xff, 0x66));
-                        button4.Content = "2";
-                    }
-                }
-                else
-                {
-                    if (a[0] == '1')
-                    {
-                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button1.Content = "1";
-                    }
-                    else if (a[0] == '2')
-                    {
-                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button2.Content = "1";
-                    }
-                    else if (a[0] == '3')
-                    {
-                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button3.Content = "1";
-                    }
-                    else if (a[0] == '4')
-                    {
-                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button4.Content = "1";
-                    }
-
-                    if (a[1] == '1')
-                    {
-                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button1.Content = "2";
-                    }
-                    else if (a[1] == '2')
-                    {
-                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button2.Content = "2";
-                    }
-                    else if (a[1] == '3')
-                    {
-                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button3.Content = "2";
-                    }
-                    else if (a[1] == '4')
-                    {
-                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                        x1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xff, 0x66, 0x66));
-                        button4.Content = "2";
-                    }
-                }
-                */
-
-                if (expCond == 2)
+                if (expCond == 1)
                 {
                     String modified_answer1 = "";
                     String modified_answer2 = "";
@@ -589,7 +323,7 @@ namespace WristSymbol
                     userAnswer = modified_answer1 + modified_answer2;
                     a = modified_a1 + modified_a2;
                 }
-
+                */
 
 
                 if (a == userAnswer)
@@ -599,62 +333,35 @@ namespace WristSymbol
 
                 string c1Str = "";
                 string c2Str = "";
+                string c3Str = "";
 
                 if (a[0] == userAnswer[0])
                     c1Str = "1";
                 else
                     c1Str = "0";
-
                 if (a[1] == userAnswer[1])
                     c2Str = "1";
                 else
                     c2Str = "0";
+                if (a[2] == userAnswer[2])
+                    c3Str = "1";
+                else
+                    c3Str = "0";
 
-                tw.WriteLine(logID + "," + condStr + "," + trial.ToString() + "," + a + "," + userAnswer + "," + correctStr + "," + c1Str + "," + c2Str + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
-
+                tw.WriteLine(logID + "," + condStr + "," + vibTypeStr + "," + blockNumStr + "," + trial.ToString() + "," + a + "," + userAnswer + "," + correctStr + "," + c1Str + "," + c2Str + "," + c3Str + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
 
                 if (trial == trialEnd)
                     this.Close();
                 else if (trial % 20 == 0)
                 {
-                    secondsToWait = 30 * 1000;
+                    secondsToWait = 20 * 1000;
                     breaktime();
                 }
-                
 
                 trial++;
                 trialLabel.Content = trial + " / " + trialEnd;
             }
         }
-
-        public static void SaveClipboardImageToFile(BitmapSource img, string filePath)
-        {
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                BitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(img));
-                encoder.Save(fileStream);
-            }
-        }
-
-        private static BitmapSource CopyScreen(int sourceX, int sourceY, int destinationX, int destinationY)
-        {
-            
-            using (var screenBmp = new Bitmap((int)SystemParameters.PrimaryScreenWidth-sourceX-385, (int)SystemParameters.PrimaryScreenHeight-sourceY-334, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-            //using (var screenBmp = new Bitmap(right - left, bottom - top, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-            {
-                using (var bmpGraphics = Graphics.FromImage(screenBmp))
-                {
-                    bmpGraphics.CopyFromScreen(sourceX, sourceY, destinationX, destinationY, screenBmp.Size);
-                    return Imaging.CreateBitmapSourceFromHBitmap(
-                        screenBmp.GetHbitmap(),
-                        IntPtr.Zero,
-                        Int32Rect.Empty,
-                        BitmapSizeOptions.FromEmptyOptions());
-                }
-            }
-        }
-
         
         public void breaktime()
         {
@@ -670,14 +377,12 @@ namespace WristSymbol
             double elapsedSeconds = (double)(DateTime.Now - startTime).TotalMilliseconds;
             double remainingSeconds = secondsToWait - elapsedSeconds;
 
-
-            if (secondsToWait == 30 * 1000)
+            if (secondsToWait == 20 * 1000)
             {
                 TimeSpan t1 = TimeSpan.FromMilliseconds(remainingSeconds);
                 string str = t1.ToString(@"mm\:ss");
                 Dispatcher.Invoke((Action)delegate () { clockLabel.Content = str;/* update UI */ });
             }
-
 
             if (remainingSeconds <= 0)
             {
@@ -703,7 +408,7 @@ namespace WristSymbol
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 2)
+            if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
@@ -724,6 +429,17 @@ namespace WristSymbol
                         clickedPoint++;
                     }
                 }
+                else if (clickedPoint == 2)
+                {
+                    if (firstPoint != 1 && secondPoint != 1)
+                    {
+                        thirdPoint = 1;
+                        button1.Content = "3";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
 
             }
 
@@ -731,7 +447,7 @@ namespace WristSymbol
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 2)
+            if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
@@ -752,12 +468,23 @@ namespace WristSymbol
                         clickedPoint++;
                     }
                 }
+                else if (clickedPoint == 2)
+                {
+                    if (firstPoint != 2 && secondPoint != 2)
+                    {
+                        thirdPoint = 2;
+                        button2.Content = "3";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
             }
         }
 
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 2)
+            if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
@@ -778,12 +505,23 @@ namespace WristSymbol
                         clickedPoint++;
                     }
                 }
+                else if (clickedPoint == 2)
+                {
+                    if (firstPoint != 3 && secondPoint != 3)
+                    {
+                        thirdPoint = 3;
+                        button3.Content = "3";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
             }
         }
 
         private void Button4_Click(object sender, RoutedEventArgs e)
         {
-            if (clickedPoint < 2)
+            if (clickedPoint < 3)
             {
                 if (clickedPoint == 0)
                 {
@@ -799,6 +537,17 @@ namespace WristSymbol
                     {
                         secondPoint = 4;
                         button4.Content = "2";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
+                else if (clickedPoint == 2)
+                {
+                    if (firstPoint != 4 && secondPoint != 4)
+                    {
+                        thirdPoint = 4;
+                        button4.Content = "3";
                         Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
                         x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                         clickedPoint++;

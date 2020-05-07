@@ -28,15 +28,22 @@ namespace WristSymbol
         {
             InitializeComponent();
 
-            ComboboxCond.Items.Add("팔 앞쪽");
-            ComboboxCond.Items.Add("팔 45도");
-            ComboboxCond.Items.Add("팔 몸쪽");
-            ComboboxCond.SelectedIndex = 0;
+            ComboboxArmpose.Items.Add("팔 앞쪽");
+            ComboboxArmpose.Items.Add("팔 몸쪽");
+            ComboboxArmpose.SelectedIndex = 0;
+
+            ComboboxVibtype.Items.Add("진동 방식 Baseline");
+            ComboboxVibtype.Items.Add("진동 방식 2 Color");
+            ComboboxVibtype.Items.Add("진동 방식 4 Color");
+            ComboboxVibtype.SelectedIndex = 0;
 
             ComboboxMode.Items.Add("연습");
             ComboboxMode.Items.Add("본 실험");
             ComboboxMode.SelectedIndex = 0;
 
+            ComboboxBlocknum.Items.Add("1");
+            ComboboxBlocknum.Items.Add("2");
+            ComboboxBlocknum.SelectedIndex = 0;
         }
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
@@ -74,19 +81,21 @@ namespace WristSymbol
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            int cond = ComboboxCond.SelectedIndex;
+            int cond = ComboboxArmpose.SelectedIndex;
+            int vibtype = ComboboxVibtype.SelectedIndex;
             int mode = ComboboxMode.SelectedIndex;
+            int blocknum = ComboboxBlocknum.SelectedIndex;
 
             if (mode == 0)
             {
                 ExpTraining program = new ExpTraining();
-                program.setExpTraining(serialPort1, logID.Text, cond);
+                program.setExpTraining(serialPort1, logID.Text, cond, vibtype, blocknum);
                 program.Show();
             }
             else if (mode == 1)
             {
                 ExpMain program = new ExpMain();
-                program.setExpMain(serialPort1, logID.Text, cond);
+                program.setExpMain(serialPort1, logID.Text, cond, vibtype, blocknum);
                 program.Show();
             }
         }
