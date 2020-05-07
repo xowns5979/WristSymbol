@@ -1,3 +1,0 @@
-id,orientation,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp
-TEST,handNorth,armDown,1,u,u,1,3692,5696,5778
-TEST,handNorth,armDown,2,d,p,0,7300,9304,9610
