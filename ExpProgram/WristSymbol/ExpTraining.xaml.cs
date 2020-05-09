@@ -43,10 +43,6 @@ namespace WristSymbol
         String[] letterSet = { "124","123","142","143","134","132","243","241","234","231","214","213",
                                "312","314","324","321","342","341","431","432","413","412","421","423",
                                "124","123","142","143","134","132","243","241","234","231","214","213",
-                               "312","314","324","321","342","341","431","432","413","412","421","423",
-                               "124","123","142","143","134","132","243","241","234","231","214","213",
-                               "312","314","324","321","342","341","431","432","413","412","421","423",
-                               "124","123","142","143","134","132","243","241","234","231","214","213",
                                "312","314","324","321","342","341","431","432","413","412","421","423"};
 
         enum pattern { top_left, top, top_right, right, bottom_right, bottom, bottom_left, left };
@@ -738,85 +734,257 @@ namespace WristSymbol
             clickedPoint = 0;
         }
 
+        public String modifyString(String str)
+        {
+            String modified_s1 = "";
+            String modified_s2 = "";
+            String modified_s3 = "";
+            if (str[0] == '1')
+                modified_s1 = "2";
+            else if (str[0] == '2')
+                modified_s1 = "4";
+            else if (str[0] == '3')
+                modified_s1 = "1";
+            else if (str[0] == '4')
+                modified_s1 = "3";
+
+            if (str[1] == '1')
+                modified_s2 = "2";
+            else if (str[1] == '2')
+                modified_s2 = "4";
+            else if (str[1] == '3')
+                modified_s2 = "1";
+            else if (str[1] == '4')
+                modified_s2 = "3";
+
+            if (str[2] == '1')
+                modified_s3 = "2";
+            else if (str[2] == '2')
+                modified_s3 = "4";
+            else if (str[2] == '3')
+                modified_s3 = "1";
+            else if (str[2] == '4')
+                modified_s3 = "3";
+
+            return (modified_s1 + modified_s2 + modified_s3);
+        }
+
         private void Pattern1_Click(object sender, RoutedEventArgs e)
         {
-
+            String str = "124";
             //Thread.Sleep(400);
             if (expCond == 0)
-            {
-                workBackground("12");
-            }
-            else if (expCond == 1)
-            {
-                workBackground("12");
-            }
-            
+                str = modifyString(str);
+
+            workBackground(str);
+
         }
 
         private void Pattern2_Click(object sender, RoutedEventArgs e)
         {
+            String str = "123";
             //Thread.Sleep(400);
-            workBackground("14");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern3_Click(object sender, RoutedEventArgs e)
         {
+            String str = "142";
             //Thread.Sleep(400);
-            workBackground("13");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern4_Click(object sender, RoutedEventArgs e)
         {
+            String str = "143";
             //Thread.Sleep(400);
-            workBackground("24");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern5_Click(object sender, RoutedEventArgs e)
         {
+            String str = "134";
             //Thread.Sleep(400);
-            workBackground("23");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern6_Click(object sender, RoutedEventArgs e)
         {
+            String str = "132";
             //Thread.Sleep(400);
-            workBackground("21");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern7_Click(object sender, RoutedEventArgs e)
         {
+            String str = "243";
             //Thread.Sleep(400);
-            workBackground("31");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern8_Click(object sender, RoutedEventArgs e)
         {
+            String str = "241";
             //Thread.Sleep(400);
-            workBackground("32");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern9_Click(object sender, RoutedEventArgs e)
         {
+            String str = "234";
             //Thread.Sleep(400);
-            workBackground("34");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern10_Click(object sender, RoutedEventArgs e)
         {
+            String str = "231";
             //Thread.Sleep(400);
-            workBackground("43");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern11_Click(object sender, RoutedEventArgs e)
         {
+            String str = "213";
             //Thread.Sleep(400);
-            workBackground("41");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
         }
 
         private void Pattern12_Click(object sender, RoutedEventArgs e)
         {
+            String str = "214";
             //Thread.Sleep(400);
-            workBackground("42");
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+        }
+
+        private void Pattern13_Click(object sender, RoutedEventArgs e)
+        {
+
+            String str = "312";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+        }
+
+        private void Pattern14_Click(object sender, RoutedEventArgs e)
+        {
+
+            String str = "314";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+        }
+
+        private void Pattern15_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "324";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern16_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "321";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern17_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "342";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern18_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "341";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern19_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "431";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern20_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "432";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern21_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "413";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern22_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "412";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern23_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "421";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
+        }
+
+        private void Pattern24_Click(object sender, RoutedEventArgs e)
+        {
+            String str = "423";
+            if (expCond == 0)
+                str = modifyString(str);
+            workBackground(str);
+
         }
     }
     

@@ -111,64 +111,124 @@
             </Button.Template>
         </Button>
 
-        <Button Name="pattern1" Width="150" Height="150" Margin="1408,44,362,886" Click="Pattern1_Click" RenderTransformOrigin="0.5,0.5">
+        <Button Name="pattern1" Width="100" Height="100" Margin="1173,44,647,936" Click="Pattern1_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern1.png"  Width="140" Height="140" />
+                <Image Source="img/pattern1.png"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern2" Width="150" Height="150" Margin="1563,44,207,886" Click="Pattern2_Click" RenderTransformOrigin="0.5,0.5">
+        <Button Name="pattern2" Width="100" Height="100" Margin="1278,44,542,936" Click="Pattern2_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern2.png"  Width="140" Height="140" />
+                <Image Source="img/pattern2.png"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern3" Width="150" Height="150" Margin="1718,44,52,886" Click="Pattern3_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern3" Width="100" Height="100" Margin="1383,44,437,936" Click="Pattern3_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern3.png"  Width="140" Height="140" />
+                <Image Source="img/pattern3.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern4" Width="150" Height="150" Margin="1408,199,362,731" Click="Pattern4_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern4" Width="100" Height="100" Margin="1488,44,332,936" Click="Pattern4_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern4.png"  Width="140" Height="140" />
+                <Image Source="img/pattern4.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern5" Width="150" Height="150" Margin="1563,199,207,731" Click="Pattern5_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern5" Width="100" Height="100" Margin="1593,44,227,936" Click="Pattern5_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern5.png"  Width="140" Height="140" />
+                <Image Source="img/pattern5.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern6" Width="150" Height="150" Margin="1718,199,52,731" Click="Pattern6_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern6" Width="100" Height="100" Margin="1698,44,122,936" Click="Pattern6_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern6.png"  Width="140" Height="140" />
+                <Image Source="img/pattern6.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern7" Width="150" Height="150" Margin="1408,354,362,576" Click="Pattern7_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern7" Width="100" Height="100" Margin="1173,149,647,831" Click="Pattern7_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern7.png"  Width="140" Height="140" />
+                <Image Source="img/pattern7.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern8" Width="150" Height="150" Margin="1563,354,207,576" Click="Pattern8_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern8" Width="100" Height="100" Margin="1278,149,542,831" Click="Pattern8_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern8.png"  Width="140" Height="140" />
+                <Image Source="img/pattern8.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern9" Width="150" Height="150" Margin="1718,354,52,576" Click="Pattern9_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern9" Width="100" Height="100" Margin="1383,149,437,831" Click="Pattern9_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern9.png"  Width="140" Height="140" />
+                <Image Source="img/pattern9.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern10" Width="150" Height="150" Margin="1408,509,362,421" Click="Pattern10_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern10" Width="100" Height="100" Margin="1488,149,332,831" Click="Pattern10_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern10.png"  Width="140" Height="140" />
+                <Image Source="img/pattern10.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern11" Width="150" Height="150" Margin="1563,509,207,421" Click="Pattern11_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern11" Width="100" Height="100" Margin="1593,149,227,831" Click="Pattern11_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern11.png"  Width="140" Height="140" />
+                <Image Source="img/pattern11.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
-        <Button x:Name="pattern12" Width="150" Height="150" Margin="1718,509,52,421" Click="Pattern12_Click" RenderTransformOrigin="0.5,0.5">
+        <Button x:Name="pattern12" Width="100" Height="100" Margin="1698,149,122,831" Click="Pattern12_Click" RenderTransformOrigin="0.5,0.5">
             <StackPanel>
-                <Image Source="img/pattern12.png"  Width="140" Height="140" />
+                <Image Source="img/pattern12.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern13" Width="100" Height="100" Margin="1173,254,647,726" Click="Pattern13_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern13.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern14" Width="100" Height="100" Margin="1278,254,542,726" Click="Pattern14_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern14.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern15" Width="100" Height="100" Margin="1383,254,437,726" Click="Pattern15_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern15.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern16" Width="100" Height="100" Margin="1488,254,332,726" Click="Pattern16_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern16.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern17" Width="100" Height="100" Margin="1593,254,227,726" Click="Pattern17_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern17.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern18" Width="100" Height="100" Margin="1698,254,122,726" Click="Pattern18_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern18.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern19" Width="100" Height="100" Margin="1173,359,647,621" Click="Pattern19_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern19.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern20" Width="100" Height="100" Margin="1280,359,540,621" Click="Pattern20_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern20.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern21" Width="100" Height="100" Margin="1385,359,435,621" Click="Pattern21_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern21.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern22" Width="100" Height="100" Margin="1488,359,332,621" Click="Pattern22_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern22.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern23" Width="100" Height="100" Margin="1593,359,227,621" Click="Pattern23_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern23.PNG"  Width="90" Height="90" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="pattern24" Width="100" Height="100" Margin="1698,359,122,621" Click="Pattern24_Click" RenderTransformOrigin="0.5,0.5">
+            <StackPanel>
+                <Image Source="img/pattern24.PNG"  Width="90" Height="90" />
             </StackPanel>
         </Button>
     </Grid>

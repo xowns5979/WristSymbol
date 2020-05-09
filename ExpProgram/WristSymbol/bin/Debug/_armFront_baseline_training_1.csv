@@ -17,3 +17,6 @@ id,cond,vibtype,blocknum,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstam
 id,cond,vibtype,blocknum,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp
 ,armFront,baseline,1,1,423,124,0,0,1,0,1192,0,2456
 ,armFront,baseline,1,2,431,132,0,0,1,0,4292,5796,6024
+id,cond,vibtype,blocknum,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp
+id,cond,vibtype,blocknum,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp
+id,cond,vibtype,blocknum,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp
