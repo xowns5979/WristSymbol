@@ -92,9 +92,12 @@ namespace WristSymbol
             }
 
             string powerLowStr = "a030";
+            string powerNormalStr = "a100";
             string freqHighStr = "f300";
+            string freqNormalStr = "f170";
             string modulateOnTimeStr = "br040";
             string modulateOffTimeStr = "bs040";
+            string modulateNormalStr = "bs000";
 
             if (vibtype == 0)   // Baseline -> 1,2,3,4번 모터 파워 감소
             {
@@ -103,6 +106,17 @@ namespace WristSymbol
                 serialPort1.WriteLine("2" + powerLowStr);
                 serialPort1.WriteLine("3" + powerLowStr);
                 serialPort1.WriteLine("4" + powerLowStr);
+
+                serialPort1.WriteLine("1" + freqNormalStr);
+                serialPort1.WriteLine("2" + freqNormalStr);
+                serialPort1.WriteLine("3" + freqNormalStr);
+                serialPort1.WriteLine("4" + freqNormalStr);
+
+                serialPort1.WriteLine("1" + modulateNormalStr);
+                serialPort1.WriteLine("2" + modulateNormalStr);
+                serialPort1.WriteLine("3" + modulateNormalStr);
+                serialPort1.WriteLine("4" + modulateNormalStr);
+
             }
             else if (vibtype == 1)  // 2 Color -> 1,2,3,4번 모터 파워 감소. 2번, 4번 모터에 모듈레이션 추가
             {
@@ -111,6 +125,14 @@ namespace WristSymbol
                 serialPort1.WriteLine("2" + powerLowStr);
                 serialPort1.WriteLine("3" + powerLowStr);
                 serialPort1.WriteLine("4" + powerLowStr);
+
+                serialPort1.WriteLine("1" + freqNormalStr);
+                serialPort1.WriteLine("2" + freqNormalStr);
+                serialPort1.WriteLine("3" + freqNormalStr);
+                serialPort1.WriteLine("4" + freqNormalStr);
+
+                serialPort1.WriteLine("1" + modulateNormalStr);
+                serialPort1.WriteLine("3" + modulateNormalStr);
                 serialPort1.WriteLine("2" + modulateOnTimeStr);
                 serialPort1.WriteLine("2" + modulateOffTimeStr);
                 serialPort1.WriteLine("4" + modulateOnTimeStr);
@@ -119,12 +141,20 @@ namespace WristSymbol
             else if (vibtype == 2)  // 4 Color -> 1번: 고주파수, 2번: 고주파수 + 모듈레이션, 3번: 파워 감소, 4번: 모듈레이션 + 파워 감소
             {
                 vibTypeStr = "4color";
-                serialPort1.WriteLine("1" + freqHighStr);
-                serialPort1.WriteLine("2" + freqHighStr);
-                serialPort1.WriteLine("2" + modulateOnTimeStr);
-                serialPort1.WriteLine("2" + modulateOffTimeStr);
+                serialPort1.WriteLine("1" + powerNormalStr);
+                serialPort1.WriteLine("2" + powerNormalStr);
                 serialPort1.WriteLine("3" + powerLowStr);
                 serialPort1.WriteLine("4" + powerLowStr);
+
+                serialPort1.WriteLine("1" + freqHighStr);
+                serialPort1.WriteLine("2" + freqHighStr);
+                serialPort1.WriteLine("3" + freqNormalStr);
+                serialPort1.WriteLine("4" + freqNormalStr);
+
+                serialPort1.WriteLine("1" + modulateNormalStr);
+                serialPort1.WriteLine("3" + modulateNormalStr);
+                serialPort1.WriteLine("2" + modulateOnTimeStr);
+                serialPort1.WriteLine("2" + modulateOffTimeStr);
                 serialPort1.WriteLine("4" + modulateOnTimeStr);
                 serialPort1.WriteLine("4" + modulateOffTimeStr);
             }
@@ -158,6 +188,7 @@ namespace WristSymbol
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             String text = (String)e.Argument;
+            //workBackground(text);
             patternGenerate(text);
             playendstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
         }
@@ -234,38 +265,38 @@ namespace WristSymbol
 
                 patternAnswering = false;
                 String a = answer1.Content.ToString();
-                if (expCond == 1)
+                if (expCond == 0)   // 팔 앞쪽
                 {
                     String modified_a1 = "";
                     String modified_a2 = "";
                     String modified_a3 = "";
 
                     if (a[0] == '1')
-                        modified_a1 = "2";
-                    else if (a[0] == '2')
-                        modified_a1 = "4";
-                    else if (a[0] == '3')
-                        modified_a1 = "1";
-                    else if (a[0] == '4')
                         modified_a1 = "3";
+                    else if (a[0] == '2')
+                        modified_a1 = "1";
+                    else if (a[0] == '3')
+                        modified_a1 = "4";
+                    else if (a[0] == '4')
+                        modified_a1 = "2";
 
                     if (a[1] == '1')
-                        modified_a2 = "2";
-                    else if (a[1] == '2')
-                        modified_a2 = "4";
-                    else if (a[1] == '3')
-                        modified_a2 = "1";
-                    else if (a[1] == '4')
                         modified_a2 = "3";
+                    else if (a[1] == '2')
+                        modified_a2 = "1";
+                    else if (a[1] == '3')
+                        modified_a2 = "4";
+                    else if (a[1] == '4')
+                        modified_a2 = "2";
 
                     if (a[2] == '1')
-                        modified_a3 = "2";
-                    else if (a[2] == '2')
-                        modified_a3 = "4";
-                    else if (a[2] == '3')
-                        modified_a3 = "1";
-                    else if (a[2] == '4')
                         modified_a3 = "3";
+                    else if (a[2] == '2')
+                        modified_a3 = "1";
+                    else if (a[2] == '3')
+                        modified_a3 = "4";
+                    else if (a[2] == '4')
+                        modified_a3 = "2";
                     a = modified_a1 + modified_a2 + modified_a3;
                 }
                 
@@ -431,8 +462,9 @@ namespace WristSymbol
                 }
 
                 /*
-                if (expCond == 1)
+                if (expCond == 0)
                 {
+                    
                     String modified_answer1 = "";
                     String modified_answer2 = "";
                     if (userAnswer[0] == '1')
@@ -451,7 +483,7 @@ namespace WristSymbol
                         modified_answer2 = "4";
                     else if (userAnswer[1] == '4')
                         modified_answer2 = "2";
-
+                    
                     String modified_a1 = "";
                     String modified_a2 = "";
                     if (a[0] == '1')
@@ -474,8 +506,8 @@ namespace WristSymbol
                     userAnswer = modified_answer1 + modified_answer2;
                     a = modified_a1 + modified_a2;
                 }
+                
                 */
-
 
                 if (a == userAnswer)
                     correctStr = "1";
@@ -503,7 +535,7 @@ namespace WristSymbol
 
                 if (trial == trialEnd)
                     this.Close();
-                else if (trial % 20 == 0)
+                else if (trial % 24 == 0)
                 {
                     secondsToWait = 20 * 1000;
                     breaktime();
