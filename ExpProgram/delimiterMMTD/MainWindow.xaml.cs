@@ -27,20 +27,21 @@ namespace delimiterMMTD
         public MainWindow()
         {
             InitializeComponent();
+            ComboboxGroup.Items.Add("알파벳 그룹");
+            ComboboxGroup.Items.Add("숫자 그룹");
+            ComboboxGroup.SelectedIndex = 0;
 
-            ComboboxOrientation.Items.Add("문자 학습");
-            ComboboxOrientation.Items.Add("방위 기준 1");
-            ComboboxOrientation.Items.Add("방위 기준 2");
+            ComboboxStrategy.Items.Add("Baseline");
+            ComboboxStrategy.Items.Add("2-Hetero");
+            ComboboxStrategy.SelectedIndex = 0;
 
             ComboboxArmPose.Items.Add("팔 앞");
             ComboboxArmPose.Items.Add("팔 몸");
-            ComboboxArmPose.Items.Add("팔 아래");
+            ComboboxArmPose.SelectedIndex = 0;
 
+            ComboboxMode.Items.Add("문자 학습");
             ComboboxMode.Items.Add("연습");
             ComboboxMode.Items.Add("본 실험");
-
-            ComboboxOrientation.SelectedIndex = 0;
-            ComboboxArmPose.SelectedIndex = 0;
             ComboboxMode.SelectedIndex = 0;
         }
 
@@ -78,35 +79,29 @@ namespace delimiterMMTD
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            int orientation = ComboboxOrientation.SelectedIndex;
+            int group = ComboboxGroup.SelectedIndex;
+            int strategy = ComboboxStrategy.SelectedIndex;
             int armpose = ComboboxArmPose.SelectedIndex;
             int mode = ComboboxMode.SelectedIndex;
 
-            if (orientation == 0)   // 문자 학습 모드
+            if (mode == 0)   // 문자 학습 모드
             {
                 LetterLearning program = new LetterLearning();
-                program.setLetterLearning(logID.Text);
+                program.setLetterLearning(logID.Text, group);
                 program.Show();
             }
-            else
+            else if (mode == 1)
             {
-                if (mode == 0)  // 연습 모드
-                {
-                    ExpTraining program = new ExpTraining();
-                    program.setExpTraining(serialPort1, logID.Text, orientation, armpose);
-                    program.Show();
-                }
-                else if (mode == 1)  // 본 실험 모드
-                {
-                    ExpMain program = new ExpMain();
-                    program.setExpMain(serialPort1, logID.Text, orientation, armpose);
-                    program.Show();
-                }
-            }
-            
+                ExpTraining program = new ExpTraining();
+                program.setExpTraining(serialPort1, logID.Text, group, strategy, armpose);
+                program.Show();
+            }   
+            else if (mode == 2)  // 본 실험 모드
+            {
+                ExpMain program = new ExpMain();
+                program.setExpMain(serialPort1, logID.Text, strategy, armpose);
+                program.Show();
+            }            
         }
-        
-
-        
     }
 }

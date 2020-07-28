@@ -22,9 +22,12 @@
             <ComboBox Name="ComboboxSerials" Width="120"/>
             <Button x:Name="ButtonConnect" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="27" Click="ButtonConnect_Click" Content="Connect"/>
         </StackPanel>
-        <StackPanel x:Name="intervalPanel_Copy2" HorizontalAlignment="Left" Height="83" VerticalAlignment="Top" Width="465" Orientation="Horizontal" Margin="127,429,0,0"  >
+        <StackPanel x:Name="intervalPanel_Copy2" HorizontalAlignment="Left" Height="83" VerticalAlignment="Top" Width="636" Orientation="Horizontal" Margin="54,440,0,0"  >
+
             <Label Content="Mode" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="-0.048,0.396" FontFamily="Arial" Height="69" FontSize="24"/>
-            <ComboBox x:Name="ComboboxOrientation" Height="69" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Width="129" FontFamily="Arial" Margin="0,7" FontSize="14" />
+            <ComboBox x:Name="ComboboxGroup" Height="69" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Width="119" FontFamily="Arial" Margin="0,7" FontSize="14" />
+
+            <ComboBox x:Name="ComboboxStrategy" Height="69" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Width="119" FontFamily="Arial" Margin="0,7" FontSize="14" />
             <ComboBox x:Name="ComboboxArmPose" Height="69" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Width="94" FontFamily="Arial" Margin="0,7" FontSize="14" />
             <ComboBox x:Name="ComboboxMode" Height="69" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Width="91" FontFamily="Arial" Margin="0,7" FontSize="14" />
             <Button x:Name ="ButtonStart"  Content="Start" HorizontalAlignment="Center" VerticalAlignment="Center" Width="77" Click="ButtonStart_Click" Height="69" Margin="0,7"/>

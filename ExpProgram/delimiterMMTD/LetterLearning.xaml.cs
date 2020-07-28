@@ -25,149 +25,133 @@ namespace delimiterMMTD
     /// </summary>
     public partial class LetterLearning : Window
     {
-        private BackgroundWorker worker;
         TextWriter tw;
         
         int trial;
-        int correctCount;
         int trialEnd;
-        int typingCount;
         String quizLetter;
-        /*
-        String[] letterSet = { "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7"};
-        */
-        String[] letterSet = { "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z"};
+        String[] alphabetSet = { "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                               };
+        String[] digitSet = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",};
 
         int clickedPoint = 0;
         int firstPoint = -1;
         int secondPoint = -1;
         int thirdPoint = -1;
         int fourthPoint = -1;
+        int fifthPoint = -1;
+        int sixthPoint = -1;
 
         bool letterQuizAnswering;
         String logID;
+        int group;
 
         long startTimestamp;
         long playstamp;
         long enterstamp;
         
-        public void setLetterLearning(string id)
+        public void setLetterLearning(string id, int group_)
         {
+            group = group_;
             logID = id;
+
+            if (group == 0)  // 알파벳 그룹
+            {
+                trialEnd = alphabetSet.Length;
+                trialLabel.Content = trial + " / " + trialEnd;
+            }
+            else if (group == 1)    // 숫자 그룹
+            {
+                trialEnd = digitSet.Length;
+                trialLabel.Content = trial + " / " + trialEnd;
+            }
+
             tw = new StreamWriter(logID + "_LetterLearning.csv", true);
             tw.WriteLine("id,trial#,realPattern,userAnswer,playstamp,enterstamp");
         }
@@ -177,26 +161,21 @@ namespace delimiterMMTD
             InitializeComponent();
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-            correctCount = 0;
             trial = 1;
-            trialEnd = letterSet.Length;
-            trialLabel.Content = trial + " / " + trialEnd;
-
             trialLabel.Visibility = Visibility.Hidden;
-
-            typingCount = 0;
             letterQuizAnswering = false;
 
             Random rnd = new Random();
-            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
-            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+            alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
+            alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
+            digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
+            digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
         }
-        
-        
+
+
         public void letterQuizShow(String letter)
         {
             letterLabel.Content = letter;
-            //edgeWriPattern(letter);
             return;
         }
 
@@ -320,30 +299,29 @@ namespace delimiterMMTD
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            if (letterQuizAnswering == false)
+            if (!letterQuizAnswering)
             {
                 playstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
                 correctlabel.Visibility = Visibility.Hidden;
-                letterImage.Visibility = Visibility.Hidden;
-
-                quizLetter = "";
-                quizLetter = letterSet[trial - 1];
+                letterImage.Visibility = Visibility.Hidden;                
+                if (group == 0)
+                    quizLetter = alphabetSet[trial - 1];
+                else if (group == 1)
+                    quizLetter = digitSet[trial - 1];
                 letterLabel.Content = quizLetter;
 
-                //workBackground(quizLetter);
                 letterQuizAnswering = true;
             }
         }
 
         private void ButtonEnter_Click(object sender, RoutedEventArgs e)
         {
-            if (letterQuizAnswering == true && clickedPoint == 4)
+            if (letterQuizAnswering)
             {
                 String realPattern = edgeWritePattern(letterLabel.Content.ToString());
-                //String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString();
-                String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString() + fourthPoint.ToString();
-
+                String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString() + fourthPoint.ToString() + fifthPoint.ToString() + sixthPoint.ToString();
+                userAnswer = userAnswer.Substring(0, clickedPoint);
                 String correctStr = "";
                 
                 if (realPattern == userAnswer)
@@ -395,42 +373,7 @@ namespace delimiterMMTD
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (clickedPoint < 3)
-            {
-                if (clickedPoint == 0)
-                {
-                    firstPoint = 1;
-                    button1.Content = "1";
-                    Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                    clickedPoint++;
-                }
-                else if (clickedPoint == 1)
-                {
-                    if (firstPoint != 1)
-                    {
-                        secondPoint = 1;
-                        button1.Content = "2";
-                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-                else if (clickedPoint == 2)
-                {
-                    if (secondPoint != 1)
-                    {
-                        thirdPoint = 1;
-                        button1.Content = "3";
-                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-            }
-            */
-            if (clickedPoint < 4)
+            if (clickedPoint < 6)
             {
                 if (clickedPoint == 0)
                 {
@@ -473,47 +416,34 @@ namespace delimiterMMTD
                         clickedPoint++;
                     }
                 }
+                else if (clickedPoint == 4)
+                {
+                    if (fourthPoint != 1)
+                    {
+                        fifthPoint = 1;
+                        button1.Content = "5";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
+                else if (clickedPoint == 5)
+                {
+                    if (fifthPoint != 1)
+                    {
+                        sixthPoint = 1;
+                        button1.Content = "6";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
             }
         }
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (clickedPoint < 3)
-            {
-                if (clickedPoint == 0)
-                {
-                    firstPoint = 2;
-                    button2.Content = "1";
-                    Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                    clickedPoint++;
-                }
-                else if (clickedPoint == 1)
-                {
-                    if (firstPoint != 2)
-                    {
-                        secondPoint = 2;
-                        button2.Content = "2";
-                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-                else if (clickedPoint == 2)
-                {
-                    if (secondPoint != 2)
-                    {
-                        thirdPoint = 2;
-                        button2.Content = "3";
-                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-            }
-            */
-            if (clickedPoint < 4)
+            if (clickedPoint < 6)
             {
                 if (clickedPoint == 0)
                 {
@@ -556,47 +486,34 @@ namespace delimiterMMTD
                         clickedPoint++;
                     }
                 }
+                else if (clickedPoint == 4)
+                {
+                    if (fourthPoint != 1)
+                    {
+                        fifthPoint = 2;
+                        button2.Content = "5";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
+                else if (clickedPoint == 5)
+                {
+                    if (fifthPoint != 1)
+                    {
+                        sixthPoint = 2;
+                        button2.Content = "6";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
             }
         }
 
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (clickedPoint < 3)
-            {
-                if (clickedPoint == 0)
-                {
-                    firstPoint = 3;
-                    button3.Content = "1";
-                    Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                    clickedPoint++;
-                }
-                else if (clickedPoint == 1)
-                {
-                    if (firstPoint != 3)
-                    {
-                        secondPoint = 3;
-                        button3.Content = "2";
-                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-                else if (clickedPoint == 2)
-                {
-                    if (secondPoint != 3)
-                    {
-                        thirdPoint = 3;
-                        button3.Content = "3";
-                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-            }
-            */
-            if (clickedPoint < 4)
+            if (clickedPoint < 6)
             {
                 if (clickedPoint == 0)
                 {
@@ -639,47 +556,34 @@ namespace delimiterMMTD
                         clickedPoint++;
                     }
                 }
+                else if (clickedPoint == 4)
+                {
+                    if (fourthPoint != 1)
+                    {
+                        fifthPoint = 3;
+                        button3.Content = "5";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
+                else if (clickedPoint == 5)
+                {
+                    if (fifthPoint != 1)
+                    {
+                        sixthPoint = 3;
+                        button3.Content = "6";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
             }
         }
 
         private void Button4_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (clickedPoint < 3)
-            {
-                if (clickedPoint == 0)
-                {
-                    firstPoint = 4;
-                    button4.Content = "1";
-                    Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                    clickedPoint++;
-                }
-                else if (clickedPoint == 1)
-                {
-                    if (firstPoint != 4)
-                    {
-                        secondPoint = 4;
-                        button4.Content = "2";
-                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-                else if (clickedPoint == 2)
-                {
-                    if (secondPoint != 4)
-                    {
-                        thirdPoint = 4;
-                        button4.Content = "3";
-                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
-                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
-                        clickedPoint++;
-                    }
-                }
-            }
-            */
-            if (clickedPoint < 4)
+            if (clickedPoint < 6)
             {
                 if (clickedPoint == 0)
                 {
@@ -717,6 +621,28 @@ namespace delimiterMMTD
                     {
                         fourthPoint = 4;
                         button4.Content = "4";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
+                else if (clickedPoint == 4)
+                {
+                    if (fourthPoint != 1)
+                    {
+                        fifthPoint = 4;
+                        button4.Content = "5";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint++;
+                    }
+                }
+                else if (clickedPoint == 5)
+                {
+                    if (fifthPoint != 4)
+                    {
+                        sixthPoint = 4;
+                        button4.Content = "6";
                         Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
                         x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
                         clickedPoint++;

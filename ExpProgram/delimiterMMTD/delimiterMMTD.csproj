@@ -149,5 +149,21 @@
     <Resource Include="img\p.PNG" />
     <Resource Include="img\y.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\0.PNG" />
+    <Resource Include="img\1.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\4.PNG" />
+    <Resource Include="img\5.PNG" />
+    <Resource Include="img\8.PNG" />
+    <Resource Include="img\g.PNG" />
+    <Resource Include="img\i.PNG" />
+    <Resource Include="img\k.PNG" />
+    <Resource Include="img\m.PNG" />
+    <Resource Include="img\o.PNG" />
+    <Resource Include="img\q.PNG" />
+    <Resource Include="img\w.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
