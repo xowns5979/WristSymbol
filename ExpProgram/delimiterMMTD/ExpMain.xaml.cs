@@ -32,36 +32,45 @@ namespace delimiterMMTD
         int trialEnd;
         int typingCount;
         String playedLetters;
-        /*
-        String[] letterSet = { "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7",
-                               "a", "c", "f", "j", "l", "r", "t", "v", "7"};
-        */
-        String[] letterSet = { "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                               "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z"};
+        String[] alphabetSet = { "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w",
+                                 "i", "q",
+                                 "a", "c", "f", "j", "l", "r", "t", "v",
+                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
+                                 "g", "k", "m", "o", "w"};
+        String[] digitSet = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
         bool patternAnswering;
         int letterNum;
 
         System.IO.Ports.SerialPort serialPort1 = new SerialPort();
         String logID;
         int duration;   // ms
-        //int oneLetterTime;
-
+        int isiGap = 100;   // ms
         long startTimestamp;
         long playstamp;
         long playendstamp;
         long enterstamp;
 
-        int orientation;
+        int group;
+        int strategy;
         int armpose;
-        String orientationStr = "";    // 1(handNorth) 2(watchNorth)
-        String armposeStr = "";    // 1(armFront) 2(armBody) 3(armDown)
-        //int interletterinterval;
+        String groupStr = "";   // 1(alphabetGroup) 2(digitGroup)
+        String strategyStr = "";    // 1(baseline) 2(hetero)
+        String armposeStr = "";    // 1(armFront) 2(armBody) 
 
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
@@ -69,28 +78,40 @@ namespace delimiterMMTD
 
         bool keyboardEvent = true;
         bool enterButtonEnabled = false;
-        //bool fixedLength = false;
 
-        public void setExpMain(SerialPort port, String s1, int orientation_, int armpose_)
+        public void setExpMain(SerialPort port, String s1, int group_, int orientation_, int armpose_)
         {
             serialPort1 = port;
             logID = s1;
-            orientation = orientation_;
+            group = group_;
+            strategy = orientation_;
             armpose = armpose_;
 
-            //oneLetterTime = 2000;
             duration = 500;
-            //interletterinterval = 2000;
 
-            if (orientation == 1)
+            if (group == 0)
             {
-                title.Content = title.Content.ToString() + ": 방위 기준 1";
-                orientationStr = "handNorth";
+                title.Content = title.Content.ToString() + ": 알파벳 그룹";
+                groupStr = "alphabetGroup";
+                trialEnd = alphabetSet.Length;
             }
-            else if (orientation == 2)
+            else if (group == 1)
             {
-                title.Content = title.Content.ToString() + ": 방위 기준 2";
-                orientationStr = "watchNorth";
+                title.Content = title.Content.ToString() + ": 숫자 그룹";
+                groupStr = "digitGroup";
+                trialEnd = digitSet.Length;
+            }
+            trialLabel.Content = trial + " / " + trialEnd;
+
+            if (strategy == 0)
+            {
+                title.Content = title.Content.ToString() + ", Baseline";
+                strategyStr = "baseline";
+            }
+            else if (strategy == 1)
+            {
+                title.Content = title.Content.ToString() + ", 2-Hetero";
+                strategyStr = "hetero";
             }
 
             if (armpose == 0)
@@ -103,14 +124,9 @@ namespace delimiterMMTD
                 title.Content = title.Content.ToString() + ", 팔 몸";
                 armposeStr = "armBody";
             }
-            else if (armpose == 2)
-            {
-                title.Content = title.Content.ToString() + ", 팔 아래";
-                armposeStr = "armDown";
-            }
 
-            tw = new StreamWriter(logID + "_" + orientationStr + "_" + armposeStr + "_main.csv", true);
-            tw.WriteLine("id,orientation,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
+            tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_main.csv", true);
+            tw.WriteLine("id,group,strategy,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
         }
 
         public void workBackground(String text)
@@ -172,28 +188,28 @@ namespace delimiterMMTD
 
             correctCount = 0;
             trial = 1;
-            trialEnd = letterSet.Length;
-            trialLabel.Content = trial + " / " + trialEnd;
 
             typingCount = 0;
             patternAnswering = false;
 
             timer = new System.Timers.Timer();
-            timer.Interval = 100; // 
+            timer.Interval = 100; 
             timer.Elapsed += new ElapsedEventHandler(timer_Tick);
 
             Random rnd = new Random();
-            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
-            letterSet = letterSet.OrderBy(x => rnd.Next()).ToArray();
+            alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
+            alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
+            digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
+            digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
 
             lineActivate();
         }
 
         public void stimulation(int tactorNum)
         {
-            serialPort1.WriteLine("ev" + tactorNum.ToString());
+            serialPort1.WriteLine(tactorNum.ToString() + "v");
             Thread.Sleep(duration);
-            serialPort1.WriteLine("es" + tactorNum.ToString());
+            serialPort1.WriteLine(tactorNum.ToString() + "s");
         }
 
         public void patternGenerate(String text)
@@ -222,10 +238,10 @@ namespace delimiterMMTD
             for (i = 0; i < n; i++)
             {
                 stimulation(tactorNums[i]);
-                /*
+                
                 if (i < n - 1)
-                    Thread.Sleep(inLetterGap);
-                 */
+                    Thread.Sleep(isiGap);
+                 
             }
         }
 
@@ -343,6 +359,7 @@ namespace delimiterMMTD
                     arr = new int[] { 2, 1, 2, 4 };
                     break;
             }
+            /*
             if (orientation == 2)
             {
                 int i;
@@ -366,6 +383,7 @@ namespace delimiterMMTD
                     }
                 }
             }
+            */
             edgeVibStimulation(arr);
         }
        
@@ -388,10 +406,16 @@ namespace delimiterMMTD
                         letters[i].Content = "";
                     }
                     // Random pattern generate
-                    playedLetters = "";
-                    playedLetters = playedLetters + letterSet[trial - 1];
-                    answer1.Content = letterSet[trial - 1];
-
+                    if (group == 0)
+                    {
+                        playedLetters = alphabetSet[trial - 1];
+                        answer1.Content = alphabetSet[trial - 1];
+                    }
+                    else if (group == 1)
+                    {
+                        playedLetters = digitSet[trial - 1];
+                        answer1.Content = digitSet[trial - 1];
+                    }
 
                     Thread.Sleep(400);
                     workBackground(playedLetters);
@@ -418,18 +442,18 @@ namespace delimiterMMTD
                 {
                     correctStr = "1";
                     //correctCount = correctCount + 1;
-                    //answer1.Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
-                    //answer1.Visibility = Visibility.Visible;
+                    answer1.Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
+                    answer1.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     correctStr = "0";
-                    //answer1.Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
-                    //answer1.Visibility = Visibility.Visible;
+                    answer1.Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
+                    answer1.Visibility = Visibility.Visible;
                 }
                 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                tw.WriteLine(logID + "," + orientationStr + "," + armposeStr + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                tw.WriteLine(logID + "," + groupStr + "," + strategyStr + "," + armposeStr + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 typingCount = 0;
                 letter1.Content = "";
 
@@ -494,29 +518,50 @@ namespace delimiterMMTD
             if (keyboardEvent)
             {
                 Label[] letters = { letter1, letter2, letter3, letter4 };
-                //if (e.Key == Key.A || e.Key == Key.C || e.Key == Key.F || e.Key == Key.J || e.Key == Key.L || e.Key == Key.R || e.Key == Key.T || e.Key == Key.V || e.Key == Key.D7)
-                if (e.Key == Key.B || e.Key == Key.D || e.Key == Key.E || e.Key == Key.H || e.Key == Key.N || e.Key == Key.P || e.Key == Key.S || e.Key == Key.U || e.Key == Key.X || e.Key == Key.Y || e.Key == Key.Z)
-                {
-                    String typedStr = e.Key.ToString();
-                    //if (typedStr == "D7")
-                    if (typedStr == "D2" || typedStr =="D3" || typedStr == "D6" || typedStr == "D9")
-                        typedStr = typedStr[1].ToString();
-                    else
-                        typedStr = typedStr.ToLower();
-                    
 
-                    if (patternAnswering && typingCount < letterNum)
+                if (group == 0)
+                {
+                    if (e.Key == Key.A || e.Key == Key.B || e.Key == Key.C || e.Key == Key.D || e.Key == Key.E || e.Key == Key.F || e.Key == Key.G || e.Key == Key.H || e.Key == Key.I ||
+                    e.Key == Key.J || e.Key == Key.K || e.Key == Key.L || e.Key == Key.M || e.Key == Key.N || e.Key == Key.O || e.Key == Key.P || e.Key == Key.Q || e.Key == Key.R ||
+                    e.Key == Key.S || e.Key == Key.T || e.Key == Key.U || e.Key == Key.V || e.Key == Key.W || e.Key == Key.X || e.Key == Key.Y || e.Key == Key.Z)
                     {
-                        letters[typingCount].Content = typedStr;
-                        typingCount++;
-                        if (typingCount == letterNum)
+                        String typedStr = e.Key.ToString();
+                        typedStr = typedStr.ToLower();
+
+                        if (patternAnswering && typingCount < letterNum)
                         {
-                            enterButtonEnabled = true;
-                            ButtonEnter.Visibility = Visibility.Visible;
+                            letters[typingCount].Content = typedStr;
+                            typingCount++;
+                            if (typingCount == letterNum)
+                            {
+                                enterButtonEnabled = true;
+                                ButtonEnter.Visibility = Visibility.Visible;
+                            }
                         }
                     }
                 }
-                else if (e.Key == Key.Back)
+                else if (group == 1)
+                {
+                    if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.D2 || e.Key == Key.D3 || e.Key == Key.D4 ||
+                        e.Key == Key.D5 || e.Key == Key.D6 || e.Key == Key.D7 || e.Key == Key.D8 || e.Key == Key.D9)
+                    {
+                        String typedStr = e.Key.ToString();
+                        typedStr = typedStr[1].ToString();
+
+                        if (patternAnswering && typingCount < letterNum)
+                        {
+                            letters[typingCount].Content = typedStr;
+                            typingCount++;
+                            if (typingCount == letterNum)
+                            {
+                                enterButtonEnabled = true;
+                                ButtonEnter.Visibility = Visibility.Visible;
+                            }
+                        }
+                    }
+                }
+
+                if (e.Key == Key.Back)
                 {
                     if (typingCount > 0)
                     {

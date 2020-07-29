@@ -49,7 +49,7 @@ namespace delimiterMMTD
         String logID;
         
         int duration;   // ms
-
+        int isiGap = 100;   // ms
         long startTimestamp;
         long playstamp;
         long playendstamp;
@@ -79,26 +79,26 @@ namespace delimiterMMTD
             
             duration = 500;
 
-            if (group == 1)
+            if (group == 0)
             {
-                title.Content = title.Content.ToString() + " 알파벳 그룹";
+                title.Content = title.Content.ToString() + ": 알파벳 그룹";
                 groupStr = "alphabetGroup";
                 trialEnd = alphabetSet.Length;
             }
-            else if (group == 2)
+            else if (group == 1)
             {
-                title.Content = title.Content.ToString() + " 숫자 그룹";
+                title.Content = title.Content.ToString() + ": 숫자 그룹";
                 groupStr = "digitGroup";
                 trialEnd = digitSet.Length;
             }
             trialLabel.Content = trial + " / " + trialEnd;
 
-            if (strategy == 1)
+            if (strategy == 0)
             {
                 title.Content = title.Content.ToString() + ", Baseline";
                 strategyStr = "baseline";
             }
-            else if (strategy == 2)
+            else if (strategy == 1)
             {
                 title.Content = title.Content.ToString() + ", 2-Hetero";
                 strategyStr = "hetero";
@@ -115,7 +115,7 @@ namespace delimiterMMTD
                 armposeStr = "armBody";
             }
 
-            tw = new StreamWriter(logID + "_" + strategyStr + "_" + armposeStr + "_training.csv", true);
+            tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_training.csv", true);
             tw.WriteLine("id,group,strategy,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
         }
 
@@ -229,10 +229,10 @@ namespace delimiterMMTD
             for (i = 0; i < n; i++)
             {
                 stimulation(tactorNums[i]);
-                /*
+                
                 if (i < n - 1)
-                    Thread.Sleep(inLetterGap);
-                 */
+                    Thread.Sleep(isiGap);
+                 
             }
         }
 
@@ -514,38 +514,63 @@ namespace delimiterMMTD
             if (keyboardEvent)
             {
                 Label[] letters = { letter1, letter2, letter3, letter4 };
-                //if(e.Key == Key.A || e.Key == Key.C || e.Key == Key.F || e.Key == Key.J || e.Key == Key.L || e.Key == Key.R || e.Key == Key.T || e.Key == Key.V || e.Key == Key.D7)
-                if (e.Key == Key.A || e.Key == Key.B || e.Key == Key.C || e.Key == Key.D || e.Key == Key.E || e.Key == Key.F || e.Key == Key.G || e.Key == Key.H || e.Key == Key.I ||
+                if (group == 0)
+                {
+                    if (e.Key == Key.A || e.Key == Key.B || e.Key == Key.C || e.Key == Key.D || e.Key == Key.E || e.Key == Key.F || e.Key == Key.G || e.Key == Key.H || e.Key == Key.I ||
                     e.Key == Key.J || e.Key == Key.K || e.Key == Key.L || e.Key == Key.M || e.Key == Key.N || e.Key == Key.O || e.Key == Key.P || e.Key == Key.Q || e.Key == Key.R ||
                     e.Key == Key.S || e.Key == Key.T || e.Key == Key.U || e.Key == Key.V || e.Key == Key.W || e.Key == Key.X || e.Key == Key.Y || e.Key == Key.Z)
-                {
-                    String typedStr = e.Key.ToString();
-                    //if (typedStr == "D7")
-                    if (typedStr == "D0" || typedStr == "D1" || typedStr == "D2" || typedStr == "D3" || typedStr == "D4" ||
-                        typedStr == "D5" || typedStr == "D6" || typedStr == "D7" || typedStr == "D8" || typedStr == "D9")
-                        typedStr = typedStr[1].ToString();
-                    else
+                    {
+                        String typedStr = e.Key.ToString();
                         typedStr = typedStr.ToLower();
-                    
-                    if (patternAnswering == false)
-                    {
-                        workBackground(typedStr);
-                    }
-                    else
-                    {
-                        if (typingCount < letterNum)
+
+                        if (patternAnswering == false)
                         {
-                            letters[typingCount].Content = typedStr;
-                            typingCount++;
-                            if (typingCount == letterNum)
+                            workBackground(typedStr);
+                        }
+                        else
+                        {
+                            if (typingCount < letterNum)
                             {
-                                enterButtonEnabled = true;
-                                ButtonEnter.Visibility = Visibility.Visible;
+                                letters[typingCount].Content = typedStr;
+                                typingCount++;
+                                if (typingCount == letterNum)
+                                {
+                                    enterButtonEnabled = true;
+                                    ButtonEnter.Visibility = Visibility.Visible;
+                                }
                             }
                         }
                     }
                 }
-                else if (e.Key == Key.Back)
+                else if (group == 1)
+                {
+                    if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.D2 || e.Key == Key.D3 || e.Key == Key.D4 ||
+                        e.Key == Key.D5 || e.Key == Key.D6 || e.Key == Key.D7 || e.Key == Key.D8 || e.Key == Key.D9)
+                    {
+                        String typedStr = e.Key.ToString();
+                        typedStr = typedStr[1].ToString();
+
+                        if (patternAnswering == false)
+                        {
+                            workBackground(typedStr);
+                        }
+                        else
+                        {
+                            if (typingCount < letterNum)
+                            {
+                                letters[typingCount].Content = typedStr;
+                                typingCount++;
+                                if (typingCount == letterNum)
+                                {
+                                    enterButtonEnabled = true;
+                                    ButtonEnter.Visibility = Visibility.Visible;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (e.Key == Key.Back)
                 {
                     if (typingCount > 0)
                     {

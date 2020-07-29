@@ -99,7 +99,7 @@ namespace delimiterMMTD
             else if (mode == 2)  // 본 실험 모드
             {
                 ExpMain program = new ExpMain();
-                program.setExpMain(serialPort1, logID.Text, strategy, armpose);
+                program.setExpMain(serialPort1, logID.Text, group, strategy, armpose);
                 program.Show();
             }            
         }
