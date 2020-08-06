@@ -1,8 +1,13 @@
 // ERM
-const int erm1 = 3; // 1
-const int erm2 = 5; // 2
-const int erm3 = 6; // 3
-const int erm4 = 9; // 4
+
+const int erm1_f = 2;
+const int erm1_r = 3; 
+const int erm2_f = 5; 
+const int erm2_r = 6; 
+const int erm3_f = 7; 
+const int erm3_r = 8; 
+const int erm4_f = 9; 
+const int erm4_r = 10; 
 
 bool ermOn[4] = {false, false, false, false};
 bool ermBurst[4] = {false, false, false, false};
@@ -12,8 +17,7 @@ int ermBumpRunMS[4] = {100, 100, 100, 100}; // bump 진동 시간(ms)
 int ermBumpStopMS[4] = {0, 0, 0, 0};    // bump 쉬는 시간(ms)
 unsigned long ermRunStartTime[4] = {0, 0, 0, 0};  // erm 틀기 시작한 시간
 
-int intensity[4] = {255, 255, 255, 255};
-
+int PWMpercent = 60;  // (%)
 
 //for motor test
 int millistowait;
@@ -22,11 +26,28 @@ unsigned long currenttime=0;
 int currentMotorNum;
 
 void setup() {
-  pinMode (erm1, OUTPUT);
-  pinMode (erm2, OUTPUT);
-  pinMode (erm3, OUTPUT);
-  pinMode (erm4, OUTPUT);
 
+  TCCR4B = TCCR4B & B11111000 | B00000001;   // for PWM frequency of 31372.55 Hz (D2, D3, D5)
+  TCCR4B = TCCR4B & B11111000 | B00000001;   // for PWM frequency of 31372.55 Hz (D6, D7, D8)
+  TCCR2B = TCCR2B & B11111000 | B00000001;  // for PWM frequency of 31372.55 Hz (D9, D10)
+  
+  pinMode (erm1_f, OUTPUT);
+  pinMode (erm1_r, OUTPUT);
+  pinMode (erm2_f, OUTPUT);
+  pinMode (erm2_r, OUTPUT);
+  pinMode (erm3_f, OUTPUT);
+  pinMode (erm3_r, OUTPUT);
+  pinMode (erm4_f, OUTPUT);
+  pinMode (erm4_r, OUTPUT);
+  
+  digitalWrite(erm1_f, LOW);
+  digitalWrite(erm1_r, LOW);
+  digitalWrite(erm2_f, LOW);
+  digitalWrite(erm2_r, LOW);
+  digitalWrite(erm3_f, LOW);
+  digitalWrite(erm3_r, LOW);
+  digitalWrite(erm4_f, LOW);
+  digitalWrite(erm4_r, LOW);
   
   Serial.begin(115200);
   while (! Serial);
@@ -37,19 +58,6 @@ void setup() {
 void loop() {
   loopSerial();
   loopMotorOnOff();
-
-  /*
-  currenttime = millis();
-  if(currenttime - recordedtime >= 500)
-  {
-    if(ermburst)
-    {
-      ermOn[currentMotorNum] = false;
-      ermburst = false;  
-    }
-  }
-  */
-  
 }
 
 void loopSerial()
@@ -72,7 +80,6 @@ void loopSerial()
       {
         ermOn[motorNum] = true;
         ermRunStartTime[motorNum] = millis();
-            
       }  
     }
     else if (c2 == 's')
@@ -91,9 +98,7 @@ void loopSerial()
       {
         ermOn[motorNum] = true;
         ermBurst[motorNum] = true;
-        ermRunStartTime[motorNum] = millis();  
-
-
+        ermRunStartTime[motorNum] = millis();
       }
     }
     else if (c2 == 'b' && c3 == 'v')
@@ -128,7 +133,6 @@ void loopSerial()
         
       }
     }
-    
   }
 }
 
@@ -143,7 +147,7 @@ void loopMotorOnOff ()
     {
       unsigned long passedTime = millis() - ermRunStartTime[i];
 
-      /*
+      /*      
       Serial.print("millis():  ");
       Serial.print(millis());
       Serial.print(", ermRunStartTime[i]: ");
@@ -160,75 +164,46 @@ void loopMotorOnOff ()
     }
     if(ermOn[i])
     {
-      unsigned long overDrivingTime = 10;
-      
+      unsigned long overDrivingTime = 30;
+      unsigned long brakingTime = 10;
       unsigned long passedTime = ((millis() - ermRunStartTime[i]) %(ermBumpRunMS[i]+ ermBumpStopMS[i]));
+
       Serial.print("passedTime: ");
       Serial.print(passedTime);
 
-
-       if(0 <= passedTime && passedTime < overDrivingTime)
-        {
-          ermTurnOn(i, 255);
-          Serial.println(", OverDrivingTime ");
-        }
-        else if(overDrivingTime <= passedTime && passedTime < ermBumpRunMS[i])
-        {
-          ermTurnOn(i, 100);  
-          Serial.println(", On Time ");
-        }
-        else
-        {
-          ermTurnOff(i);
-          Serial.println(", Off Time ");
-        }
-
-        /*
-      if(i == 2)
+      // Normal(steady) vibration
+      if(ermBumpStopMS[i] == 0)
+      {
+        ermTurnOn(i, 1);
+        Serial.println(", On(Normal)");
+      }
+      // Bumpy (Rough) vibration
+      else
       {
         if(0 <= passedTime && passedTime < overDrivingTime)
         {
-          ermTurnOn(i, 255);
-          Serial.println(", OverDrivingTime ");
+          ermTurnOn(i, 2);  // 1 : normal (3.3V), 2: Overdrive (5V), 3: Braking (5V)
+          Serial.println(", On(OverDrive) ");
         }
-        else if(overDrivingTime <= passedTime && passedTime < ermBumpRunMS[i])
+        else if (overDrivingTime <= passedTime && passedTime < ermBumpRunMS[i])
         {
-          ermTurnOn(i, 200);  
-          Serial.println(", On Time ");
+          ermTurnOn(i, 1);  // 1 : normal (3.3V), 2: Overdrive (5V), 3: Braking (5V)
+          Serial.println(", On(Normal)");
         }
-        else
-        {
-          ermTurnOff(i);
-          Serial.println(", Off Time ");
-        }
-      }
-      else if (i == 1)
-      {
-        if(0 <= passedTime && passedTime < ermBumpRunMS[i])
-        {
-          ermTurnOn(i, 200);  
-          Serial.println(", On Time ");
-        }
-        else
-        {
-          ermTurnOff(i);
-          Serial.println(", Off Time ");
-        }
-      }
-      */
-      
-      /*
-      else
-      {
-        lraStop(i);
-        Serial.println(" - BumpStop");    
-      }
-      */
         
+        else if (ermBumpRunMS[i]<= passedTime && passedTime < ermBumpRunMS[i] + brakingTime)
+        {
+          ermTurnOn(i, 3);  // 1 : normal (3.3V), 2: Overdrive (5V), 3: Braking (5V)       
+          Serial.println(", On(Braking)");   
+        }
+        else
+        {
+          ermTurnOff(i);  
+          Serial.println(", Off");
+        }  
+      }
     }  
   }
-
-  
 }
 
 void turnOffAll()
@@ -238,51 +213,35 @@ void turnOffAll()
     ermOn[i] = false;
 }
 
-void ermTurnOn(int motorNum, int intensity)
+// drivingMode: 1 - 3.3V, 2 - 5V
+void ermTurnOn(int motorNum, int drivingMode)
 {
-  if(motorNum == 0)
-    analogWrite(erm1, intensity);
-  else if (motorNum == 1)
-    analogWrite(erm2, intensity);
-  else if (motorNum == 2)
-    analogWrite(erm3, intensity);
-  else if (motorNum == 3)
-    analogWrite(erm4, intensity);
+  int motors_f[4] = {erm1_f, erm2_f, erm3_f, erm4_f};
+  int motors_r[4] = {erm1_r, erm2_r, erm3_r, erm4_r};
+
+  PWMpercent = 80;
+  if(drivingMode == 1)  // 1 : normal (3.3V)  
+  {
+    analogWrite(motors_f[motorNum], 255);
+    analogWrite(motors_r[motorNum], (255 * (100 - PWMpercent))/100);
+  }
+  else if (drivingMode == 2)  // 2: Overdrive (5V)    
+  {
+    analogWrite(motors_f[motorNum], 255);
+    analogWrite(motors_r[motorNum], 0);
+  }
+  else if (drivingMode == 3)  // 3: Braking (5V)       
+  {
+    analogWrite(motors_f[motorNum], 0);
+    analogWrite(motors_r[motorNum], 255);
+  }
 }
 
 void ermTurnOff(int motorNum)
 {
-  if(motorNum == 0)
-    analogWrite(erm1, 0);
-  else if (motorNum == 1)
-    analogWrite(erm2, 0);
-  else if (motorNum == 2)
-    analogWrite(erm3, 0);
-  else if (motorNum == 3)
-    analogWrite(erm4, 0);
-}
+  int motors_f[4] = {erm1_f, erm2_f, erm3_f, erm4_f};
+  int motors_r[4] = {erm1_r, erm2_r, erm3_r, erm4_r};
 
-
-
-void ermOnOff()
-{
-  if(ermOn[0])
-    analogWrite(erm1, intensity[0]);
-  else
-    analogWrite(erm1, 0);
-
-  if(ermOn[1])
-    analogWrite(erm2, intensity[1]);
-  else
-    analogWrite(erm2, 0);
-    
-  if(ermOn[2])
-    analogWrite(erm3, intensity[2]); 
-  else
-    analogWrite(erm3, 0);
-    
-  if(ermOn[3])
-    analogWrite(erm4, intensity[3]);
-  else
-    analogWrite(erm4, 0);
+  analogWrite(motors_f[motorNum], 0);
+  analogWrite(motors_r[motorNum], 0);
 }
