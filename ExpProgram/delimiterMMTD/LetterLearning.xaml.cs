@@ -152,8 +152,8 @@ namespace delimiterMMTD
                 trialLabel.Content = trial + " / " + trialEnd;
             }
 
-            tw = new StreamWriter(logID + "_LetterLearning.csv", true);
-            tw.WriteLine("id,trial#,realPattern,userAnswer,playstamp,enterstamp");
+            //tw = new StreamWriter(logID + "_LetterLearning.csv", true);
+            //tw.WriteLine("id,trial#,realPattern,userAnswer,playstamp,enterstamp");
         }
         
         public LetterLearning()
@@ -343,7 +343,7 @@ namespace delimiterMMTD
                 }
 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                tw.WriteLine(logID + "," + trial.ToString() + "," + letterLabel.Content.ToString() + "," + userAnswer + "," + correctStr + "," + playstamp.ToString() + "," + enterstamp.ToString());
+                //tw.WriteLine(logID + "," + trial.ToString() + "," + letterLabel.Content.ToString() + "," + userAnswer + "," + correctStr + "," + playstamp.ToString() + "," + enterstamp.ToString());
                 
                 
                 if (trial == trialEnd)
@@ -368,7 +368,7 @@ namespace delimiterMMTD
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            tw.Close();
+            //tw.Close();
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)

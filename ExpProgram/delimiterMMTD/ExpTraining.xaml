@@ -16,7 +16,7 @@
     <Grid>
         <Label Name="title"  Content="연습" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,977" Height="64" Width="747" FontSize="36" />
 
-        <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="64" Width="256" FontSize="36" Margin="10,241,0,0" />
+        <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="243" Width="980" FontSize="36" Margin="480,103,0,0" />
         <Line Name="l1" X1="0" Y1="540" X2="0" Y2="540" Stroke="Black" StrokeThickness="3" Visibility="Hidden"/>
         <Line Name="l2" X1="0" Y1="540" X2="0" Y2="540" Stroke="Black" StrokeThickness="3" Visibility="Hidden"/>
         <Line Name="l3" X1="0" Y1="540" X2="0" Y2="540" Stroke="Black" StrokeThickness="3" Visibility="Hidden"/>

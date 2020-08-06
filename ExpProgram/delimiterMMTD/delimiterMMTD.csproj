@@ -165,5 +165,8 @@
     <Resource Include="img\q.PNG" />
     <Resource Include="img\w.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\armBodyPosture.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

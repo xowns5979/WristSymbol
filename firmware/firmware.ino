@@ -108,13 +108,13 @@ void loopSerial()
       if(0 <= motorNum && motorNum < 4)
       {
         ermBumpRunMS[motorNum] = runMS;
-        
+        /*
         Serial.print("ERM motor ");
         Serial.print(motorNum+1);
         Serial.print(" BumpRunMS: ");
         Serial.println(runMS);
         Serial.flush();
-        
+        */
       }
     }
     else if (c2 == 'b' && c3 == 's')
@@ -124,13 +124,13 @@ void loopSerial()
       if(0 <= motorNum && motorNum < 4)
       {
         ermBumpStopMS[motorNum] = stopMS;
-        
+        /*
         Serial.print("ERM motor ");
         Serial.print(motorNum+1);
         Serial.print(" BumpStopMS: ");
         Serial.println(stopMS);
         Serial.flush();
-        
+        */
       }
     }
   }
@@ -167,15 +167,15 @@ void loopMotorOnOff ()
       unsigned long overDrivingTime = 30;
       unsigned long brakingTime = 10;
       unsigned long passedTime = ((millis() - ermRunStartTime[i]) %(ermBumpRunMS[i]+ ermBumpStopMS[i]));
-
+      /*
       Serial.print("passedTime: ");
       Serial.print(passedTime);
-
+      */
       // Normal(steady) vibration
       if(ermBumpStopMS[i] == 0)
       {
         ermTurnOn(i, 1);
-        Serial.println(", On(Normal)");
+        //Serial.println(", On(Normal)");
       }
       // Bumpy (Rough) vibration
       else
@@ -183,23 +183,23 @@ void loopMotorOnOff ()
         if(0 <= passedTime && passedTime < overDrivingTime)
         {
           ermTurnOn(i, 2);  // 1 : normal (3.3V), 2: Overdrive (5V), 3: Braking (5V)
-          Serial.println(", On(OverDrive) ");
+          //Serial.println(", On(OverDrive) ");
         }
         else if (overDrivingTime <= passedTime && passedTime < ermBumpRunMS[i])
         {
           ermTurnOn(i, 1);  // 1 : normal (3.3V), 2: Overdrive (5V), 3: Braking (5V)
-          Serial.println(", On(Normal)");
+          //Serial.println(", On(Normal)");
         }
         
         else if (ermBumpRunMS[i]<= passedTime && passedTime < ermBumpRunMS[i] + brakingTime)
         {
           ermTurnOn(i, 3);  // 1 : normal (3.3V), 2: Overdrive (5V), 3: Braking (5V)       
-          Serial.println(", On(Braking)");   
+          //Serial.println(", On(Braking)");   
         }
         else
         {
           ermTurnOff(i);  
-          Serial.println(", Off");
+          //Serial.println(", Off");
         }  
       }
     }  

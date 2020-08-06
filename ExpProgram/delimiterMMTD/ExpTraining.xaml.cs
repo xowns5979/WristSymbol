@@ -82,7 +82,7 @@ namespace delimiterMMTD
             if (group == 0)
             {
                 title.Content = title.Content.ToString() + ": 알파벳 그룹";
-                groupStr = "alphabetGroup";
+                groupStr = "alphabet";
                 trialEnd = alphabetSet.Length;
             }
             else if (group == 1)
@@ -102,6 +102,16 @@ namespace delimiterMMTD
             {
                 title.Content = title.Content.ToString() + ", 2-Hetero";
                 strategyStr = "hetero";
+                serialPort1.WriteLine("2bv040");
+                serialPort1.WriteLine("2bs040");
+                serialPort1.WriteLine("4bv040");
+                serialPort1.WriteLine("4bs040");
+                /*
+                serialPort1.WriteLine("1bv040");
+                serialPort1.WriteLine("1bs040");
+                serialPort1.WriteLine("3bv040");
+                serialPort1.WriteLine("3bs040");
+                */
             }
 
             if (armpose == 0)
@@ -229,7 +239,6 @@ namespace delimiterMMTD
             for (i = 0; i < n; i++)
             {
                 stimulation(tactorNums[i]);
-                
                 if (i < n - 1)
                     Thread.Sleep(isiGap);
                  
