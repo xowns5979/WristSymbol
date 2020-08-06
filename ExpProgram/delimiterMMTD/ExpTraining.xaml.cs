@@ -42,6 +42,25 @@ namespace delimiterMMTD
                                  "g", "k", "m", "o", "w" };
         String[] digitSet = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                               "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
+        String[] quickCalibrationSet = { "1234", "1243", "1342", "1324", "1423", "1432",
+                                         "2134", "2143", "2341", "2314", "2413", "2431",
+                                         "3124", "3142", "3241", "3214", "3412", "3421",
+                                         "4123", "4132", "4213", "4231", "4312", "4321",
+                                         "1234", "1243", "1342", "1324", "1423", "1432",
+                                         "2134", "2143", "2341", "2314", "2413", "2431",
+                                         "3124", "3142", "3241", "3214", "3412", "3421",
+                                         "4123", "4132", "4213", "4231", "4312", "4321"};
+        int quickCalibrationTrial;
+        Boolean quickCalAnswering = false;
+        Boolean quickCalPlayed = false;
+
+        int clickedPoint_quickCal = 0;
+        int firstPoint_quickCal = -1;
+        int secondPoint_quickCal = -1;
+        int thirdPoint_quickCal = -1;
+        int fourthPoint_quickCal = -1;
+
         bool patternAnswering;
         int letterNum;
 
@@ -97,6 +116,12 @@ namespace delimiterMMTD
             {
                 title.Content = title.Content.ToString() + ", Baseline";
                 strategyStr = "baseline";
+                serialPort1.WriteLine("2bs000");
+                serialPort1.WriteLine("4bs000");
+                /*
+                serialPort1.WriteLine("1bs000");
+                serialPort1.WriteLine("3bs000");
+                */
             }
             else if (strategy == 1)
             {
@@ -188,6 +213,7 @@ namespace delimiterMMTD
 
             correctCount = 0;
             trial = 1;
+            quickCalibrationTrial = 1;
 
             typingCount = 0;
             patternAnswering = false;
@@ -201,8 +227,21 @@ namespace delimiterMMTD
             alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
             digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
             digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
+            quickCalibrationSet = quickCalibrationSet.OrderBy(x => rnd.Next()).ToArray();
+            quickCalibrationSet = quickCalibrationSet.OrderBy(x => rnd.Next()).ToArray();
 
             lineActivate();
+
+            ButtonQuickCalStart.Visibility = Visibility.Hidden;
+            ButtonQuickCalEnter.Visibility = Visibility.Hidden;
+            button1.Visibility = Visibility.Hidden;
+            button2.Visibility = Visibility.Hidden;
+            button3.Visibility = Visibility.Hidden;
+            button4.Visibility = Visibility.Hidden;
+            ButtonQuickCalClear.Visibility = Visibility.Hidden;
+            ButtonQuickCalFinish.Visibility = Visibility.Hidden;
+            armFrontImg.Visibility = Visibility.Hidden;
+            armBodyImg.Visibility = Visibility.Hidden;
         }
 
         public void stimulation(int tactorNum)
@@ -390,41 +429,45 @@ namespace delimiterMMTD
 
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
-            int i;
-            Label[] letters = { letter1, letter2, letter3, letter4 };
-            Label[] answers = { answer1, answer2, answer3, answer4 };
-
-            if (patternAnswering == false)
+            if (!quickCalAnswering)
             {
+                int i;
+                Label[] letters = { letter1, letter2, letter3, letter4 };
+                Label[] answers = { answer1, answer2, answer3, answer4 };
+
+                //if (patternAnswering == false)
+                //{
                 for (i = 0; i < 4; i++)
                 {
                     answers[i].Content = "";
                     answers[i].Visibility = Visibility.Hidden;
+                    typingCount = 0;
                 }
-                if (typingCount == 0)
+                //if (typingCount == 0)
+                //{
+                for (i = 0; i < 4; i++)
                 {
-                    for (i = 0; i < 4; i++)
-                    {
-                        letters[i].Content = "";
-                    }
-                    // Random pattern generate
-
-                    if (group == 0)
-                    {
-                        playedLetters = alphabetSet[trial - 1];
-                        answer1.Content = alphabetSet[trial - 1];
-                    }
-                    else if (group == 1)
-                    {
-                        playedLetters = digitSet[trial - 1];
-                        answer1.Content = digitSet[trial - 1];
-                    }
-
-                    Thread.Sleep(400);
-                    workBackground(playedLetters);
-
-                    patternAnswering = true;
+                    letters[i].Content = "";
                 }
+                // Random pattern generate
+
+                if (group == 0)
+                {
+                    playedLetters = alphabetSet[trial - 1];
+                    answer1.Content = alphabetSet[trial - 1];
+                }
+                else if (group == 1)
+                {
+                    playedLetters = digitSet[trial - 1];
+                    answer1.Content = digitSet[trial - 1];
+                }
+
+                Thread.Sleep(400);
+                workBackground(playedLetters);
+
+                patternAnswering = true;
+                //}
+                // }
             }
         }
 
@@ -473,7 +516,9 @@ namespace delimiterMMTD
                     patternAnswering = false;
 
                     if (trial % 20 == 0)
-                        secondsToWait = 1000 * 20;
+                    {
+                        secondsToWait = 1000 * 30;
+                    }
                     else
                         secondsToWait = 1000;
                     enterButtonEnabled = false;
@@ -499,7 +544,7 @@ namespace delimiterMMTD
             double elapsedSeconds = (double)(DateTime.Now - startTime).TotalMilliseconds;
             double remainingSeconds = secondsToWait - elapsedSeconds;
 
-            if (secondsToWait == 1000 * 20)
+            if (secondsToWait == 1000 * 30)
             {
                 TimeSpan t1 = TimeSpan.FromMilliseconds(remainingSeconds);
                 string str = t1.ToString(@"mm\:ss");
@@ -509,14 +554,40 @@ namespace delimiterMMTD
             if (remainingSeconds <= 0)
             {
                 Dispatcher.Invoke((Action)delegate () { ButtonPlay.Visibility = Visibility.Visible; /* update UI */ });
-                if (secondsToWait == 1000 * 20)
-                    Dispatcher.Invoke((Action)delegate () { clockLabel.Content = "";/* update UI */ });
-                keyboardEvent = true;
+                if (secondsToWait == 1000 * 30)
+                {
+                    quickCalAnswering = true;
+                    Dispatcher.Invoke((Action)delegate ()
+                    {
+                        clockLabel.Content = "";
+                        ButtonQuickCalStart.Visibility = Visibility.Visible;
+                        ButtonQuickCalEnter.Visibility = Visibility.Visible;
+                        button1.Visibility = Visibility.Visible;
+                        button2.Visibility = Visibility.Visible;
+                        button3.Visibility = Visibility.Visible;
+                        button4.Visibility = Visibility.Visible;
+                        ButtonQuickCalClear.Visibility = Visibility.Visible;
+                        if (armpose == 0)    //armFront
+                            armFrontImg.Visibility = Visibility.Visible;
+                        else if (armpose == 1)
+                            armBodyImg.Visibility = Visibility.Visible;
+                        l1.Visibility = Visibility.Hidden;
+                        answer1.Visibility = Visibility.Hidden;
+
+                        enterButtonEnabled = false;
+                        ButtonPlay.Visibility = Visibility.Hidden;
+                        ButtonEnter.Visibility = Visibility.Hidden;
+                    });
+                }
+                else
+                {
+                    keyboardEvent = true;
+                }
                 // run your function
                 timer.Stop();
             }
         }
-
+        
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -611,6 +682,306 @@ namespace delimiterMMTD
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             tw.Close();
+        }
+
+        
+        private void ButtonQuickCalStart_Click(object sender, RoutedEventArgs e)
+        {
+            //quickCalAnswering = true;
+            if (quickCalAnswering)
+            {
+                correctlabel.Visibility = Visibility.Hidden;
+                String quizLetter = quickCalibrationSet[quickCalibrationTrial - 1];
+
+                int[] tactorNums = { int.Parse(quizLetter[0].ToString()),
+                                 int.Parse(quizLetter[1].ToString()),
+                                 int.Parse(quizLetter[2].ToString()),
+                                 int.Parse(quizLetter[3].ToString())};
+
+                edgeVibStimulation(tactorNums);
+                quickCalPlayed = true;
+            }
+        }
+
+        private void ButtonQuickCalEnter_Click(object sender, RoutedEventArgs e)
+        {
+            if (quickCalAnswering && quickCalPlayed)
+            {
+                String realPattern = quickCalibrationSet[quickCalibrationTrial - 1];
+                String userAnswer = firstPoint_quickCal.ToString() + secondPoint_quickCal.ToString() + thirdPoint_quickCal.ToString() + fourthPoint_quickCal.ToString();
+                if (armpose == 0)    // armFront
+                {
+                    int i;
+                    int[] userAnswers = { -1, -1, -1, -1 };
+                    for (i = 0; i < 4; i++)
+                    {
+                        if (int.Parse(userAnswer[i].ToString()) == 1)
+                            userAnswers[i] = 2;
+                        else if (int.Parse(userAnswer[i].ToString()) == 2)
+                            userAnswers[i] = 4;
+                        else if (int.Parse(userAnswer[i].ToString()) == 3)
+                            userAnswers[i] = 1;
+                        else if (int.Parse(userAnswer[i].ToString()) == 4)
+                            userAnswers[i] = 3;
+
+                    }
+                    userAnswer = userAnswers[0].ToString() + userAnswers[1].ToString() + userAnswers[2].ToString() + userAnswers[3].ToString();
+                }
+
+                if (realPattern == userAnswer)
+                {
+                    correctlabel.Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
+                    correctlabel.Content = "정답";
+                    correctlabel.Visibility = Visibility.Visible;
+
+                    ButtonQuickCalFinish.Visibility = Visibility.Visible;
+                    quickCalibrationTrial++;
+                    //quickCalPlayed = false;
+
+                }
+                else
+                {
+                    correctlabel.Background = new SolidColorBrush(Color.FromRgb(0xff, 0x66, 0x66));
+                    correctlabel.Content = "오답";
+                    correctlabel.Visibility = Visibility.Visible;
+                }
+                clearPoints();
+            }
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            if (clickedPoint_quickCal < 4)
+            {
+                if (clickedPoint_quickCal == 0)
+                {
+                    firstPoint_quickCal = 1;
+                    button1.Content = "1";
+                    Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint_quickCal++;
+                }
+                else if (clickedPoint_quickCal == 1)
+                {
+                    if (firstPoint_quickCal != 1)
+                    {
+                        secondPoint_quickCal = 1;
+                        button1.Content = "2";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 2)
+                {
+                    if (secondPoint_quickCal != 1)
+                    {
+                        thirdPoint_quickCal = 1;
+                        button1.Content = "3";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 3)
+                {
+                    if (thirdPoint_quickCal != 1)
+                    {
+                        fourthPoint_quickCal = 1;
+                        button1.Content = "4";
+                        Ellipse x1 = (Ellipse)button1.Template.FindName("ellipse", button1);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+            }
+        }
+
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+            if (clickedPoint_quickCal < 4)
+            {
+                if (clickedPoint_quickCal == 0)
+                {
+                    firstPoint_quickCal = 2;
+                    button2.Content = "1";
+                    Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint_quickCal++;
+                }
+                else if (clickedPoint_quickCal == 1)
+                {
+                    if (firstPoint_quickCal != 2)
+                    {
+                        secondPoint_quickCal = 2;
+                        button2.Content = "2";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 2)
+                {
+                    if (secondPoint_quickCal != 2)
+                    {
+                        thirdPoint_quickCal = 2;
+                        button2.Content = "3";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 3)
+                {
+                    if (thirdPoint_quickCal != 2)
+                    {
+                        fourthPoint_quickCal = 2;
+                        button2.Content = "4";
+                        Ellipse x1 = (Ellipse)button2.Template.FindName("ellipse", button2);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+            }
+        }
+
+        private void Button3_Click(object sender, RoutedEventArgs e)
+        {
+            if (clickedPoint_quickCal < 4)
+            {
+                if (clickedPoint_quickCal == 0)
+                {
+                    firstPoint_quickCal = 3;
+                    button3.Content = "1";
+                    Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint_quickCal++;
+                }
+                else if (clickedPoint_quickCal == 1)
+                {
+                    if (firstPoint_quickCal != 3)
+                    {
+                        secondPoint_quickCal = 3;
+                        button3.Content = "2";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 2)
+                {
+                    if (secondPoint_quickCal != 3)
+                    {
+                        thirdPoint_quickCal = 3;
+                        button3.Content = "3";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 3)
+                {
+                    if (thirdPoint_quickCal != 3)
+                    {
+                        fourthPoint_quickCal = 3;
+                        button3.Content = "4";
+                        Ellipse x1 = (Ellipse)button3.Template.FindName("ellipse", button3);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+            }
+        }
+
+        private void Button4_Click(object sender, RoutedEventArgs e)
+        {
+            if (clickedPoint_quickCal < 4)
+            {
+                if (clickedPoint_quickCal == 0)
+                {
+                    firstPoint_quickCal = 4;
+                    button4.Content = "1";
+                    Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                    x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                    clickedPoint_quickCal++;
+                }
+                else if (clickedPoint_quickCal == 1)
+                {
+                    if (firstPoint_quickCal != 4)
+                    {
+                        secondPoint_quickCal = 4;
+                        button4.Content = "2";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 2)
+                {
+                    if (secondPoint_quickCal != 4)
+                    {
+                        thirdPoint_quickCal = 4;
+                        button4.Content = "3";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+                else if (clickedPoint_quickCal == 3)
+                {
+                    if (thirdPoint_quickCal != 4)
+                    {
+                        fourthPoint_quickCal = 4;
+                        button4.Content = "4";
+                        Ellipse x1 = (Ellipse)button4.Template.FindName("ellipse", button4);
+                        x1.Fill = System.Windows.Media.Brushes.LightSkyBlue;
+                        clickedPoint_quickCal++;
+                    }
+                }
+            }
+        }
+
+        private void ButtonQuickCalClear_Click(object sender, RoutedEventArgs e)
+        {
+            clearPoints();
+        }
+
+        public void clearPoints()
+        {
+            Button[] buttons = { button1, button2, button3, button4 };
+            int i;
+            for (i = 0; i < 4; i++)
+            {
+                ((Ellipse)buttons[i].Template.FindName("ellipse", buttons[i])).Fill = System.Windows.Media.Brushes.White;
+                buttons[i].Content = "";
+            }
+            clickedPoint_quickCal = 0;
+        }
+
+        private void ButtonQuickCalFinish_Click(object sender, RoutedEventArgs e)
+        {
+
+            ButtonQuickCalStart.Visibility = Visibility.Hidden;
+            ButtonQuickCalEnter.Visibility = Visibility.Hidden;
+            button1.Visibility = Visibility.Hidden;
+            button2.Visibility = Visibility.Hidden;
+            button3.Visibility = Visibility.Hidden;
+            button4.Visibility = Visibility.Hidden;
+            ButtonQuickCalClear.Visibility = Visibility.Hidden;
+            ButtonQuickCalFinish.Visibility = Visibility.Hidden;
+            if (armpose == 0)    //armFront
+                armFrontImg.Visibility = Visibility.Hidden;
+            else if (armpose == 1)
+                armBodyImg.Visibility = Visibility.Hidden;
+            correctlabel.Visibility = Visibility.Hidden;
+            l1.Visibility = Visibility.Visible;
+
+            quickCalAnswering = false;
+            enterButtonEnabled = true;
+            keyboardEvent = true;
+            ButtonPlay.Visibility = Visibility.Visible;
+            ButtonEnter.Visibility = Visibility.Visible;
+            clearPoints();
         }
     }
 }

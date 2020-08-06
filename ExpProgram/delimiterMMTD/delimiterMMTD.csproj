@@ -166,7 +166,10 @@
     <Resource Include="img\w.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="img\armBodyPosture.png" />
+    <Resource Include="img\armBody.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\armFront.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

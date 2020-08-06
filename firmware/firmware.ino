@@ -17,7 +17,7 @@ int ermBumpRunMS[4] = {100, 100, 100, 100}; // bump 진동 시간(ms)
 int ermBumpStopMS[4] = {0, 0, 0, 0};    // bump 쉬는 시간(ms)
 unsigned long ermRunStartTime[4] = {0, 0, 0, 0};  // erm 틀기 시작한 시간
 
-int PWMpercent = 60;  // (%)
+int PWMpercent = 80;  // (%)
 
 //for motor test
 int millistowait;
@@ -164,7 +164,7 @@ void loopMotorOnOff ()
     }
     if(ermOn[i])
     {
-      unsigned long overDrivingTime = 30;
+      unsigned long overDrivingTime = 40;
       unsigned long brakingTime = 10;
       unsigned long passedTime = ((millis() - ermRunStartTime[i]) %(ermBumpRunMS[i]+ ermBumpStopMS[i]));
       /*

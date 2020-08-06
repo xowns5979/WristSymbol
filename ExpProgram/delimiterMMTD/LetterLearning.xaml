@@ -13,14 +13,14 @@
         WindowState="Maximized"
         Closing="Window_Closing">
     <Grid>
-
+        <Image Source="./img/armBody.png" Margin="697,430,173,124"></Image>
         <Label x:Name="title" Content="문자 학습" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,977" Height="64" Width="1346" FontSize="36" />
         <Line x:Name="l1" X1="910" Y1="540" X2="1010" Y2="540" Stroke="Black" StrokeThickness="3" Visibility="Hidden"/>
 
         <Label x:Name="letter1" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="932,0,0,238" Height="100" Width="100" FontSize="78" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-        <Button x:Name ="ButtonStart" Content="Start" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonStart_Click" VerticalAlignment="Top" Margin="561,565,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False"/>
-        <Button x:Name ="ButtonEnter" Content="Enter" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonEnter_Click" VerticalAlignment="Top" Margin="561,683,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Visible"/>
+        <Button x:Name ="ButtonStart" Content="Start" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonStart_Click" VerticalAlignment="Top" Margin="580,564,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False"/>
+        <Button x:Name ="ButtonEnter" Content="Enter" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonEnter_Click" VerticalAlignment="Top" Margin="580,682,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Visible"/>
         <Button x:Name ="ButtonFinish" Content="Finish" HorizontalAlignment="Left" Width="220" Height="100" Click="ButtonFinish_Click" VerticalAlignment="Top" Margin="862,896,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Hidden"/>
 
         <Label x:Name="letterLabel" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="147" Width="219" FontSize="100" Margin="863,142,0,0" RenderTransformOrigin="0,0.463" />
@@ -106,8 +106,6 @@
         </Button>
         <Label x:Name="correctlabel" Content="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="89" Width="167" FontSize="40" Margin="892,293,0,0" Visibility="Visible" />
         <Image x:Name="letterImage" Source="./img/a.png" Margin="1087,273,738,698" Cursor="None"  Visibility="Hidden"/>
-
-        <Image x:Name="image" Source="./img/armBodyPosture.png" Margin="863,469,457,161" Cursor="None" RenderTransformOrigin="0.5,0.5"/>
 
     </Grid>
 </Window>
