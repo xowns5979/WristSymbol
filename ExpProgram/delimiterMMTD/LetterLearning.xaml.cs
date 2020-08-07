@@ -30,95 +30,14 @@ namespace delimiterMMTD
         int trial;
         int trialEnd;
         String quizLetter;
-        String[] alphabetSet = { "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
+        String[] alphabetSet1 = { "i", "q",
+                                 "a", "c", "f", "j", "L", "r", "t", "v",
                                  "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                               };
-        String[] digitSet = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",};
+                                 "g", "k", "m", "o", "w"};
+
+        String[] alphabetSet = { };
+        String[] digitSet1 = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        String[] digitSet = { };
 
         int clickedPoint = 0;
         int firstPoint = -1;
@@ -166,10 +85,14 @@ namespace delimiterMMTD
             letterQuizAnswering = false;
 
             Random rnd = new Random();
-            alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
-            alphabetSet = alphabetSet.OrderBy(x => rnd.Next()).ToArray();
-            digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
-            digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
+            int i;
+            for (i = 0; i < 20; i++)
+            {
+                alphabetSet1 = alphabetSet1.OrderBy(x => rnd.Next()).ToArray();
+                alphabetSet = alphabetSet.Concat(alphabetSet1).ToArray();
+                digitSet1 = digitSet1.OrderBy(x => rnd.Next()).ToArray();
+                digitSet = digitSet.Concat(digitSet1).ToArray();
+            }
         }
 
 
@@ -297,7 +220,7 @@ namespace delimiterMMTD
             return str;
         }
 
-        private void ButtonStart_Click(object sender, RoutedEventArgs e)
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
             if (!letterQuizAnswering)
             {
@@ -310,7 +233,7 @@ namespace delimiterMMTD
                 else if (group == 1)
                     quizLetter = digitSet[trial - 1];
                 letterLabel.Content = quizLetter;
-
+                startLabel.Content = "패턴을 클릭하세요.";
                 letterQuizAnswering = true;
             }
         }
@@ -319,6 +242,7 @@ namespace delimiterMMTD
         {
             if (letterQuizAnswering)
             {
+                startLabel.Content = "";
                 String realPattern = edgeWritePattern(letterLabel.Content.ToString());
                 String userAnswer = firstPoint.ToString() + secondPoint.ToString() + thirdPoint.ToString() + fourthPoint.ToString() + fifthPoint.ToString() + sixthPoint.ToString();
                 userAnswer = userAnswer.Substring(0, clickedPoint);

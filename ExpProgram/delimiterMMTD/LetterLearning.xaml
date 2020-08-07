@@ -18,8 +18,9 @@
         <Line x:Name="l1" X1="910" Y1="540" X2="1010" Y2="540" Stroke="Black" StrokeThickness="3" Visibility="Hidden"/>
 
         <Label x:Name="letter1" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="932,0,0,238" Height="100" Width="100" FontSize="78" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="startLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="580,0,0,534" Height="62" Width="260" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-        <Button x:Name ="ButtonStart" Content="Start" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonStart_Click" VerticalAlignment="Top" Margin="580,564,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False"/>
+        <Button x:Name ="ButtonNext" Content="Next" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonNext_Click" VerticalAlignment="Top" Margin="580,564,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False"/>
         <Button x:Name ="ButtonEnter" Content="Enter" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonEnter_Click" VerticalAlignment="Top" Margin="580,682,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Visible"/>
         <Button x:Name ="ButtonFinish" Content="Finish" HorizontalAlignment="Left" Width="220" Height="100" Click="ButtonFinish_Click" VerticalAlignment="Top" Margin="862,896,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Hidden"/>
 

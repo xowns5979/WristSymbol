@@ -126,6 +126,7 @@
 
         <Label x:Name="correctlabel" Content="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="89" Width="233" FontSize="40" Margin="967,22,0,0" Visibility="Visible" />
         <Button x:Name ="ButtonQuickCalFinish" Content="Finish" HorizontalAlignment="Left" Width="260" Height="100" Click="ButtonQuickCalFinish_Click" VerticalAlignment="Top" Margin="968,431,0,0" Background="WhiteSmoke" FontSize="25" FontFamily="Arial" Focusable="False" Visibility="Visible"/>
+        <Image x:Name="letterImage" Source="./img/a.png" Margin="906,251,919,720" Cursor="None" Visibility="Hidden"/>
 
 
     </Grid>

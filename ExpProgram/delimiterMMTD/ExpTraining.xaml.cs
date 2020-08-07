@@ -523,6 +523,7 @@ namespace delimiterMMTD
                         secondsToWait = 1000;
                     enterButtonEnabled = false;
                     ButtonEnter.Visibility = Visibility.Hidden;
+                    letterImage.Visibility = Visibility.Hidden;
                     breaktime();
 
                     trial++;
@@ -612,6 +613,9 @@ namespace delimiterMMTD
                             if (typingCount < letterNum)
                             {
                                 letters[typingCount].Content = typedStr;
+                                letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
+                                letterImage.Visibility = Visibility.Visible;
+
                                 typingCount++;
                                 if (typingCount == letterNum)
                                 {
@@ -639,6 +643,9 @@ namespace delimiterMMTD
                             if (typingCount < letterNum)
                             {
                                 letters[typingCount].Content = typedStr;
+                                letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
+                                letterImage.Visibility = Visibility.Visible;
+
                                 typingCount++;
                                 if (typingCount == letterNum)
                                 {
@@ -655,6 +662,8 @@ namespace delimiterMMTD
                     if (typingCount > 0)
                     {
                         letters[typingCount - 1].Content = "";
+                        letterImage.Visibility = Visibility.Hidden;
+
                         typingCount--;
                         if (typingCount == letterNum - 1)
                         {

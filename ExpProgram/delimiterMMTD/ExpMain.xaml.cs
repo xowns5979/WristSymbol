@@ -161,6 +161,28 @@ namespace delimiterMMTD
 
             tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_main.csv", true);
             tw.WriteLine("id,group,strategy,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
+
+
+
+            quickCalAnswering = true;
+            ButtonQuickCalStart.Visibility = Visibility.Visible;
+            ButtonQuickCalEnter.Visibility = Visibility.Visible;
+            button1.Visibility = Visibility.Visible;
+            button2.Visibility = Visibility.Visible;
+            button3.Visibility = Visibility.Visible;
+            button4.Visibility = Visibility.Visible;
+            ButtonQuickCalClear.Visibility = Visibility.Visible;
+            if (armpose == 0)    //armFront
+                armFrontImg.Visibility = Visibility.Visible;
+            else if (armpose == 1)
+                armBodyImg.Visibility = Visibility.Visible;
+            l1.Visibility = Visibility.Hidden;
+            answer1.Visibility = Visibility.Hidden;
+
+            enterButtonEnabled = false;
+            ButtonPlay.Visibility = Visibility.Hidden;
+            ButtonEnter.Visibility = Visibility.Hidden;
+
         }
 
         public void workBackground(String text)
@@ -240,7 +262,8 @@ namespace delimiterMMTD
             quickCalibrationSet = quickCalibrationSet.OrderBy(x => rnd.Next()).ToArray();
             
             lineActivate();
-
+            
+            
             ButtonQuickCalStart.Visibility = Visibility.Hidden;
             ButtonQuickCalEnter.Visibility = Visibility.Hidden;
             button1.Visibility = Visibility.Hidden;
@@ -251,6 +274,7 @@ namespace delimiterMMTD
             ButtonQuickCalFinish.Visibility = Visibility.Hidden;
             armFrontImg.Visibility = Visibility.Hidden;
             armBodyImg.Visibility = Visibility.Hidden;
+            
         }
 
         public void stimulation(int tactorNum)
@@ -524,6 +548,8 @@ namespace delimiterMMTD
                         secondsToWait = 1000;
                     enterButtonEnabled = false;
                     ButtonEnter.Visibility = Visibility.Hidden;
+                    letterImage.Visibility = Visibility.Hidden;
+
                     breaktime();
 
                     trial++;
@@ -609,6 +635,9 @@ namespace delimiterMMTD
                         if (patternAnswering && typingCount < letterNum)
                         {
                             letters[typingCount].Content = typedStr;
+                            letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
+                            letterImage.Visibility = Visibility.Visible;
+
                             typingCount++;
                             if (typingCount == letterNum)
                             {
@@ -629,6 +658,9 @@ namespace delimiterMMTD
                         if (patternAnswering && typingCount < letterNum)
                         {
                             letters[typingCount].Content = typedStr;
+                            letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
+                            letterImage.Visibility = Visibility.Visible;
+
                             typingCount++;
                             if (typingCount == letterNum)
                             {
@@ -644,6 +676,8 @@ namespace delimiterMMTD
                     if (typingCount > 0)
                     {
                         letters[typingCount - 1].Content = "";
+                        letterImage.Visibility = Visibility.Hidden;
+
                         typingCount--;
                         if (typingCount == letterNum - 1)
                         {
