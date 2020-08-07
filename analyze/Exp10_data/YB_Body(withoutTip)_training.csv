@@ -1,7 +1,0 @@
-id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
-YB,Body(withoutTip),1,42,42,1,1,1,33953,34959,37350
-YB,Body(withoutTip),2,24,24,1,1,1,38341,39343,41947
-YB,Body(withoutTip),3,23,13,0,0,1,42952,43954,45629
-YB,Body(withoutTip),4,13,13,1,1,1,46426,47429,48764
-YB,Body(withoutTip),5,34,34,1,1,1,49587,50592,52219
-YB,Body(withoutTip),6,41,21,0,0,1,53150,54154,56075

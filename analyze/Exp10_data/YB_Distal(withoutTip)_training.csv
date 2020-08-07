@@ -1,7 +1,0 @@
-id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
-YB,Distal(withoutTip),1,31,32,0,1,0,65591,66598,69632
-YB,Distal(withoutTip),2,42,42,1,1,1,71232,72235,74285
-YB,Distal(withoutTip),3,34,34,1,1,1,75467,76469,78266
-YB,Distal(withoutTip),4,24,24,1,1,1,79329,80331,82032
-YB,Distal(withoutTip),5,43,41,0,1,0,82890,83893,87626
-YB,Distal(withoutTip),6,13,13,1,1,1,88850,89852,91629
