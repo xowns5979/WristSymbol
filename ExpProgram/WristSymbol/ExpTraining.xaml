@@ -1,0 +1,111 @@
+﻿<Window x:Class="WristSymbol.ExpTraining"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WristSymbol"
+        mc:Ignorable="d"
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
+        Title="ExpTraining"
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="Manual" Left="0" Top="0"
+        WindowState="Maximized"
+        Closing="Window_Closing"
+        Background="White">
+    <Grid>
+        <Label Name="title" Content="Training" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="21,0,0,954" Height="98" Width="352" FontSize="40"/>
+
+        <Label Name="answer1" Content="a" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial" Margin="1380,0,0,540" Height="100" Width="100" Visibility="Hidden" FontSize="78" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <Button Name="ButtonPlay" Content="Play" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="91" Margin="782,472,832,517" FontSize="22" FontFamily="Arial" Click="ButtonPlay_Click" Focusable="False"/>
+
+        <Label Name="trialLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="67" Width="561" FontSize="36" Margin="21,290,0,0" RenderTransformOrigin="0,0.463" />
+        <Label Name="clearLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="67" Width="406" FontSize="36" Margin="21,380,0,0" />
+        <Label Name="clockLabel" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" FontFamily="Arial" Margin="802,0,0,928" Height="68" Width="286" FontSize="36" />
+
+        <Label Name="debugLabel1" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="64" Width="909" FontSize="40" Margin="544,814,0,0" />
+        <Label Name="debugLabel2" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="70" Width="967" FontSize="40" Margin="513,878,0,0" />
+        <Label Name="debugLabel3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Height="70" Width="435" FontSize="40" Margin="738,953,0,0" />
+
+        <Label Name="confLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial" Height="64" Width="326" FontSize="24" Margin="790,183,0,0" RenderTransformOrigin="0.331,0.516" />
+        <Button x:Name="ButtonAnswer" Content="Answer Completed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="306" Height="90" Margin="782,591,832,399" FontSize="22" FontFamily="Arial" Click="ButtonAnwer_Click" Focusable="False"/>
+        <Button Name="button1" Width="40" Height="40" Content="" FontSize="18" Margin="1273,486,607,554" Click="Button1_Click" RenderTransformOrigin="-0.125,0.288">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Name="ellipse" Fill="White" Stroke="Gray" StrokeThickness="2"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="41" Margin="1310,696,520,343" FontSize="22" FontFamily="Arial" Click="ButtonClear_Click" Focusable="False"/>
+        <Button x:Name="button2" Width="40" Height="40" Content="" FontSize="18" Margin="1400,486,480,554" Click="Button2_Click" RenderTransformOrigin="-0.125,0.288">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="ellipse" Fill="White" Stroke="Gray" StrokeThickness="2"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="button3" Width="40" Height="40" Content="" FontSize="18" Margin="1273,604,607,436" Click="Button3_Click" RenderTransformOrigin="-0.125,0.288">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="ellipse" Fill="White" Stroke="Gray" StrokeThickness="2"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="button4" Width="40" Height="40" Content="" FontSize="18" Margin="1400,604,480,436" Click="Button4_Click" RenderTransformOrigin="-0.125,0.288">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="ellipse" Fill="White" Stroke="Gray" StrokeThickness="2"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ellipse" Property="Fill" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
