@@ -1,9 +1,0 @@
-id,cond,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp,reactionTime
-p1,B(Approach),1,432,123,0,0,0,0,117726,119243,221997,102754
-id,cond,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp,reactionTime
-p1,B(Approach),1,141,121,0,1,0,1,6886,8389,17613,9224
-p1,B(Approach),2,241,141,0,0,1,1,18726,20229,24940,4711
-p1,B(Approach),3,243,241,0,1,1,0,25749,27253,30013,2760
-p1,B(Approach),4,314,424,0,0,0,1,30870,32372,34645,2273
-p1,B(Approach),5,213,234,0,1,0,0,35693,37197,39613,2416
-p1,B(Approach),6,321,421,0,0,1,1,40485,41989,44189,2200

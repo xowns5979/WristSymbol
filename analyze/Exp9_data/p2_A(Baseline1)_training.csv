@@ -1,7 +1,0 @@
-id,cond,trial#,realPattern,userAnswer,correct,c1,c2,c3,playstamp,playendstamp,enterstamp,reactionTime
-p2,A(Baseline1),1,234,134,0,0,1,1,201855,203368,206638,3270
-p2,A(Baseline1),2,321,423,0,0,1,0,207790,209294,211941,2647
-p2,A(Baseline1),3,431,431,1,1,1,1,213014,214520,216622,2102
-p2,A(Baseline1),4,231,243,0,1,0,0,217630,219134,220997,1863
-p2,A(Baseline1),5,413,414,0,1,1,0,221942,223446,226261,2815
-p2,A(Baseline1),6,424,424,1,1,1,1,227062,228565,230709,2144
