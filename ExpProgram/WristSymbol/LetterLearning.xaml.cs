@@ -18,7 +18,7 @@ using System.ComponentModel;
 using System.Timers;
 using System.Windows.Threading;
 
-namespace delimiterMMTD
+namespace WristSymbol
 {
     /// <summary>
     /// ExpTraining.xaml에 대한 상호 작용 논리

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.IO.Ports;
 using System.Threading;
 
-namespace delimiterMMTD
+namespace WristSymbol
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리

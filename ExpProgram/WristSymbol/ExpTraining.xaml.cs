@@ -17,12 +17,12 @@ using System.ComponentModel;
 using System.Timers;
 using System.IO;
 
-namespace delimiterMMTD
+namespace WristSymbol
 {
     /// <summary>
-    /// ExpMain.xaml에 대한 상호 작용 논리
+    /// ExpTraining.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ExpMain : Window
+    public partial class ExpTraining : Window
     {
         private BackgroundWorker worker;
         TextWriter tw;
@@ -39,20 +39,10 @@ namespace delimiterMMTD
                                  "i", "q",
                                  "a", "c", "f", "j", "l", "r", "t", "v",
                                  "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w",
-                                 "i", "q",
-                                 "a", "c", "f", "j", "l", "r", "t", "v",
-                                 "b", "d", "e", "h", "n", "p", "s", "u", "x", "y", "z",
-                                 "g", "k", "m", "o", "w"};
+                                 "g", "k", "m", "o", "w" };
         String[] digitSet = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                               "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
         String[] quickCalibrationSet = { "1234", "1243", "1342", "1324", "1423", "1432",
                                          "2134", "2143", "2341", "2314", "2413", "2431",
                                          "3124", "3142", "3241", "3214", "3412", "3421",
@@ -76,6 +66,7 @@ namespace delimiterMMTD
 
         System.IO.Ports.SerialPort serialPort1 = new SerialPort();
         String logID;
+        
         int duration;   // ms
         int isiGap = 100;   // ms
         long startTimestamp;
@@ -88,7 +79,7 @@ namespace delimiterMMTD
         int armpose;
         String groupStr = "";   // 1(alphabetGroup) 2(digitGroup)
         String strategyStr = "";    // 1(baseline) 2(hetero)
-        String armposeStr = "";    // 1(armFront) 2(armBody) 
+        String armposeStr = "";    // 1(armFront) 2(armBody)
 
         System.Timers.Timer timer;
         private double secondsToWait;   // ms
@@ -96,15 +87,15 @@ namespace delimiterMMTD
 
         bool keyboardEvent = true;
         bool enterButtonEnabled = false;
-
-        public void setExpMain(SerialPort port, String s1, int group_, int orientation_, int armpose_)
+        
+        public void setExpTraining(SerialPort port, String s1, int group_, int strategy_, int armpose_)
         {
             serialPort1 = port;
             logID = s1;
             group = group_;
-            strategy = orientation_;
+            strategy = strategy_;
             armpose = armpose_;
-
+            
             duration = 500;
 
             if (group == 0)
@@ -116,7 +107,7 @@ namespace delimiterMMTD
             else if (group == 1)
             {
                 title.Content = title.Content.ToString() + ": 숫자 그룹";
-                groupStr = "digit";
+                groupStr = "digitGroup";
                 trialEnd = digitSet.Length;
             }
             trialLabel.Content = trial + " / " + trialEnd;
@@ -159,30 +150,8 @@ namespace delimiterMMTD
                 armposeStr = "armBody";
             }
 
-            tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_main.csv", true);
+            tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_training.csv", true);
             tw.WriteLine("id,group,strategy,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
-
-
-
-            quickCalAnswering = true;
-            ButtonQuickCalStart.Visibility = Visibility.Visible;
-            ButtonQuickCalEnter.Visibility = Visibility.Visible;
-            button1.Visibility = Visibility.Visible;
-            button2.Visibility = Visibility.Visible;
-            button3.Visibility = Visibility.Visible;
-            button4.Visibility = Visibility.Visible;
-            ButtonQuickCalClear.Visibility = Visibility.Visible;
-            if (armpose == 0)    //armFront
-                armFrontImg.Visibility = Visibility.Visible;
-            else if (armpose == 1)
-                armBodyImg.Visibility = Visibility.Visible;
-            l1.Visibility = Visibility.Hidden;
-            answer1.Visibility = Visibility.Hidden;
-
-            enterButtonEnabled = false;
-            ButtonPlay.Visibility = Visibility.Hidden;
-            ButtonEnter.Visibility = Visibility.Hidden;
-
         }
 
         public void workBackground(String text)
@@ -191,7 +160,7 @@ namespace delimiterMMTD
             worker.DoWork += new DoWorkEventHandler(worker_DoWork);
             worker.RunWorkerAsync(argument: text);
         }
-
+        
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             String text = (String)e.Argument;
@@ -212,7 +181,7 @@ namespace delimiterMMTD
             int tactorNum = (int)e.Argument;
             stimulation(tactorNum);
         }
-
+        
         private void lineActivate()
         {
             int i;
@@ -237,7 +206,7 @@ namespace delimiterMMTD
             }
         }
 
-        public ExpMain()
+        public ExpTraining()
         {
             InitializeComponent();
             startTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
@@ -250,7 +219,7 @@ namespace delimiterMMTD
             patternAnswering = false;
 
             timer = new System.Timers.Timer();
-            timer.Interval = 100; 
+            timer.Interval = 100; // 
             timer.Elapsed += new ElapsedEventHandler(timer_Tick);
 
             Random rnd = new Random();
@@ -260,10 +229,9 @@ namespace delimiterMMTD
             digitSet = digitSet.OrderBy(x => rnd.Next()).ToArray();
             quickCalibrationSet = quickCalibrationSet.OrderBy(x => rnd.Next()).ToArray();
             quickCalibrationSet = quickCalibrationSet.OrderBy(x => rnd.Next()).ToArray();
-            
+
             lineActivate();
-            
-            
+
             ButtonQuickCalStart.Visibility = Visibility.Hidden;
             ButtonQuickCalEnter.Visibility = Visibility.Hidden;
             button1.Visibility = Visibility.Hidden;
@@ -274,7 +242,6 @@ namespace delimiterMMTD
             ButtonQuickCalFinish.Visibility = Visibility.Hidden;
             armFrontImg.Visibility = Visibility.Hidden;
             armBodyImg.Visibility = Visibility.Hidden;
-            
         }
 
         public void stimulation(int tactorNum)
@@ -283,12 +250,12 @@ namespace delimiterMMTD
             Thread.Sleep(duration);
             serialPort1.WriteLine(tactorNum.ToString() + "s");
         }
-
+        
         public void patternGenerate(String text)
         {
             for (int i = 0; i < text.Length; i++)
             {
-                edgeVibPatterns(text[i].ToString());
+                edgeVibPattern(text[i].ToString());
                 /*
                 if (text.Length > i + 1)
                     Thread.Sleep(interletterinterval);
@@ -299,6 +266,7 @@ namespace delimiterMMTD
 
         public void edgeVibStimulation(int[] tactorNums)
         {
+            
             int n = tactorNums.Length;
             /*
             if (fixedLength)
@@ -310,14 +278,13 @@ namespace delimiterMMTD
             for (i = 0; i < n; i++)
             {
                 stimulation(tactorNums[i]);
-                
                 if (i < n - 1)
                     Thread.Sleep(isiGap);
                  
             }
         }
 
-        public void edgeVibPatterns(string character)
+        public void edgeVibPattern(string character)
         {
             int[] arr = null;
             switch (character.ToUpper())
@@ -431,6 +398,7 @@ namespace delimiterMMTD
                     arr = new int[] { 2, 1, 2, 4 };
                     break;
             }
+
             /*
             if (orientation == 2)
             {
@@ -458,7 +426,7 @@ namespace delimiterMMTD
             */
             edgeVibStimulation(arr);
         }
-       
+
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
             if (!quickCalAnswering)
@@ -466,37 +434,40 @@ namespace delimiterMMTD
                 int i;
                 Label[] letters = { letter1, letter2, letter3, letter4 };
                 Label[] answers = { answer1, answer2, answer3, answer4 };
-                if (patternAnswering == false)
+
+                //if (patternAnswering == false)
+                //{
+                for (i = 0; i < 4; i++)
                 {
-                    for (i = 0; i < 4; i++)
-                    {
-                        answers[i].Content = "";
-                        answers[i].Visibility = Visibility.Hidden;
-                    }
-                    if (typingCount == 0)
-                    {
-                        for (i = 0; i < 4; i++)
-                        {
-                            letters[i].Content = "";
-                        }
-                        // Random pattern generate
-                        if (group == 0)
-                        {
-                            playedLetters = alphabetSet[trial - 1];
-                            answer1.Content = alphabetSet[trial - 1];
-                        }
-                        else if (group == 1)
-                        {
-                            playedLetters = digitSet[trial - 1];
-                            answer1.Content = digitSet[trial - 1];
-                        }
-
-                        Thread.Sleep(400);
-                        workBackground(playedLetters);
-
-                        patternAnswering = true;
-                    }
+                    answers[i].Content = "";
+                    answers[i].Visibility = Visibility.Hidden;
+                    typingCount = 0;
                 }
+                //if (typingCount == 0)
+                //{
+                for (i = 0; i < 4; i++)
+                {
+                    letters[i].Content = "";
+                }
+                // Random pattern generate
+
+                if (group == 0)
+                {
+                    playedLetters = alphabetSet[trial - 1];
+                    answer1.Content = alphabetSet[trial - 1];
+                }
+                else if (group == 1)
+                {
+                    playedLetters = digitSet[trial - 1];
+                    answer1.Content = digitSet[trial - 1];
+                }
+
+                Thread.Sleep(400);
+                workBackground(playedLetters);
+
+                patternAnswering = true;
+                //}
+                // }
             }
         }
 
@@ -504,19 +475,20 @@ namespace delimiterMMTD
         {
             //Label[] letters = { letter1, letter2, letter3, letter4 };
             //Label[] answers = { answer1, answer2, answer3, answer4 };
+
             if (patternAnswering == true)
             {
                 int i;
-
                 //+ Logging add
                 String l = letter1.Content.ToString();
                 String a = answer1.Content.ToString();
-                String correctStr = "";
 
+                //String a = answer1.Content.ToString() + answer2.Content.ToString() + answer3.Content.ToString() + answer4.Content.ToString();
+                String correctStr = "";
                 if (l == a)
                 {
                     correctStr = "1";
-                    //correctCount = correctCount + 1;
+                    correctCount = correctCount + 1;
                     answer1.Background = new SolidColorBrush(Color.FromRgb(0x66, 0xff, 0x66));
                     answer1.Visibility = Visibility.Visible;
                 }
@@ -528,13 +500,14 @@ namespace delimiterMMTD
                 }
                 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
+
                 tw.WriteLine(logID + "," + groupStr + "," + strategyStr + "," + armposeStr + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 typingCount = 0;
                 letter1.Content = "";
 
                 if (trial == trialEnd)
                 {
-                    //scoreLabel.Content = "점수: " + correctCount * 100 / 52 + "점";
+                    //scoreLabel.Content = "점수: " + (correctCount * 100 / letterSet.Length) + "점";
                     ButtonPlay.Visibility = Visibility.Hidden;
                     ButtonFinish.Visibility = Visibility.Visible;
                 }
@@ -543,19 +516,19 @@ namespace delimiterMMTD
                     patternAnswering = false;
 
                     if (trial % 20 == 0)
+                    {
                         secondsToWait = 1000 * 30;
+                    }
                     else
                         secondsToWait = 1000;
                     enterButtonEnabled = false;
                     ButtonEnter.Visibility = Visibility.Hidden;
                     letterImage.Visibility = Visibility.Hidden;
-
                     breaktime();
 
                     trial++;
                     trialLabel.Content = trial + " / " + trialEnd;
                 }
-
             }
         }
 
@@ -610,19 +583,18 @@ namespace delimiterMMTD
                 else
                 {
                     keyboardEvent = true;
-
                 }
                 // run your function
                 timer.Stop();
             }
         }
+        
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (keyboardEvent)
             {
                 Label[] letters = { letter1, letter2, letter3, letter4 };
-
                 if (group == 0)
                 {
                     if (e.Key == Key.A || e.Key == Key.B || e.Key == Key.C || e.Key == Key.D || e.Key == Key.E || e.Key == Key.F || e.Key == Key.G || e.Key == Key.H || e.Key == Key.I ||
@@ -632,17 +604,24 @@ namespace delimiterMMTD
                         String typedStr = e.Key.ToString();
                         typedStr = typedStr.ToLower();
 
-                        if (patternAnswering && typingCount < letterNum)
+                        if (patternAnswering == false)
                         {
-                            letters[typingCount].Content = typedStr;
-                            letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
-                            letterImage.Visibility = Visibility.Visible;
-
-                            typingCount++;
-                            if (typingCount == letterNum)
+                            workBackground(typedStr);
+                        }
+                        else
+                        {
+                            if (typingCount < letterNum)
                             {
-                                enterButtonEnabled = true;
-                                ButtonEnter.Visibility = Visibility.Visible;
+                                letters[typingCount].Content = typedStr;
+                                letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
+                                letterImage.Visibility = Visibility.Visible;
+
+                                typingCount++;
+                                if (typingCount == letterNum)
+                                {
+                                    enterButtonEnabled = true;
+                                    ButtonEnter.Visibility = Visibility.Visible;
+                                }
                             }
                         }
                     }
@@ -655,17 +634,24 @@ namespace delimiterMMTD
                         String typedStr = e.Key.ToString();
                         typedStr = typedStr[1].ToString();
 
-                        if (patternAnswering && typingCount < letterNum)
+                        if (patternAnswering == false)
                         {
-                            letters[typingCount].Content = typedStr;
-                            letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
-                            letterImage.Visibility = Visibility.Visible;
-
-                            typingCount++;
-                            if (typingCount == letterNum)
+                            workBackground(typedStr);
+                        }
+                        else
+                        {
+                            if (typingCount < letterNum)
                             {
-                                enterButtonEnabled = true;
-                                ButtonEnter.Visibility = Visibility.Visible;
+                                letters[typingCount].Content = typedStr;
+                                letterImage.Source = new BitmapImage(new Uri("./img/" + typedStr + ".png", UriKind.Relative));
+                                letterImage.Visibility = Visibility.Visible;
+
+                                typingCount++;
+                                if (typingCount == letterNum)
+                                {
+                                    enterButtonEnabled = true;
+                                    ButtonEnter.Visibility = Visibility.Visible;
+                                }
                             }
                         }
                     }
@@ -707,6 +693,7 @@ namespace delimiterMMTD
             tw.Close();
         }
 
+        
         private void ButtonQuickCalStart_Click(object sender, RoutedEventArgs e)
         {
             //quickCalAnswering = true;
@@ -979,6 +966,7 @@ namespace delimiterMMTD
             }
             clickedPoint_quickCal = 0;
         }
+
         private void ButtonQuickCalFinish_Click(object sender, RoutedEventArgs e)
         {
 
