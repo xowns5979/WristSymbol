@@ -1,7 +1,0 @@
-id,cond,trial#,realPattern,userAnswer,correct,c1,c2,playstamp,playendstamp,enterstamp
-p10,Distal,1,13,13,1,1,1,22838,23856,26358
-p10,Distal,2,41,41,1,1,1,30974,31977,34333
-p10,Distal,3,43,43,1,1,1,35166,36169,38229
-p10,Distal,4,32,14,0,0,0,39606,40610,43870
-p10,Distal,5,24,24,1,1,1,44718,45723,47693
-p10,Distal,6,31,12,0,0,0,48573,49575,51958
