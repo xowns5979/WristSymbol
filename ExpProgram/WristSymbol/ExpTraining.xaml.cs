@@ -107,7 +107,7 @@ namespace WristSymbol
             else if (group == 1)
             {
                 title.Content = title.Content.ToString() + ": 숫자 그룹";
-                groupStr = "digitGroup";
+                groupStr = "digit";
                 trialEnd = digitSet.Length;
             }
             trialLabel.Content = trial + " / " + trialEnd;
@@ -151,7 +151,7 @@ namespace WristSymbol
             }
 
             tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_training.csv", true);
-            tw.WriteLine("id,group,strategy,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("id,group,strategy,armpose,mode,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
         }
 
         public void workBackground(String text)
@@ -501,7 +501,7 @@ namespace WristSymbol
                 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
 
-                tw.WriteLine(logID + "," + groupStr + "," + strategyStr + "," + armposeStr + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                tw.WriteLine(logID + "," + groupStr + "," + strategyStr + "," + armposeStr + "," + "training" + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 typingCount = 0;
                 letter1.Content = "";
 

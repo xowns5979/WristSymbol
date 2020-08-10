@@ -86,7 +86,7 @@ namespace WristSymbol
 
             Random rnd = new Random();
             int i;
-            for (i = 0; i < 20; i++)
+            for (i = 0; i < 30; i++)
             {
                 alphabetSet1 = alphabetSet1.OrderBy(x => rnd.Next()).ToArray();
                 alphabetSet = alphabetSet.Concat(alphabetSet1).ToArray();

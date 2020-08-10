@@ -160,7 +160,7 @@ namespace WristSymbol
             }
 
             tw = new StreamWriter(logID + "_" + groupStr + "_" + strategyStr + "_" + armposeStr + "_main.csv", true);
-            tw.WriteLine("id,group,strategy,armpose,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
+            tw.WriteLine("id,group,strategy,armpose,mode,trial#,realPattern,userAnswer,correct,playstamp,playendstamp,enterstamp");
 
 
 
@@ -528,7 +528,7 @@ namespace WristSymbol
                 }
                 
                 enterstamp = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - startTimestamp;
-                tw.WriteLine(logID + "," + groupStr + "," + strategyStr + "," + armposeStr + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
+                tw.WriteLine(logID + "," + groupStr + "," + strategyStr + "," + armposeStr + "," + "main" + "," + trial.ToString() + "," + a + "," + l + "," + correctStr + "," + playstamp.ToString() + "," + playendstamp.ToString() + "," + enterstamp.ToString());
                 typingCount = 0;
                 letter1.Content = "";
 
