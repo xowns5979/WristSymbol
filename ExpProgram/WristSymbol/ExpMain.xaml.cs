@@ -17,7 +17,7 @@ using System.ComponentModel;
 using System.Timers;
 using System.IO;
 
-namespace delimiterMMTD
+namespace WristSymbol
 {
     /// <summary>
     /// ExpMain.xaml에 대한 상호 작용 논리

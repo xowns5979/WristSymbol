@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace delimiterMMTD.Properties
+namespace WristSymbol.Properties
 {
 
 
