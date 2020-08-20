@@ -1,7 +1,7 @@
 library(dplyr)
 
 # Names
-names = c("p1","p2","p3","p4","p5","p6")
+names = c("p1","p2","p3","p4","p5","p6","p7","p8","p9","p10","p11","p12")
 group = c("digit", "alphabet")
 strategy = c("baseline","hetero")
 armposture = c("armFront","armBody")
@@ -9,12 +9,12 @@ mode = c("training","main")
 # 1. 1 Letter Accuracy [%]  
 
 base_df = data.frame()
-for (i in 1:6){
+for (i in 1:11){
   for(j in 1:1){
     for(k in 1:2){
       for(p in 1:2){
-        for(q in 1:1){
-          file_name = paste("data2/",names[i] ,"_",group[j],"_",strategy[k],"_",armposture[p],"_", mode[q], ".csv",sep="")
+        for(q in 2:2){
+          file_name = paste("data/",names[i] ,"_",group[j],"_",strategy[k],"_",armposture[p],"_", mode[q], ".csv",sep="")
           file_data = read.csv(file_name, header=T, stringsAsFactors = F)
           base_df = rbind(base_df,file_data)
         }
@@ -24,6 +24,8 @@ for (i in 1:6){
 }
 base_df$id = factor(base_df$id, levels=names)
 base_df$rt = base_df$enterstamp - base_df$playendstamp
+
+base_df
 
 result = group_by(base_df, id, group, strategy, armpose, mode) %>%
   summarise(
