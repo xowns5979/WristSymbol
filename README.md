@@ -1,2 +1,3 @@
-# WristSymbol
-Delivering clear and continuous alphanumeric symbols on wrist-worn tactile display
+# Heterogeneous STP
+Improving Recognition Accuracy of Spatiotemporal Tactile Pattern on Wrist Using Distinctive Vibrotactile Stimuli
+
